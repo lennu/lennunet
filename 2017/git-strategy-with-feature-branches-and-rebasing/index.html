@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Git Strategy with Feature Branches and Rebasing</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>Git Strategy with Feature Branches and Rebasing</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2017-02-21">21 February 2017</time></li>
+</ul>
+
+<p>My personal favorite Git strategy is this: (there are many ways to do it)</p>
+<h2 id="every-feature-starts-from-master-branch" tabindex="-1">Every feature starts from <strong>master branch</strong> <a class="header-anchor" href="#every-feature-starts-from-master-branch">#</a></h2>
+<pre><code>git checkout master
+git pull
+git checkout -b feature/name-of-the-feature
+</code></pre>
+<p>Code!</p>
+<h2 id="after-coding-or-during-coding" tabindex="-1">After coding or during coding <a class="header-anchor" href="#after-coding-or-during-coding">#</a></h2>
+<p>Commit all the changes in your branch and push the branch to remote.</p>
+<p>You can commit all changes at once:</p>
+<pre><code>git add --all
+git commit -m &quot;Commit message&quot;
+</code></pre>
+<p>Or you can specify the commits with more detail</p>
+<pre><code>git add name-of-the-file
+git commit -m &quot;Commit message&quot;
+</code></pre>
+<p>Once you are done commiting and you have no changes or untracked files left, push your branch to remote.</p>
+<pre><code>git push origin feature/name-of-your-feature
+</code></pre>
+<h2 id="rebasing-your-branch" tabindex="-1">Rebasing your branch <a class="header-anchor" href="#rebasing-your-branch">#</a></h2>
+<p>Rebasing is a way to bring changes from the master branch which have been inserted there after you started your own feature branch.</p>
+<p>In rebasing you pull the changes from the master (you can specify some other target too) and start adding your feature branch’s commits on top of it.</p>
+<p>If there are a lot of changes in the master, especially things that are affecting your work, then I suggest you do a rebase everyday.</p>
+<p>If there are no changes that affect your work, then there is no need to do it as often. But keep in mind that if you branch starts to fall a lot behind master it may become very difficult to do the rebase, because there might be so many conflicts.</p>
+<p><strong>This is my routine</strong> for rebasing when I’m developing and have made all the commits on my feature branch:</p>
+<pre><code>git checkout master
+git pull
+git checkout feature/name-of-the-feature
+git rebase master (you can add -i to modify/rename the commits if you want)
+</code></pre>
+<p>Rebase and fix conflicts and once finished:</p>
+<pre><code>git push origin your-branch -f
+</code></pre>
+<p>Now you have succesfully rebased your branch and it’s in sync with master.</p>
+<h2 id="multiple-developers-and-rebasing" tabindex="-1">Multiple developers and rebasing <a class="header-anchor" href="#multiple-developers-and-rebasing">#</a></h2>
+<p>If you have multiple developers working on the same branch then you have to communicate the rebasing so that all developers get the force pushed version to their machine. They can’t just pull the branch since its history has changed and doesn’t match anymore to their own branch.</p>
+<p>You can also postpone the rebasing to a state where only one developer is working with the branch</p>
+<h3 id="multiple-developer-rebasing-strategy" tabindex="-1">Multiple developer rebasing strategy <a class="header-anchor" href="#multiple-developer-rebasing-strategy">#</a></h3>
+<p>The problem with multiple developers working on the same branch can be solved by having one base branch and sub branches made from that base branch for each developer who works on the feature.</p>
+<ul>
+<li>master
+<ul>
+<li>base branch
+<ul>
+<li>each developers own branch</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Now actually no one is working directly on the base branch.</p>
+<p>Own branches are merged with or without pull request to the base branch and once everything is done the base branch is merged into master. This is also good way to separate tasks to little branches and make the workflow better.</p>
+<p>When we want to get the latest changes from master, some developer will checkout the base branch and do the rebase on master.</p>
+<p>The sub branches are then rebased to the base branch.</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2016/what-is-jquery-and-how-to-use-it/">What is jQuery and how to use it</a></li><li>Next: <a href="/lennunet/2017/native-javascript-promise-example-with-prompt/">Native JavaScript Promise Example with Prompt</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2017/git-strategy-with-feature-branches-and-rebasing/ -->
+	</body>
+</html>

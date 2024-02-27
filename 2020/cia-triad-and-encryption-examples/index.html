@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>CIA Triad and Encryption Examples</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>CIA Triad and Encryption Examples</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2020-05-03">03 May 2020</time></li>
+</ul>
+
+<p>In ICT-security related matters CIA Triad stands for Confidentiality, Integrity and Availability. These are the core principles that categorize most of the security issues threatening information technologies.</p>
+<p>Confidentiality has are all things related to protecting unauthorized access to information. For example usernames and passwords are created for only authorized users if adversary can get access to a username and password combination the confidentiality has an issue.</p>
+<p>Integrity holds things that protect information from malformation and simply put from bad information. For example adversary might have some way to insert false data into a database, to change their bank account to have million dollars. There are systems specifically build to ensure the integrity of data which compare data between for example two places and triggers an alarm if there’s an issue.</p>
+<p>Availability is the simplest of the triad to grasp on. Availability means that information should be available when it is needed. Adversary might create a denial of service attack that would harm availability of a system. It is hard for an organization to resist this but for example having distributed systems might have an positive effect.</p>
+<h2 id="unbreakable-cipher" tabindex="-1">Unbreakable cipher <a class="header-anchor" href="#unbreakable-cipher">#</a></h2>
+<p>There aren’t many unbreakable ciphers but <strong>One time pad</strong> is one of them.</p>
+<p>Pre-shared key, which should have same length or be longer than the message, is shared between sender and receiver. Each character in the message gets a modulo-addition from the shared key. For example with key BC and message AB the cipher is BD. Character A moves one letter to B, and character B moves two letters to D. Now when the secret key is only known by these two an adversary has no way of decoding the cipher.</p>
+<h2 id="symmetric-encryption-example" tabindex="-1">Symmetric encryption example <a class="header-anchor" href="#symmetric-encryption-example">#</a></h2>
+<p>Symmetric encryption is the straightforward give a key and the door will open. You can for example encrypt a zip file with WinRAR where it is using AES 256 encryption. In the user interface give a password and WinRAR will do the encryption.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/7g-wkgxVAP-480.avif 480w"><source type="image/webp" srcset="/lennunet/img/7g-wkgxVAP-480.webp 480w"><img alt="Archive" loading="lazy" decoding="async" src="/lennunet/img/7g-wkgxVAP-480.png" width="480" height="478"></picture></p>
+<h2 id="asymmetric-encryption-example" tabindex="-1">Asymmetric encryption example <a class="header-anchor" href="#asymmetric-encryption-example">#</a></h2>
+<p>Asymmetric encryption is something where both parties have a public and a secret key. The public key is used for encrypting the message and the secret key is used for opening that message.</p>
+<p>I made a little example with NodeJS and <a href="https://www.npmjs.com/package/node-rsa">https://www.npmjs.com/package/node-rsa</a>. It uses by default public key cryptography scheme pkcs1-sha256.</p>
+<pre><code>const NodeRSA = require('node-rsa');
+
+// {b: 512} means 512 bit length key
+const key = new NodeRSA({b: 512})
+console.log('key size:', key.getKeySize())
+
+const message = 'Hello world!'
+console.log('message:', message)
+
+const encrypted = key.encrypt(message, 'base64')
+console.log('encrypted: ', encrypted)
+
+const decrypted = key.decrypt(encrypted, 'utf8')
+console.log('decrypted: ', decrypted)
+</code></pre>
+<p>The output of this script it this:</p>
+<pre><code>key size: 512
+message: Hello world!
+encrypted: Di0USm6XxwV+OgpBteuJIBjDPVaLjhviJNRcDKYHQXGEPSeSde+kMHKAkDkcZNk+7AcL5OuQ0+CcBRyz3EUl8A==
+decrypted: Hello world!
+</code></pre>
+<h2 id="secure-ciphers" tabindex="-1">Secure ciphers <a class="header-anchor" href="#secure-ciphers">#</a></h2>
+<p>There are cracked ciphers and then there are the secure ones. The history of cryptography tells that most of the ciphers are eventually broken so organizations should be monitoring the cryptography news to know when to change their ciphers.</p>
+<p>For example AES and Twofish are considered secure encryption algorithms. MD5 and DES are examples of insecure encryption standards. One should always check for the security of the chosen algorithm before taking it into use.</p>
+<h2 id="diffie-and-hellman-s-1976-paper-new-directions-in-cryptography" tabindex="-1">Diffie and Hellman’s 1976 paper New Directions in Cryptography <a class="header-anchor" href="#diffie-and-hellman-s-1976-paper-new-directions-in-cryptography">#</a></h2>
+<p>In their paper in 1976 the idea Diffie and Hellman introduced was the key exchange problem and how to solve it. It is called Diffie–Hellman key exchange. Before this the secure keys were transferred via physical means using paper or a trustee. The paper introduces a method where the keys can be transferred without the two parties having no prior knowledge of one another.</p>
+<h2 id="suspicious-encryption-products" tabindex="-1">Suspicious encryption products <a class="header-anchor" href="#suspicious-encryption-products">#</a></h2>
+<p>There should be suspicion when choosing any encryption tools. The company behind it should be reputable and the product should have users. This kind of software could control vital information and if the product is somehow compromised the information could be lost or it could used for blackmailing. For example I made a couple of years ago a software that encrypts messages using applied Data Encryption Standard <a href="https://www.lennu.net/data-encryption-standard-made-with-key-sizes-of-14-bits/">https://www.lennu.net/data-encryption-standard-made-with-key-sizes-of-14-bits/</a>. I published the code but still I wouldn’t recommend it to be used since it is quite suspicious and the author hasn’t kept it up to date.</p>
+<p><em>This was the fourth assignment of <a href="http://terokarvinen.com/2020/ict-security-basics-from-trust-to-blockchain-itc4hm003-3001-2020-spring/">ICT Security Basics</a>.</em></p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2020/webgoat-access-control-flaws-and-dangers-of-eval/">WebGoat Access Control Flaws and Dangers of Eval</a></li><li>Next: <a href="/lennunet/2020/step-by-step-access-to-tor-network-with-tails-using-virtualbox/">Step by step access to TOR network with Tails using VirtualBox</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2020/cia-triad-and-encryption-examples/ -->
+	</body>
+</html>

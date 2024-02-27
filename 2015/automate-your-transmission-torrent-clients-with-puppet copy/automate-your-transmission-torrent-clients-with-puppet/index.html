@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Automate Your Transmission Torrent Clients with Puppet</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>Automate Your Transmission Torrent Clients with Puppet</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2015-01-15">15 January 2015</time></li>
+</ul>
+
+<p><picture><source type="image/avif" srcset="/lennunet/img/2Ubq826ViN-300.avif 300w"><source type="image/webp" srcset="/lennunet/img/2Ubq826ViN-300.webp 300w"><img alt="Puppet Logo" loading="lazy" decoding="async" src="/lennunet/img/2Ubq826ViN-300.png" width="300" height="269"></picture></p>
+<p>Last week I reviewed command-line torrent clients and found that Transmission was the most suitable for my needs.</p>
+<p>This week I have made Puppet module for automating the distribution of <code>.torrent</code> files with the usage of Transmission-Daemon.</p>
+<p>If you have multiple Torrent Clients running the same Torrents then here is an example how you could control all of them.</p>
+<p>The module installs <code>transmission-daemon</code> and sets the configuration for it. It also makes a few directories for torrents and at the end sets <code>.torrent</code> files to a folder which the daemon is looking.</p>
+<p>Here is more explained list in order what the module does on the client.</p>
+<p>1. Installs <code>transmission-daemon</code> from package manager<br>
+2. Creates folder <code>/srv/torrents</code><br>
+3. Creates folder <code>/srv/torrents/torrent-files</code><br>
+4. Creates folder <code>/srv/torrents/torrent-data</code><br>
+5. Stops <code>transmission-daemon</code> service (because transmission-daemon overwrites its configuration when stopped so we cannot apply changes to the configuration while the service is running)<br>
+6. Replaces <code>/etc/transmission-daemon/settings.json</code> with Modules own <code>settings.json</code><br>
+7. Starts <code>transmission-daemon</code> service with exec (this is the only way to change config of service which need to be stopped before changes, since Puppet can set service only to one state)<br>
+8. Adds <code>.torrent</code> files from Modules files to <code>/srv/torrents/torrent-files/</code> directory<br>
+9. <code>transmission-daemon</code> automaticly adds files from <code>/srv/torrent/torrent-files/</code> directory and starts downloading them</p>
+<p>Notices made by Puppet</p>
+<pre><code>$ sudo puppet apply --modulepath puppet/modules/ -e &quot;include torrent&quot;
+notice: /Stage[main]/Torrent/Package[transmission-daemon]/ensure: ensure changed 'purged' to 'present'
+notice: /Stage[main]/Torrent/File[/srv/torrents/]/ensure: created
+notice: /Stage[main]/Torrent/File[/srv/torrents/torrent-files/]/ensure: created
+notice: /Stage[main]/Torrent/File[/srv/torrents/torrent-data/]/ensure: created
+notice: /Stage[main]/Torrent/Exec[transmission-daemon stop]/returns: executed successfully
+notice: /Stage[main]/Torrent/File[/etc/transmission-daemon/settings.json]/content: content changed '{md5}41b647ab1260f894894d891c76b575ad' to '{md5}814b971ecedbc6a3b0e5e587f113444c'
+notice: /Stage[main]/Torrent/Service[transmission-daemon]/ensure: ensure changed 'stopped' to 'running'
+notice: /Stage[main]/Torrent/Service[transmission-daemon]: Triggered 'refresh' from 1 events
+notice: /Stage[main]/Torrent/Torrent::Add_torrents[ubuntu-12.04.1-alternate-i386.iso.torrent]/File[ubuntu-12.04.1-alternate-i386.iso.torrent]/ensure: defined content as '{md5}10977e796c856979ef0ff90d6fc2e501'
+notice: /Stage[main]/Torrent/Torrent::Add_torrents[ubuntu-12.04.1-server-amd64.iso.torrent]/File[ubuntu-12.04.1-server-amd64.iso.torrent]/ensure: defined content as '{md5}cd246a335cec7bed733ec04cb0beeb66'
+notice: /Stage[main]/Torrent/Torrent::Add_torrents[ubuntu-12.04.1-desktop-amd64.iso.torrent]/File[ubuntu-12.04.1-desktop-amd64.iso.torrent]/ensure: defined content as '{md5}9b513db50f26298c9ca68bbcff6c4d64'
+notice: /Stage[main]/Torrent/Torrent::Add_torrents[ubuntu-12.04.1-alternate-amd64.iso.torrent]/File[ubuntu-12.04.1-alternate-amd64.iso.torrent]/ensure: defined content as '{md5}2148e763c64bf17bc1ce03445de22368'
+notice: /Stage[main]/Torrent/Torrent::Add_torrents[ubuntu-12.04.1-server-i386.iso.torrent]/File[ubuntu-12.04.1-server-i386.iso.torrent]/ensure: defined content as '{md5}b46f04dd899527dab942a811f2b54e34'
+notice: /Stage[main]/Torrent/Torrent::Add_torrents[ubuntu-12.04.1-desktop-i386.iso.torrent]/File[ubuntu-12.04.1-desktop-i386.iso.torrent]/ensure: defined content as '{md5}ca496f27c3c273ac87b8f40d3e095b56'
+notice: Finished catalog run in 7.39 seconds
+</code></pre>
+<p>And transmission-remote at <code>http://127.0.0.1:9091/transmission/web/</code> after running the module.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/25f8WtWOIx-664.avif 664w"><source type="image/webp" srcset="/lennunet/img/25f8WtWOIx-664.webp 664w"><img alt="Transmission Remote" loading="lazy" decoding="async" src="/lennunet/img/25f8WtWOIx-664.png" width="664" height="636"></picture></p>
+<h2 id="source" tabindex="-1">Source <a class="header-anchor" href="#source">#</a></h2>
+<p>Directory tree</p>
+<pre><code>puppet/modules/torrent/
+├── files
+│   ├── settings.json
+│   ├── ubuntu-12.04.1-alternate-amd64.iso.torrent
+│   ├── ubuntu-12.04.1-alternate-i386.iso.torrent
+│   ├── ubuntu-12.04.1-desktop-amd64.iso.torrent
+│   ├── ubuntu-12.04.1-desktop-i386.iso.torrent
+│   ├── ubuntu-12.04.1-server-amd64.iso.torrent
+│   └── ubuntu-12.04.1-server-i386.iso.torrent
+└── manifests
+    └── init.pp
+ 
+2 directories, 8 files
+</code></pre>
+<h3 id="settings-json" tabindex="-1">settings.json <a class="header-anchor" href="#settings-json">#</a></h3>
+<p>In the <code>files</code> directory there is the settings.json which is used to replace <code>/etc/transmission-daemon/settings.json</code>.</p>
+<p>Here is the source: (From original I have changed the “download-dir”, “rpc-authetication-required”, and added “watch-dir” and “watch-dir-enabled”, everything else have default values)</p>
+<pre><code>{
+    &quot;alt-speed-down&quot;: 50, 
+    &quot;alt-speed-enabled&quot;: false, 
+    &quot;alt-speed-time-begin&quot;: 540, 
+    &quot;alt-speed-time-day&quot;: 127, 
+    &quot;alt-speed-time-enabled&quot;: false, 
+    &quot;alt-speed-time-end&quot;: 1020, 
+    &quot;alt-speed-up&quot;: 50, 
+    &quot;bind-address-ipv4&quot;: &quot;0.0.0.0&quot;, 
+    &quot;bind-address-ipv6&quot;: &quot;::&quot;, 
+    &quot;blocklist-enabled&quot;: false, 
+    &quot;blocklist-url&quot;: &quot;http://www.example.com/blocklist&quot;, 
+    &quot;cache-size-mb&quot;: 4, 
+    &quot;dht-enabled&quot;: true, 
+    &quot;download-dir&quot;: &quot;/srv/torrents/torrent-data/&quot;, 
+    &quot;download-limit&quot;: 100, 
+    &quot;download-limit-enabled&quot;: 0, 
+    &quot;download-queue-enabled&quot;: true, 
+    &quot;download-queue-size&quot;: 5, 
+    &quot;encryption&quot;: 1, 
+    &quot;idle-seeding-limit&quot;: 30, 
+    &quot;idle-seeding-limit-enabled&quot;: false, 
+    &quot;incomplete-dir&quot;: &quot;/home/lennu/Downloads&quot;, 
+    &quot;incomplete-dir-enabled&quot;: false, 
+    &quot;lpd-enabled&quot;: false, 
+    &quot;max-peers-global&quot;: 200, 
+    &quot;message-level&quot;: 2, 
+    &quot;peer-congestion-algorithm&quot;: &quot;&quot;, 
+    &quot;peer-limit-global&quot;: 240, 
+    &quot;peer-limit-per-torrent&quot;: 60, 
+    &quot;peer-port&quot;: 51413, 
+    &quot;peer-port-random-high&quot;: 65535, 
+    &quot;peer-port-random-low&quot;: 49152, 
+    &quot;peer-port-random-on-start&quot;: false, 
+    &quot;peer-socket-tos&quot;: &quot;default&quot;, 
+    &quot;pex-enabled&quot;: true, 
+    &quot;port-forwarding-enabled&quot;: false, 
+    &quot;preallocation&quot;: 1, 
+    &quot;prefetch-enabled&quot;: 1, 
+    &quot;queue-stalled-enabled&quot;: true, 
+    &quot;queue-stalled-minutes&quot;: 30, 
+    &quot;ratio-limit&quot;: 2, 
+    &quot;ratio-limit-enabled&quot;: false, 
+    &quot;rename-partial-files&quot;: true, 
+    &quot;rpc-authentication-required&quot;: false, 
+    &quot;rpc-bind-address&quot;: &quot;0.0.0.0&quot;, 
+    &quot;rpc-enabled&quot;: true, 
+    &quot;rpc-password&quot;: &quot;{9bf5446f00cbb1c8e940e7c526d49b0369167f85YOod54R6&quot;, 
+    &quot;rpc-port&quot;: 9091, 
+    &quot;rpc-url&quot;: &quot;/transmission/&quot;, 
+    &quot;rpc-username&quot;: &quot;transmission&quot;, 
+    &quot;rpc-whitelist&quot;: &quot;127.0.0.1&quot;, 
+    &quot;rpc-whitelist-enabled&quot;: true, 
+    &quot;scrape-paused-torrents-enabled&quot;: true, 
+    &quot;script-torrent-done-enabled&quot;: false, 
+    &quot;script-torrent-done-filename&quot;: &quot;&quot;, 
+    &quot;seed-queue-enabled&quot;: false, 
+    &quot;seed-queue-size&quot;: 10, 
+    &quot;speed-limit-down&quot;: 100, 
+    &quot;speed-limit-down-enabled&quot;: false, 
+    &quot;speed-limit-up&quot;: 100, 
+    &quot;speed-limit-up-enabled&quot;: false, 
+    &quot;start-added-torrents&quot;: true, 
+    &quot;trash-original-torrent-files&quot;: false, 
+    &quot;umask&quot;: 18, 
+    &quot;upload-limit&quot;: 100, 
+    &quot;upload-limit-enabled&quot;: 0, 
+    &quot;upload-slots-per-torrent&quot;: 14, 
+    &quot;utp-enabled&quot;: true,
+    &quot;watch-dir&quot;: &quot;/srv/torrents/torrent-files/&quot;,
+    &quot;watch-dir-enabled&quot;: true
+}
+</code></pre>
+<h3 id="torrent-files" tabindex="-1">.torrent files <a class="header-anchor" href="#torrent-files">#</a></h3>
+<p>There is also a couple of <code>.torrent</code> files which is to be sent to <code>/srv/torrents/torrent-files/</code> from where <code>transmission-daemon</code> will add them. I don’t include them here since you can use any <code>.torrent</code> files to test this out.</p>
+<h3 id="init-pp" tabindex="-1">init.pp <a class="header-anchor" href="#init-pp">#</a></h3>
+<p>In manifests there is the usual <code>init.pp</code>. The function at the bottom is the place where we tell to Puppet which <code>.torrent</code> files we want to distribute to the clients.</p>
+<p>Replace these Ubuntu related <code>.torrent</code> files with your own which you also put into the files directory. So you will need to have the actual <code>.torrent</code> files in files directory and also their filenames here in the source code.</p>
+<p>Source is pretty basic resource declaration if you have something to ask then drop a question into the comments.</p>
+<p>Here is the source:</p>
+<pre><code>class torrent {
+	package {'transmission-daemon':
+		provider=&gt;'apt',
+		ensure=&gt;'installed',
+	}
+ 
+	exec {'transmission-daemon stop':
+		path=&gt;'/etc/init.d/',
+		notify=&gt;Service['transmission-daemon'],
+	}
+	
+	service {'transmission-daemon':
+		ensure=&gt;'running',
+		require=&gt;Package['transmission-daemon'],
+	}
+	
+	file {'/srv/torrents/':
+		ensure=&gt;'directory',
+		owner=&gt;'debian-transmission',
+		group=&gt;'debian-transmission',
+	}
+ 
+	file {'/srv/torrents/torrent-files/':
+		ensure=&gt;'directory',
+		owner=&gt;'debian-transmission',
+		group=&gt;'debian-transmission',
+		require=&gt;File['/srv/torrents/'],
+	}
+ 
+	file {'/srv/torrents/torrent-data/':
+		ensure=&gt;'directory',
+		owner=&gt;'debian-transmission',
+		group=&gt;'debian-transmission',
+		require=&gt;File['/srv/torrents/'],
+	}
+ 
+	file {'/etc/transmission-daemon/settings.json':
+		source=&gt;'puppet:///modules/torrent/settings.json',
+		owner=&gt;'debian-transmission',
+		group=&gt;'debian-transmission',
+		require=&gt;Exec['transmission-daemon stop'],
+	}
+ 
+	define add_torrents {
+ 
+		file {$name:
+			path=&gt;&quot;/srv/torrents/torrent-files/$name&quot;,
+			source=&gt;&quot;puppet:///modules/torrent/$name&quot;,
+			owner=&gt;'debian-transmission',
+			group=&gt;'debian-transmission',
+		}
+	}
+ 
+	$torrents =
+		[
+		&quot;ubuntu-12.04.1-desktop-i386.iso.torrent&quot;,
+		&quot;ubuntu-12.04.1-alternate-amd64.iso.torrent&quot;,
+		&quot;ubuntu-12.04.1-server-amd64.iso.torrent&quot;,
+		&quot;ubuntu-12.04.1-alternate-i386.iso.torrent&quot;,
+		&quot;ubuntu-12.04.1-server-i386.iso.torrent&quot;,
+		&quot;ubuntu-12.04.1-desktop-amd64.iso.torrent&quot;
+		]
+ 
+	add_torrents { $torrents:
+		require=&gt;Service['transmission-daemon'],
+	 }
+}
+</code></pre>
+<h2 id="close-up" tabindex="-1">Close up <a class="header-anchor" href="#close-up">#</a></h2>
+<p>The actual torrent data can be found at <code>/srv/torrents/torrent-data/</code> and if anyone wants to use this module, its all GPLv2 so go ahead.</p>
+<p>This is my last post for now in this series of Puppet. I have found that it is really a great tool to do automating which I had only a little experience before. If I ever have a chance to automate something important, I will surely use Puppet for it.</p>
+<p>Thanks goes to <a href="http://terokarvinen.com/">Tero Karvinen</a> who gave a course about Puppet at HAAGA-HELIA University of Applied Sciences.</p>
+
+<ul class="links-nextprev"><li>Next: <a href="/lennunet/2015/data-encryption-standard-made-with-key-sizes-of-14-bits/">Data Encryption Standard Made With Key Sizes of 14 Bits</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2015/automate-your-transmission-torrent-clients-with-puppet copy/automate-your-transmission-torrent-clients-with-puppet/ -->
+	</body>
+</html>

@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Octopress installation in Ubuntu 12.04 with rsync</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>Octopress installation in Ubuntu 12.04 with rsync</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2015-01-15">15 January 2015</time></li>
+</ul>
+
+<p>Octopress is a blogging framework which generates your enire blog in static files. Octopress has integrated Twitter, Google Analytics, Google Plus, Facebook and some other webservices. There are also good plugins for adding images, code, videos and other content into your blog posts. The framework is made for hackers and people who know something about Linux and shell.</p>
+<p>Requirements for this tutorial</p>
+<ul>
+<li>Linux knowledge</li>
+<li>Preconfigured webserver using Apache and home directories</li>
+<li>Ubuntu 12.04 installation on your PC</li>
+</ul>
+<p>This tutorial will be about the installation of blogging framework <a href="http://www.octopress.org">Octopress</a>. As I have tested the installation process is not so simple for beginners as it is described in the official website.</p>
+<p>There are three official ways to deploy Octopress</p>
+<ul>
+<li>Github Pages</li>
+<li>Heroku</li>
+<li>Rsync</li>
+</ul>
+<p>In this tutorial I will be focusing to basic installation of Octopress and the Rsync deployement.</p>
+<p>Here are the installation steps:</p>
+<h2 id="octopress-installation" tabindex="-1">Octopress installation <a class="header-anchor" href="#octopress-installation">#</a></h2>
+<h3 id="ubuntu-12-04" tabindex="-1">Ubuntu 12.04 <a class="header-anchor" href="#ubuntu-12-04">#</a></h3>
+<p>Fresh Ubuntu installation will need the following packages to be installed.</p>
+<pre><code>sudo apt\-get install bash curl git\-core \-y
+sudo apt\-get install build\-essential bison openssl libreadline6 libreadline6\-dev zlib1g zlib1g\-dev libssl\-dev libyaml\-dev libsqlite3\-0 libsqlite3\-dev sqlite3 libxml2\-dev libxslt\-dev autoconf libc6\-dev ncurses\-dev automake \-y
+</code></pre>
+<h3 id="rvm" tabindex="-1">RVM <a class="header-anchor" href="#rvm">#</a></h3>
+<p>We will be using RVM for controlling installation of Ruby and dependencies required by Octopress. Install RVM to your user profile with next command.</p>
+<pre><code>curl \-L https://get.rvm.io | bash -s stable --ruby
+source .bashrc
+</code></pre>
+<p>As we now have enabled Ruby environment on our system, we will need to install some packages to prepare it for Octopress.</p>
+<pre><code>rvm install 1.9.3
+rvm use 1.9.3 \--default
+rvm reload
+rvm rubygems latest
+gem install bundler
+</code></pre>
+<h3 id="cloning-octopress-from-github" tabindex="-1">Cloning Octopress from Github <a class="header-anchor" href="#cloning-octopress-from-github">#</a></h3>
+<p>Now it’s time to clone Octopress to our home directory.</p>
+<pre><code>git clone git://github.com/imathis/octopress.git octopress
+</code></pre>
+<p>After the clone is complete move to Octopress folder</p>
+<pre><code>cd octopress/
+</code></pre>
+<p>You will get a notification from RVM asking do you trust new .rvmc file. Answer yes.</p>
+<pre><code>\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===
+\= NOTICE                                                                     \=
+\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===
+\= RVM has encountered a new or modified .rvmrc file in the current directory \=
+\= This is a shell script and therefore may contain any shell commands.       \=
+\=                                                                            \=
+\= Examine the contents of this file carefully to be sure the contents are    \=
+\= safe before trusting it! ( Choose v\[iew\] below to view the contents )      \=
+\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===\===
+Do you wish to trust this .rvmrc file? (/home/lennu/octopress/.rvmrc)
+y\[es\], n\[o\], v\[iew\], c\[ancel\]\&gt; yes
+</code></pre>
+<h3 id="installation-of-octopress-rvm-packages" tabindex="-1">Installation of Octopress RVM Packages <a class="header-anchor" href="#installation-of-octopress-rvm-packages">#</a></h3>
+<p>Insert the following commands in Octopress folder to install it.</p>
+<pre><code>bundle install
+bundle update
+rake install
+</code></pre>
+<p>If you get the following error:</p>
+<pre><code>rake aborted!
+You have already activated rake 0.9.2.2, but your Gemfile requires rake 0.9.2. Using bundle exec may solve this.
+</code></pre>
+<p>Solution to this is to update bundle version.</p>
+<pre><code>bundle update
+rake install
+</code></pre>
+<p>Congratulations! You have succesfully installed Octopress to your Ubuntu.</p>
+<h2 id="rsync-deployement" tabindex="-1">Rsync deployement <a class="header-anchor" href="#rsync-deployement">#</a></h2>
+<p>In order to publish your Octopress blog into your own webserver, you have to send the public files to the server. In this tutorial I assume you have setup the normal user account web publishing configurations.</p>
+<p>Here are the steps how to use Rsync to publish your website:</p>
+<h3 id="server-modifications" tabindex="-1">Server modifications <a class="header-anchor" href="#server-modifications">#</a></h3>
+<p>We will start by creating an account to the server.</p>
+<p>Login to your server and use <code>sudo adduser</code> command to add the user.</p>
+<p>We also need to install rsync with the following command.</p>
+<pre><code>sudo apt\-get install rsync
+</code></pre>
+<p>After this you can logout from your server.</p>
+<h3 id="setting-up-public-key-authorization-between-ubuntu-and-server" tabindex="-1">Setting up public key authorization between Ubuntu and Server <a class="header-anchor" href="#setting-up-public-key-authorization-between-ubuntu-and-server">#</a></h3>
+<p>First we create a public key with the following commands.</p>
+<pre><code>ssh\-keygen
+</code></pre>
+<p>You will be asked where to save the key. Save the key to the default directory by pressing Enter.</p>
+<pre><code>Generating public/private rsa key pair.
+Enter file in which to save the key (/home/lennu/.ssh/id\_rsa):
+Insert a passphrase for two times and the key will be created.
+</code></pre>
+<pre><code>Created directory '/home/lennu/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/lennu/.ssh/id\_rsa.
+Your public key has been saved in /home/lennu/.ssh/id\_rsa.pub.
+</code></pre>
+<p>Now we need to send the public key to the server, specifically in your just created users’ home directory.<br>
+We can use ssh to send the file to your server.</p>
+<pre><code>cat .ssh/id\_rsa.pub | ssh username@server &quot;mkdir .ssh;cat &gt;&gt; .ssh/authorized\_keys&quot;
+</code></pre>
+<h3 id="configuring-rsync" tabindex="-1">Configuring rsync <a class="header-anchor" href="#configuring-rsync">#</a></h3>
+<p>Edit Rakefile in your octopress directory. Modify the following values.</p>
+<pre><code>ssh\_user       \= &quot;[\[email protected\]](/cdn-cgi/l/email-protection)&quot;
+document\_root  \= &quot;~/public\_html/&quot;
+rsync\_delete   \= true
+deploy\_default \= &quot;rsync&quot;
+</code></pre>
+<h3 id="publishing-the-website" tabindex="-1">Publishing the website <a class="header-anchor" href="#publishing-the-website">#</a></h3>
+<p>If the configurations are set, you can run the following commands and publish the website. Enter your Ubuntu password on prompt.</p>
+<pre><code>rake generate \# Generates the static website files
+rake deploy \# Uses rsync to send the files to the server
+</code></pre>
+<p>You should now get something like this at your public website.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/4DKd0svvHZ-640.avif 640w"><source type="image/webp" srcset="/lennunet/img/4DKd0svvHZ-640.webp 640w"><img alt="Default installation of Octopress" loading="lazy" decoding="async" src="/lennunet/img/4DKd0svvHZ-640.jpeg" width="640" height="493"></picture></p>
+<h2 id="blogging" tabindex="-1">Blogging <a class="header-anchor" href="#blogging">#</a></h2>
+<p>Now you are ready to start blogging with Octopress.</p>
+<h3 id="configurations" tabindex="-1">Configurations <a class="header-anchor" href="#configurations">#</a></h3>
+<p>Most important configurations can be found from the <code>_config.yml</code>. Just edit that and you can change all the default values like title and author to your own.</p>
+<p>After changes just type the following commands and the site will be published.</p>
+<pre><code>rake generate \# Generates the static website files
+rake deploy \# Uses rsync to send the files to the server
+</code></pre>
+<h3 id="posting-with-octopress" tabindex="-1">Posting with Octopress <a class="header-anchor" href="#posting-with-octopress">#</a></h3>
+<p>Create a new blog post with the following command. You need to be in the octopress directory to do this.</p>
+<pre><code>rake new\_post\[&quot;Name of your post&quot;\]
+</code></pre>
+<p>Then you may go and edit it in <code>source/_posts/</code> directory.</p>
+<p>Again after you have written your post and want to publish it to the website, use these commands.</p>
+<pre><code>rake generate \# Generates the static website files
+rake deploy \# Uses rsync to send the files to the server
+</code></pre>
+<h4 id="preview-posts" tabindex="-1">Preview posts <a class="header-anchor" href="#preview-posts">#</a></h4>
+<p>If you want to preview your posts before publishing, use only the <code>rake generate</code> and see the changes yourself with the command <code>rake preview</code> and head on to web browser and type in localhost:4000.</p>
+<h2 id="documentation" tabindex="-1">Documentation <a class="header-anchor" href="#documentation">#</a></h2>
+<p>The official Octopress <a href="http://www.octopress.org/docs/">Documentation</a> is a good place to find more information about posting and using different kind of plugins and code blocks in your blog.</p>
+<p>If you need more information about Octopress, be sure to check it out for answers!</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/lennu-dot-net-changes/">Lennu.net Changes</a></li><li>Next: <a href="/lennunet/2015/over-37000-student-files-crawled-from-a-finnish-university-website/">Over 37000 student files crawled from a finnish university website</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2015/octopress-installation/ -->
+	</body>
+</html>

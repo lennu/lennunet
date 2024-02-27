@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Hippo CMS 11 Installation with MySQL with GIT</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>Hippo CMS 11 Installation with MySQL with GIT</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2018-03-08">08 March 2018</time></li>
+</ul>
+
+<p>In this tutorial we are going to install and run Hippo CMS version 11. This tutorial is made with Ubuntu 16.04 and requires default knowledge of the operating system.</p>
+<h2 id="initial-setup" tabindex="-1">Initial setup <a class="header-anchor" href="#initial-setup">#</a></h2>
+<p>Lets start with installing the dependencies which are Java 8 and Maven.</p>
+<pre><code>sudo apt-get install openjdk-8-jdk
+sudo apt-get install maven
+</code></pre>
+<p>Create hippo project with this command</p>
+<pre><code>mvn org.apache.maven.plugins:maven-archetype-plugin:2.4:generate \
+-DarchetypeRepository=https://maven.onehippo.com/maven2 \
+-DarchetypeGroupId=org.onehippo.cms7 \
+-DarchetypeArtifactId=hippo-project-archetype \
+-DarchetypeVersion=4.2.3
+</code></pre>
+<p>This will ask all kinds of questions that you’ll find the answer from https://www.onehippo.org/11/trails/getting-started/creating-a-project.html.</p>
+<p>For this tutorial you can just click enter and the default will be applied.</p>
+<h2 id="adding-git-to-project" tabindex="-1">Adding GIT to project <a class="header-anchor" href="#adding-git-to-project">#</a></h2>
+<p>Now it’s good time to setup git since we have the basic project files on myhippoproject -folder.</p>
+<pre><code>git init myhippofolder
+cd myhippofolder
+git status
+git add --all
+git commit -m &quot;Initial commit&quot;
+</code></pre>
+<h2 id="add-mysql" tabindex="-1">Add MySQL <a class="header-anchor" href="#add-mysql">#</a></h2>
+<p>To add MySQL into the project we need to create the actual database for it.</p>
+<pre><code>sudo apt-get install mysql-server
+</code></pre>
+<p>Remember to add a root password</p>
+<pre><code>echo &quot;CREATE DATABASE myhippoproject;&quot; | mysql -u root -p
+echo &quot;CREATE USER 'hippouser'@'localhost' IDENTIFIED BY 'hippouserpassword';&quot; | mysql -u root -p
+echo &quot;GRANT ALL PRIVILEGES ON myhippoproject.* TO 'hippouser'@'localhost';&quot; | mysql -u root -p
+echo &quot;FLUSH PRIVILEGES;&quot; | mysql -u root -p
+</code></pre>
+<h2 id="hippo-cms-mysql-configuration" tabindex="-1">Hippo CMS MySQL configuration <a class="header-anchor" href="#hippo-cms-mysql-configuration">#</a></h2>
+<p>Hippo CMS configuration isn’t the best in the world and it’s quite complex and hard to follow. Finding a certain line from the configuration files can be very hard to pay attention when doing this.</p>
+<p>First add Resource to conf/context.xml. Notice username, password and url which configure your MySQL credentials for Hippo.</p>
+<pre><code>&lt;?xml version='1.0' encoding='utf-8'?&gt;
+&lt;Context&gt;
+...
+&lt;Resource
+    name=&quot;jdbc/repositoryDS&quot; auth=&quot;Container&quot; type=&quot;javax.sql.DataSource&quot;
+    maxTotal=&quot;20&quot; maxIdle=&quot;10&quot; minIdle=&quot;2&quot; initialSize=&quot;2&quot; maxWaitMillis=&quot;10000&quot;
+    testWhileIdle=&quot;true&quot; testOnBorrow=&quot;false&quot; validationQuery=&quot;select 1&quot;
+    timeBetweenEvictionRunsMillis=&quot;10000&quot;
+    minEvictableIdleTimeMillis=&quot;60000&quot;
+    username=&quot;hippouser&quot; password=&quot;hippouserpassword&quot;
+    driverClassName=&quot;com.mysql.jdbc.Driver&quot;
+    url=&quot;jdbc:mysql://localhost:3306/myhippoproject?autoReconnect=true&amp;amp;characterEncoding=utf8&quot; /&gt;
+&lt;/Context&gt;
+</code></pre>
+<p>Then add conf/repository.xml, the file contains a lot of stuff and mostly unnecessary things for us to know right know, so I’ll just add the file here. Most importantly it represents the place for content to be put on to and it’s configuration.</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ 
+&lt;!DOCTYPE Repository
+          PUBLIC &quot;-//The Apache Software Foundation//DTD Jackrabbit 2.6//EN&quot;
+          &quot;http://jackrabbit.apache.org/dtd/repository-2.6.dtd&quot;&gt;
+ 
+&lt;Repository&gt;
+ 
+  &lt;DataSources&gt;
+    &lt;DataSource name=&quot;repositoryDS&quot;&gt;
+      &lt;param name=&quot;driver&quot; value=&quot;javax.naming.InitialContext&quot;/&gt;
+      &lt;param name=&quot;url&quot; value=&quot;java:comp/env/jdbc/repositoryDS&quot;/&gt;
+      &lt;param name=&quot;databaseType&quot; value=&quot;mysql&quot;/&gt;
+    &lt;/DataSource&gt;
+  &lt;/DataSources&gt;
+ 
+  &lt;FileSystem class=&quot;org.apache.jackrabbit.core.fs.db.DbFileSystem&quot;&gt;
+    &lt;param name=&quot;dataSourceName&quot; value=&quot;repositoryDS&quot;/&gt;
+    &lt;param name=&quot;schemaObjectPrefix&quot; value=&quot;repository_&quot;/&gt;
+  &lt;/FileSystem&gt;
+ 
+  &lt;Security appName=&quot;Jackrabbit&quot;&gt;
+    &lt;SecurityManager class=&quot;org.hippoecm.repository.security.SecurityManager&quot;/&gt;
+    &lt;AccessManager class=&quot;org.hippoecm.repository.security.HippoAccessManager&quot;/&gt;
+    &lt;LoginModule class=&quot;org.hippoecm.repository.security.HippoLoginModule&quot;/&gt;
+  &lt;/Security&gt;
+ 
+  &lt;Workspaces rootPath=&quot;${rep.home}/workspaces&quot; defaultWorkspace=&quot;default&quot;/&gt;
+ 
+  &lt;Workspace name=&quot;${wsp.name}&quot;&gt;
+    &lt;FileSystem class=&quot;org.apache.jackrabbit.core.fs.db.DbFileSystem&quot;&gt;
+      &lt;param name=&quot;dataSourceName&quot; value=&quot;repositoryDS&quot;/&gt;
+      &lt;param name=&quot;schemaObjectPrefix&quot; value=&quot;${wsp.name}_&quot;/&gt;
+    &lt;/FileSystem&gt;
+ 
+    &lt;PersistenceManager class=&quot;org.apache.jackrabbit.core.persistence.pool.MySqlPersistenceManager&quot;&gt;
+      &lt;param name=&quot;dataSourceName&quot; value=&quot;repositoryDS&quot;/&gt;
+      &lt;param name=&quot;schemaObjectPrefix&quot; value=&quot;${wsp.name}_&quot;/&gt;
+      &lt;param name=&quot;externalBLOBs&quot; value=&quot;true&quot;/&gt;
+      &lt;param name=&quot;consistencyCheck&quot; value=&quot;false&quot;/&gt;
+      &lt;param name=&quot;consistencyFix&quot; value=&quot;false&quot;/&gt;
+      &lt;param name=&quot;bundleCacheSize&quot; value=&quot;64&quot;/&gt;
+    &lt;/PersistenceManager&gt;
+ 
+    &lt;SearchIndex class=&quot;org.hippoecm.repository.FacetedNavigationEngineImpl&quot;&gt;
+      &lt;param name=&quot;indexingConfiguration&quot; value=&quot;indexing_configuration.xml&quot;/&gt;
+      &lt;param name=&quot;indexingConfigurationClass&quot; value=&quot;org.hippoecm.repository.query.lucene.ServicingIndexingConfigurationImpl&quot;/&gt;
+      &lt;param name=&quot;path&quot; value=&quot;${wsp.home}/index&quot;/&gt;
+      &lt;param name=&quot;useSimpleFSDirectory&quot; value=&quot;true&quot;/&gt;
+      &lt;param name=&quot;useCompoundFile&quot; value=&quot;true&quot;/&gt;
+      &lt;param name=&quot;minMergeDocs&quot; value=&quot;100&quot;/&gt;
+      &lt;param name=&quot;volatileIdleTime&quot; value=&quot;10&quot;/&gt;
+      &lt;param name=&quot;maxMergeDocs&quot; value=&quot;100000&quot;/&gt;
+      &lt;param name=&quot;mergeFactor&quot; value=&quot;5&quot;/&gt;
+      &lt;param name=&quot;maxFieldLength&quot; value=&quot;10000&quot;/&gt;
+      &lt;param name=&quot;bufferSize&quot; value=&quot;1000&quot;/&gt;
+      &lt;param name=&quot;cacheSize&quot; value=&quot;1000&quot;/&gt;
+      &lt;param name=&quot;onWorkspaceInconsistency&quot; value=&quot;log&quot;/&gt;
+      &lt;param name=&quot;forceConsistencyCheck&quot; value=&quot;false&quot;/&gt;
+      &lt;param name=&quot;enableConsistencyCheck&quot; value=&quot;false&quot;/&gt;
+      &lt;param name=&quot;autoRepair&quot; value=&quot;true&quot;/&gt;
+      &lt;param name=&quot;analyzer&quot; value=&quot;org.hippoecm.repository.query.lucene.StandardHippoAnalyzer&quot;/&gt;
+      &lt;param name=&quot;queryClass&quot; value=&quot;org.apache.jackrabbit.core.query.QueryImpl&quot;/&gt;
+      &lt;param name=&quot;respectDocumentOrder&quot; value=&quot;false&quot;/&gt;
+      &lt;param name=&quot;resultFetchSize&quot; value=&quot;1000&quot;/&gt;
+      &lt;param name=&quot;extractorTimeout&quot; value=&quot;100&quot;/&gt;
+      &lt;param name=&quot;extractorBackLogSize&quot; value=&quot;100&quot;/&gt;
+      &lt;param name=&quot;excerptProviderClass&quot; value=&quot;org.apache.jackrabbit.core.query.lucene.DefaultHTMLExcerpt&quot;/&gt;
+      &lt;param name=&quot;supportSimilarityOnStrings&quot; value=&quot;true&quot;/&gt;
+      &lt;param name=&quot;supportSimilarityOnBinaries&quot; value=&quot;false&quot;/&gt;
+    &lt;/SearchIndex&gt;
+ 
+    &lt;ISMLocking class=&quot;org.apache.jackrabbit.core.state.FineGrainedISMLocking&quot;/&gt;
+  &lt;/Workspace&gt;
+ 
+  &lt;Versioning rootPath=&quot;${rep.home}/version&quot;&gt;
+    &lt;FileSystem class=&quot;org.apache.jackrabbit.core.fs.db.DbFileSystem&quot;&gt;
+      &lt;param name=&quot;dataSourceName&quot; value=&quot;repositoryDS&quot;/&gt;
+      &lt;param name=&quot;schemaObjectPrefix&quot; value=&quot;version_&quot;/&gt;
+    &lt;/FileSystem&gt;
+ 
+    &lt;PersistenceManager class=&quot;org.apache.jackrabbit.core.persistence.pool.MySqlPersistenceManager&quot;&gt;
+      &lt;param name=&quot;dataSourceName&quot; value=&quot;repositoryDS&quot;/&gt;
+      &lt;param name=&quot;schemaObjectPrefix&quot; value=&quot;version_&quot;/&gt;
+      &lt;param name=&quot;externalBLOBs&quot; value=&quot;true&quot;/&gt;
+      &lt;param name=&quot;consistencyCheck&quot; value=&quot;false&quot;/&gt;
+      &lt;param name=&quot;consistencyFix&quot; value=&quot;false&quot;/&gt;
+    &lt;/PersistenceManager&gt;
+ 
+    &lt;ISMLocking class=&quot;org.apache.jackrabbit.core.state.FineGrainedISMLocking&quot;/&gt;
+  &lt;/Versioning&gt;
+ 
+  &lt;Cluster&gt;
+    &lt;Journal class=&quot;org.apache.jackrabbit.core.journal.DatabaseJournal&quot;&gt;
+      &lt;param name=&quot;dataSourceName&quot; value=&quot;repositoryDS&quot;/&gt;
+      &lt;param name=&quot;databaseType&quot; value=&quot;mysql&quot;/&gt;
+      &lt;param name=&quot;schemaObjectPrefix&quot; value=&quot;repository_&quot;/&gt;
+      &lt;param name=&quot;revision&quot; value=&quot;${rep.home}/revision.log&quot;/&gt;
+    &lt;/Journal&gt;
+  &lt;/Cluster&gt;
+ 
+  &lt;DataStore class=&quot;org.apache.jackrabbit.core.data.db.DbDataStore&quot;&gt;
+    &lt;param name=&quot;dataSourceName&quot; value=&quot;repositoryDS&quot;/&gt;
+    &lt;param name=&quot;minRecordLength&quot; value=&quot;1024&quot;/&gt;
+    &lt;param name=&quot;maxConnections&quot; value=&quot;5&quot;/&gt;
+    &lt;param name=&quot;copyWhenReading&quot; value=&quot;true&quot;/&gt;
+  &lt;/DataStore&gt;
+ 
+&lt;/Repository&gt;
+</code></pre>
+<p>Finally we need to modify our pom.xml file to know about our just created repository.xml and MySQL scheme. So do the following changes in pom.xml:</p>
+<pre><code>From pom.xml find this:
+&lt;container&gt;
+  &lt;systemProperties&gt;
+  ...
+  &lt;/systemProperties&gt;
+&lt;/container&gt;
+ 
+Inside &lt;systemProperties&gt; add:
+&lt;repo.config&gt;file:${project.basedir}/conf/repository.xml&lt;/repo.config&gt;
+ 
+And right after the &lt;/systemProperties&gt; and just before &lt;/container&gt; add this:
+&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;classpath&gt;extra&lt;/classpath&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<pre><code>and at the end of the file before &lt;/project&gt; add this:
+&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;version&gt;5.1.34&lt;/version&gt;
+    &lt;scope&gt;provided&lt;/scope&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<p>Before rushing to the next step you should commit your changes:</p>
+<pre><code>git add --all
+git commit -m &quot;Add MySQL configuration&quot;
+</code></pre>
+<h2 id="build-and-run" tabindex="-1">Build &amp; Run <a class="header-anchor" href="#build-and-run">#</a></h2>
+<p>Now lets build our project.</p>
+<pre><code>mvn clean verify
+</code></pre>
+<p>This downloads some assets and creates the runnable java files. Now we need to create .gitignore file because the created files shouldn’t go to version control. So create .gitignore and add the following in there. Also commit the file in git.</p>
+<pre><code>**/target/**
+</code></pre>
+<pre><code>git add .gitignore
+git commit -m &quot;Add .gitignore&quot;
+</code></pre>
+<p>Now we are ready to run the project with this command:</p>
+<pre><code>mvn -Pcargo.run -Drepo.bootstrap=true
+</code></pre>
+<p>The -Drepo.bootsrap=true is there to ensure that we are creating the system from scratch. If you don’t want to do this after the initial setup, you can just omit it.</p>
+<p>Try it out
+You should now be able to go and see hippo working.</p>
+<pre><code>http://localhost:8080/cms or http://localhost:8080/site
+</code></pre>
+<p>Happy Hippo CMS:ing!</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2018/disable-locale-passing-on-ssh-connection/">Disable locale passing on ssh connection</a></li><li>Next: <a href="/lennunet/2019/how-to-burn-iso-image-to-usb-stick-drive-on-ubuntu/">How to burn ISO image to USB stick drive on Ubuntu</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2018/hippo-cms-11-installation-with-mysql-with-git/ -->
+	</body>
+</html>

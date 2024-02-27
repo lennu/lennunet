@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>jQuery Ajax Example with JSON Response</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>jQuery Ajax Example with JSON Response</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2015-05-23">23 May 2015</time></li>
+</ul>
+
+<p>On one of my first big Javascript projects I learned how to use <a href="http://www.jquery.org">jQuery</a> and especially its Ajax function. Nowadays I use the library almost everyday for displaying, fetching and controlling the web.</p>
+<p>jQuery is a Javascript library which has been made to ease the development of JavaScript based websites and it offers massive framework for frontend web development. One major and maybe the best part of it is Ajax, Asynchronous JavaScript and XML. In common language you can you can load data into a website without refreshing it. On this post I will demonstrate how to use this function.</p>
+<h2 id="jquery-ajax" tabindex="-1">jQuery Ajax <a class="header-anchor" href="#jquery-ajax">#</a></h2>
+<p>The basic syntax of jQuery Ajax is:</p>
+<pre><code>$.ajax(\[settings\])
+</code></pre>
+<p>There are tens of <a href="http://api.jquery.com/jquery.ajax/">settings</a> you can use for the function. But usually we are interested in the <strong>url</strong>. The new syntax of jQuery ajax recommends everyone to use Promises. Which gives the function multiple callback options, like <strong>done</strong> and <strong>fail</strong>.</p>
+<pre><code>$.ajax({
+
+  url: 'https://www.lennu.net/',
+
+})
+
+.done(function(data) {
+
+  alert(data)
+
+})
+
+.fail(function() {
+
+  alert(&quot;Ajax failed to fetch data&quot;)
+
+})
+</code></pre>
+<h2 id="example" tabindex="-1">Example <a class="header-anchor" href="#example">#</a></h2>
+<p>In this example I will show you how to do Ajax with jQuery and how to process multidimensional JSON data table coming in through Ajax.</p>
+<p>This example is partly taken from a wine project which I was developing some time ago. On the project we did a lot of coding with Javascript and the main function was jQuery’s Ajax. In that project were creating a software with HTML5, Javascript, CSS and on the serverside with PHP and MySQL. The project wasn’t a great success but it taught me a lot about JavaScript. This example is about some of the technologies we were using on that project.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/Fi2LJxjkgy-569.avif 569w"><source type="image/webp" srcset="/lennunet/img/Fi2LJxjkgy-569.webp 569w"><img alt="jQuery Ajax Example with JSON Response" loading="lazy" decoding="async" src="/lennunet/img/Fi2LJxjkgy-569.png" width="569" height="427"></picture></p>
+<h3 id="html" tabindex="-1">HTML <a class="header-anchor" href="#html">#</a></h3>
+<p>We will start with HTML skeleton with jQuery already embedded in it from Google.</p>
+<p>Inside HTML we have three buttons, these buttons will be used for getting different kind of wines from our serverside.</p>
+<p>There is also a div where the wines will appear after being fetched from serverside.<br>
+Add the Javascript code below to line 7.</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+
+&lt;head&gt;
+
+&lt;title&gt;jQuery Ajax Example with JSON Response&lt;/title&gt;
+
+&lt;script src\=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js&quot; type\=&quot;text/javascript&quot;\&gt;&lt;/script&gt;
+
+&lt;!-- Write Javascript code here --&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;form method\=&quot;post&quot; action\=&quot;&quot;\&gt;
+
+    &lt;button value\=&quot;all&quot; type\=&quot;submit&quot;\&gt;Get All Wines!&lt;/button&gt;
+
+    &lt;button value\=&quot;red&quot; type\=&quot;submit&quot;\&gt;Get Red Wines!&lt;/button&gt;
+
+    &lt;button value\=&quot;white&quot; type\=&quot;submit&quot;\&gt;Get White Wines!&lt;/button&gt;
+
+  &lt;/form&gt;
+
+  &lt;div id\=&quot;wines&quot;\&gt;
+
+  &lt;!-- Javascript will print data in here when we have finished the page --&gt;
+
+  &lt;/div&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<h3 id="javascript" tabindex="-1">Javascript <a class="header-anchor" href="#javascript">#</a></h3>
+<p>Here we have the Javascript for the HTML.</p>
+<p>Basically we have a submit event that fires when a button is clicked.<br>
+Next we take the value of the button clicked and send it to serverside.php with jQuery’s ajax()-function. From this function we get back our JSON data which we’ll process on success.</p>
+<p>After that it’s simple if and else to append our #wines div.</p>
+<p>Add this to the HTML Skeleton in <code>HEAD</code> section.</p>
+<pre><code>&lt;script type\=&quot;text/javascript&quot;\&gt;
+
+$(document).ready(function(){
+
+  $(':submit').on('click', function() { // This event fires when a button is clicked
+
+    var button \= $(this).val();
+
+    $.ajax({ // ajax call starts
+
+      url: 'serverside.php', // JQuery loads serverside.php
+
+      data: 'button=' + $(this).val(), // Send value of the clicked button
+
+      dataType: 'json', // Choosing a JSON datatype
+
+    })
+
+    .done(function(data) { // Variable data contains the data we get from serverside
+
+      $('#wines').html(''); // Clear #wines div
+
+      if (button \== 'all') { // If clicked buttons value is all, we post every wine
+
+        for (var i in data.red) {
+
+          $('#wines').append('Red wine: ' + data.red\[i\] + '&lt;br/&gt;');
+
+        }
+
+        for (var i in data.white) {
+
+          $('#wines').append('White wine: ' + data.white\[i\] + '&lt;br/&gt;');
+
+        }
+
+      }
+
+      else if (button \== 'red') { // If clicked buttons value is red, we post only red wines
+
+        for (var i in data) {
+
+          $('#wines').append('Red wine: ' + data\[i\] + '&lt;br/&gt;');
+
+        }
+
+      }
+
+      else if (button \== 'white') { // If clicked buttons value is white, we post only white wines
+
+        for (var i in data) {
+
+          $('#wines').append('White wine: ' + data\[i\] + '&lt;br/&gt;');
+
+        }
+
+      }
+
+    });
+
+    return false; // keeps the page from not refreshing
+
+  });
+
+});
+
+&lt;/script&gt;
+</code></pre>
+<h3 id="serverside" tabindex="-1">Serverside <a class="header-anchor" href="#serverside">#</a></h3>
+<p>Now we need the serverside where Ajax will connect, create this file by the name of <code>serverside.php</code> if you wish everything to run smoothly.</p>
+<p>This simple php gets clicked buttons value sent from our Ajax-function. After that we create a multidimensional data table.</p>
+<p>Finally we do a PHP’s JSON-encoding and if else the right table to send back to Ajax.</p>
+<pre><code>&lt;?php
+
+// Get value of clicked button
+
+$button \= $\_GET\['button'\];
+
+// Red wine table
+
+$red \= array('Chianti', 'Barolo', 'Pinot Noir');
+
+$white \= array('Chardonnay', 'Cava', 'Chablis');
+
+// Combine red and white tables into one multidimensional table
+
+$winetable \= array(
+
+  &quot;red&quot; \=\&gt; $red,
+
+  &quot;white&quot; \=\&gt; $white,
+
+);
+
+// Finally depending on the button value, JSON encode our winetable and print it
+
+if ($button \== &quot;red&quot;) {
+
+  print json\_encode($red);
+
+}
+
+else if ($button \== &quot;white&quot;) {
+
+  print json\_encode($white);
+
+}
+
+else {
+
+  print json\_encode($winetable);
+
+}
+
+?&gt;
+</code></pre>
+<p>These codes will produce a working HTML site with jQuery doing some cool Ajax! You can use them as a skeleton when you are building your own Ajax based website.</p>
+<h3 id="more-javascript-coming-soon" tabindex="-1">More Javascript Coming Soon! <a class="header-anchor" href="#more-javascript-coming-soon">#</a></h3>
+<p>I hope you have learned to do Ajax with jQuery from this example and can use this example maybe for something cool and useful! I’m gonna post more Javascript themed topics in the near future, so follow my Twitter to find out about new posts.</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/less-mixins-example/">Less Mixins Example</a></li><li>Next: <a href="/lennunet/2015/zeplin-collaboration-tool-review/">Zeplin Collaboration Tool Review</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2015/jquery-ajax-example-with-json-response/ -->
+	</body>
+</html>

@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Finnish Education System</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>Finnish Education System</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2015-01-15">15 January 2015</time></li>
+</ul>
+
+<p>Finland started the process of educating me when I was six years old. Usually they start this when the citizen is seven but they took me in because I was born in January and was pretty close being seven. So I was six and the government had enough of looking me just running around without purpose. They launched me to the many times cited the best education system in the world.</p>
+<p>What would the Finnish Education System teach me? What would I become and where the would the system take me after the process which for me lasted 16 years?</p>
+<h2 id="comprehensive-school" tabindex="-1">Comprehensive School <a class="header-anchor" href="#comprehensive-school">#</a></h2>
+<p>I was six years old and government wanted me start studying. In Finland the primary school is divided into two parts. First part is for the citizens aged 7-13 and the second is for the citizens aged 13-16.</p>
+<h3 id="primary-education" tabindex="-1">Primary Education <a class="header-anchor" href="#primary-education">#</a></h3>
+<p>I don’t really remember my first day in school but I remember that my father showed me the way. I had to take a bus to reach my destination and that it was funny to try outrun the bus after hopping off of it. The first two years was mainly learning to read and write properly and we also had mathematics to teach us the multiplication table. I also took part in some speech courses where I learned to pronounce letter R the right way, it was some kind of bonus course but really worth the time. These first two years formed mostly from four hours per day of education and there were a lot of sports also involved in the experience.</p>
+<p>After the first two years, areas of nature sciences and foreign languages were added into the picture. The 10 year old citizens also were taught about handwork which included workshops with items made of wood. This is where the first choices had to be made about the education areas. Each student (parents) could choose from woodwork or sewing, you also had to choose if you wanted to learn Swedish or English as a second language, I went for English.</p>
+<p>The last four years of Primary Education went fast because in those years we saw a computer for the first time in the education process, this was about the year of 2000. We rushed to play RuneScape which was a hugely popular game at the time. Computers came into the picture and some even had own computers at their homes. Everyday we went to someone and played RuneScape for a long time.</p>
+<p>I started in school at the age of six and I had been in school for six years. Mother tongue and mathematics were generally the most important areas in Primary Education and they prepared us for the Lower Secondary Education very well. So I had learned these areas well. Of course we had biology, geography, arts, history and all these things but they weren’t nearly as important as it was to teach us how to multiply correctly. I was 12 years old and I knew how to read and write finnish, speak, read and write some english and multiply correctly. All the other things that were not so important had located in brain into the area of common knowledge. I was playing football a lot at the time and I was pretty good at it because I had been training for six years, but as we know government doesn’t really care about that. So I was going to step on the next step and I was ready to conquer to world!</p>
+<h3 id="lower-secondary-education" tabindex="-1">Lower Secondary Education <a class="header-anchor" href="#lower-secondary-education">#</a></h3>
+<p>And we started to learn mother tongue, mathematics and foreign languages. Of course the difficulty rose a lot but we still mainly focused for the last years of Comprehensive School to these elements.</p>
+<p>At this stage of life when you are about 12-15 year old, you start to realize that there are something else out there than just school and you go through a huge mental growth. I wasn’t really interested or focused to the mission of education at the time because I thought it was boring and stupid. I played a lot of video games and tried out new things, none of these mattered to the Education System, they still wanted us to learn about the subjects we had studied over half of our lives. These are important topics but they just didn’t interest me at the time. Well I learned them somehow anyway.</p>
+<p>Lower Secondary Education lasts for three years and you need to succeed on everything in order to graduate from Primary Education, if you don’t, you have a chance to be facing a another year in the Lower Secondary Education and that was a huge motivation for everyone. At this point Finnish Education System pushes the students to learn everything and well because of this and for another reason. The next study place you get is solely chosen by the results of your studies, if you are bad enough the government might think that the education for you is over.</p>
+<p>So the main three areas were still the most important and we all learned them very well. We also had mandatory classes about the language of Sweden and general subjects such as biology, history or chemistry.</p>
+<p>Lower Secondary Education ended about at the age of 15. This is the last mandary step the government required you to do. If you don’t want to continue, you don’t have to. Most of us of course continued to Upper Secondary General School or Upper Secondary Vocational School, I went for both. Suddenly there is a huge decision to be made after nine years of Primary School, how to continue your education and where to focus? You could choose a more professionally developed path or continue with the general subjects.</p>
+<p>At this point I had learned a lot how the world works but I really didn’t know at all why I knew these things and why I had been studying them. Because I had always liked computers and spend a lot of time with them, I went for double degree to study general subjects and computer science.</p>
+<h2 id="upper-secondary-general-vocational-school" tabindex="-1">Upper secondary general/vocational school <a class="header-anchor" href="#upper-secondary-general-vocational-school">#</a></h2>
+<p>I applied to this school and went even through psychological tests to qualify. This was a huge game changer and changed everything for me in terms of education. The first day of this school started in a computer classroom. I was sold at the very moment.</p>
+<p>I started to really focus on school and got great results on the subjects that I had interest in. I met with a lot of same minded people and collaborated with them to projects and studies.</p>
+<p>For three years we studied programming with Java, relational databases with SQL, websites and computer science in general. They interested me so much that I bought this domain and started to do something in the internet. You can check archive.org of this site if you are interested.</p>
+<p>As I had chosen double degree, I had some general topics also about math, mother tongue and english. This was a good option for me since they were not the main subjects anymore, but they were the extra studies, that somehow got me interested more about them.</p>
+<p>So finally the education system had found my interest in life and where I could make myself a living one day. I managed to do the double degree in three years which was kind of achievement considering that the path is made for four and a half years. The last episode was training where I did websites for six months and the final matriculation examination of the other side of the double degree. Everything went fine.</p>
+<p>At this point it was 2009 and I was 18 years old. For many who hasn’t done double degree, this is the hardest part, because this is the last stage where you can decide what you are going to do for the rest of your life, or at least some time. It was the time to apply for universities. As I had made my choice of career three years ago, I decided to apply to University of Applied Sciences. Thats the more professionally valued university option in the education of Finland.</p>
+<h2 id="university" tabindex="-1">University <a class="header-anchor" href="#university">#</a></h2>
+<p>I got right in on the application process which were due to my good success in computer sciences and the fact that I had a double degree. I was on computer science study path and I suddendly realized that the stuff they are teaching is the same stuff I had learned over the last three years. So, the subjects were very familiar for me and I got great grades of all the computer science related classes. We also had mathematics, mother tongue and foreign languages, as we had had over the last twelve years. Well it didn’t matter so much as I had my interest in other areas, and these subjects carried on with me.</p>
+<p>I chose the innovation path as a deepening subject and found out great new things how to do programming and how to make robots and such things. I went active on the student union and had quite great times with them, but I always had in mind that I’m here to learn.</p>
+<p>The years went on and I gathered as much information as I could, but at the end I think the hardest things I had to do were as hard as the things I had done already on my double degree. So there were no challenge as I had hoped. I had good papers graduating, and I though now is the time to use my skills.</p>
+<p>After the university I went right into army and did my six months of service for the country. I applied for jobs and got to pretty good one where I code daily, doing websites with HTML, CSS, PHP and Javascript.</p>
+<h2 id="finnish-education-system" tabindex="-1">Finnish Education System <a class="header-anchor" href="#finnish-education-system">#</a></h2>
+<p>So after the university, I had studied for sixteen years in Finland and I was 22 years old. Remember? I was six years old when I started. I could have applied for masters degree if I wanted but I had had enough.</p>
+<p>As a conclusion I could say it was a great ride and the last seven years were the best. The Education system of Finland was done for me. It gave me a career, friends, love and most importantly: a future.</p>
+<p>I’m working now full time and may return some day to do the masters degree, who knows. At this point Finland has taught me how to read, write, foreign languages, mathematics and other general subjects. And most importantly I have learned how to use the skills by creating something amazing with computer sciences. That was the catch I think of all the learning of those general subjects.</p>
+<p>How I would rate the education in Finland? 5/5</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/egit-configuration-and-creating-a-git-repository-with-eclipse-ide/">EGit Configuration &amp; Creating a Git Repository With Eclipse IDE</a></li><li>Next: <a href="/lennunet/2015/html5-responsive-design-guide-and-skeleton/">HTML5 Responsive Design Guide and Skeleton</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2015/finnish-education-system/ -->
+	</body>
+</html>

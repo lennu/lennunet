@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>WebGoat Access Control Flaws and Dangers of Eval</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>WebGoat Access Control Flaws and Dangers of Eval</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2020-04-26">26 April 2020</time></li>
+</ul>
+
+<p>In this post I’ll try out four different WebGoat assignments and analyze them in relation to OWASP 10 and the real world.</p>
+<h2 id="using-an-access-control-matrix" tabindex="-1">Using an Access Control Matrix <a class="header-anchor" href="#using-an-access-control-matrix">#</a></h2>
+<p>This assignment can be solved just by trying out different users and finding out which of them can access Account Manager. The answer is Larry.</p>
+<p>This is a OWASP 10 Broken Authentication problem because any user can assume the role of Larry just by trying out.</p>
+<p>Similar kind of vulnerability could be found on any system where access is not restricted with password or similar mechanism. For example on my <a href="https://www.lennu.net/security-incident-of-zoom-video-conferences-video-files-found-from-a-search-engine/">Zoom incident post</a> there was a case that just by knowing the URL the adversary could watch private videos. In my opinion this is a very common issue and secrets are lying around in the internet for any explorer to find.</p>
+<p>This could easily be prevented by protecting private information with passwords or some other authentication mechanism. For example in this WebGoat exercise there should’ve been a password field and a server side check for it before revealing the access to Account Manager.</p>
+<h2 id="bypass-a-path-based-access-control-scheme" tabindex="-1">Bypass a Path Based Access Control Scheme <a class="header-anchor" href="#bypass-a-path-based-access-control-scheme">#</a></h2>
+<p>The idea here is to access private file called <code>WEB-INF/spring-security.xml</code> in the underlying filesystem. As I knew that this file would probably be somewhere under the current directory where the software is running I just tried different lengths of sub directory command. This can be achieved by modifying the Document object model with browser developer tools. Change one of the <code>&lt;option&gt;</code> elements in <code>&lt;select&gt;</code> to have value of <code>../../../../../WEB-INF/spring-security.xml</code> and select and click View File.</p>
+<p>This is a OWASP 10 Broken Access Control issue because server lets users access files outside the web directory.</p>
+<p>This could be used very maliciously by an attacker to find out private information from the server. For example to look for database files and downloading them from the server. I think it used to be more common but now a lot of the web frameworks in use protect users automatically from this.</p>
+<p>It can be prevented by using <code>.htaccess</code> file by configuring the users to only have access to certain directories. Also it is necessary to have proper role and user management active within the software that is used to publish such websites. Lastly one shouldn’t make such programs that directly point to file paths withing the system. The accessible files should be saved to a database for example.</p>
+<h2 id="bypass-presentational-layer-access-control" tabindex="-1">Bypass Presentational Layer Access Control <a class="header-anchor" href="#bypass-presentational-layer-access-control">#</a></h2>
+<p>In this WebGoat assignment the user Tom needs to be deleted. I found it quite easy and mostly guessed that by changing the value of the button you can send different commands to the server. You login to Tom’s account and go to ViewProfile where you open browser’s developer tools and edit the button of EditProfile. Change button’s value from <code>EditProfile</code> to <code>DeleteProfile</code> and click the button.</p>
+<p>As the title says this is OWASP 10 Broken Access Control issue.</p>
+<p>I think this vulnerability doesn’t come visible to normal users as it requires code modifications but in real life this can be done very easily. For example it could be interesting to go important services like bank websites and try this out. There could be any actions available for the user they didn’t know of. For example <code>GiveAdminPermissions</code> could be nice. As was stated before Broken Access Control is usually protected by good frameworks but mistakes do happen and something like this where user has greater access to the software happen probably quite often.</p>
+<p>Modifying the source code of a website can be considered a malicious attempt and it’s important to protect against these kind of security issues. This can be ensured by making sure logged in users are assigned only the privileges they need. Software should follow least privilege principle which means in practice that software developer should start always from zero privileges when creating a role and give privileges when needed.</p>
+<h2 id="dangerous-use-of-eval" tabindex="-1">Dangerous Use of Eval <a class="header-anchor" href="#dangerous-use-of-eval">#</a></h2>
+<p>In this WebGoat task the mission is to inject code into the web browser. The requirement is to use alert to view document.cookie. I looked into the code and found out a clue that the software is using eval. The solution is to insert <code>543');alert(document.cookie);('</code> into the three digit access code input field.</p>
+<p>This is a classic OWASP 10 Cross-Site Scripting XSS issue. In this task we are running malicious code on the users browser to view cookie information.</p>
+<p>If some mechanism allows the attacked to modify users browser then in real life an attacker could for example send data from the browser or modify the browser so that user would do something harmful. Also any kind of intrusion the organizations web pages is very harmful as it shows weakened security in the organization. This kind of issues come and go since web browsers protect users many of the common cross-site scripting issues but web developer can accidentally build such vulnerabilities for the attackers.</p>
+<p>Companies may protect against this kind of issue by ensuring code quality is good and all external libraries and use of them is identified and researched. Adversaries are interested of web pages where there are a lot of traffic and try find all the security holes available. Also the use of eval should be forbidden in any user initiated context as its very insecure function.</p>
+<p><em>This was the third assignment of <a href="http://terokarvinen.com/2020/ict-security-basics-from-trust-to-blockchain-itc4hm003-3001-2020-spring/">ICT Security Basics</a>.</em></p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2020/strategic-approach-on-ict-security/">Strategic approach on ICT security</a></li><li>Next: <a href="/lennunet/2020/cia-triad-and-encryption-examples/">CIA Triad and Encryption Examples</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2020/webgoat-access-control-flaws-and-dangers-of-eval/ -->
+	</body>
+</html>

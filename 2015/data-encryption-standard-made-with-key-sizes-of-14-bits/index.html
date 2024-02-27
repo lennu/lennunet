@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Data Encryption Standard Made With Key Sizes of 14 Bits</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>Data Encryption Standard Made With Key Sizes of 14 Bits</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2015-01-15">15 January 2015</time></li>
+</ul>
+
+<p><picture><source type="image/avif" srcset="/lennunet/img/3iNENlYjMb-360.avif 360w"><source type="image/webp" srcset="/lennunet/img/3iNENlYjMb-360.webp 360w"><img alt="Cipher" loading="lazy" decoding="async" src="/lennunet/img/3iNENlYjMb-360.png" width="360" height="156"></picture></p>
+<p>Today I would like to share you the power of cryptography.</p>
+<p>I made this software 2011 in Eindhoven, Netherlands (country of cryptography) where I was having my exchange studies at the time.</p>
+<p>The software is about the Data Encryption Standard or DES, however you like to call it.</p>
+<h2 id="des-with-14-bits" tabindex="-1">DES With 14 Bits <a class="header-anchor" href="#des-with-14-bits">#</a></h2>
+<p>Data Encryption Standard is the old queen of cryptography, which eventually got caught for being too easy to solve. There is a great article in <a href="https://en.wikipedia.org/wiki/Data_Encryption_Standard">Wikipedia</a> about the topic and how it has influenced modern cryptography.</p>
+<p>What I did was kinda experiment if I could code this thing together with some tweaking to the original Standard. DES was created to encrypt with key sizes of 56 bits and block sizes of 64 bits doing 16 rounds of crypting in total.</p>
+<p>To learn the standard and the basics of cryptography, I chose to do it with key sizes of 14 bits and block sizes of 16 bits doing 2 rounds of crypting in total. I actually succeeded on this and did a little software with Python to prove it.</p>
+<h2 id="mathematics" tabindex="-1">Mathematics <a class="header-anchor" href="#mathematics">#</a></h2>
+<p>Here are the mathematics from my version of the Data Encryption Standard.</p>
+<h3 id="permutations" tabindex="-1">Permutations <a class="header-anchor" href="#permutations">#</a></h3>
+<pre><code>PC1 = [12,  5, 14,  1, 10,  2, 6,
+	9, 15,  4, 13,  7, 11, 3]
+ 
+PC2 = [  6, 11, 4,  8, 13, 3,
+	12,  5, 1, 10,  2, 9]
+ 
+IP = [   2, 14,  6, 10,
+	12,  8, 16,  4,
+	 5, 13,  3,  9,
+	11,  1, 15,  7]
+ 
+IP-1 = [ 14, 1, 11, 8,
+	 9, 3, 16, 6,
+	12, 4, 13, 5,
+	10, 2, 15, 7]
+ 
+E = [   8, 1, 2, 3, 4, 5,
+	4, 5, 6, 7, 8, 1]
+ 
+S = [
+	[ 4, 11,  2, 14, 15, 0,  8, 13,  3, 12, 9,  7,  5, 10, 6,  1,
+	 13,  0, 11,  7,  4, 9,  1, 10, 14,  3, 5, 12,  2, 15, 8,  6,
+	  1,  4, 11, 13, 12, 3,  7, 14, 10, 15, 6,  8,  0,  5, 9,  2,
+	  6, 11, 13,  8,  1, 4, 10,  7,  9,  5, 0, 15, 14,  2, 3, 12],
+ 
+	[13,  2,  8, 4,  6, 15, 11,  1, 10,  9,  3, 14,  5,  0, 12,  7,
+	  1, 15, 13, 8, 10,  3,  7,  4, 12,  5,  6, 11,  0, 14,  9,  2,
+	  7, 11,  4, 1,  9, 12, 14,  2,  0,  6, 10, 13, 15,  3,  5,  8,
+	  2,  1, 14, 7,  4, 10,  8, 13, 15, 12,  9,  0,  3,  5,  6, 11]
+]
+ 
+P = [   6, 4, 7, 3,
+	5, 1, 8, 2]
+</code></pre>
+<h3 id="calculations" tabindex="-1">Calculations <a class="header-anchor" href="#calculations">#</a></h3>
+<p>We choose a sub key K’ of 12 bits</p>
+<pre><code>000110 110000
+</code></pre>
+<p>Calculations of F(R, K’) as R = 1011 0110</p>
+<pre><code>E(R) = 010110 101101
+K (+) E(R) = 010000 011101
+S7(B1)S8(B2) = 0011 1001
+F(R, K') = 0101 1010
+</code></pre>
+<p>We choose a key K of 16 bits</p>
+<pre><code>0100 0110 0100 1001
+</code></pre>
+<p>And calculate the two keys K1 and K2</p>
+<pre><code>K+ = 0000 1110 0011 00
+C0 = 0000111
+D0 = 0001100
+C1 = 0111000
+D1 = 1100000
+C2 = 1000011
+D2 = 0000110
+K1 = 001101000011
+K2 = 100010101000
+</code></pre>
+<p>We choose an input I of 15 bits (e.g. the ASCI-coding of the characters ‘v’ and ‘b’)</p>
+<pre><code>0111 0110 0110 0001
+</code></pre>
+<p>And encrypt I using the DESHI-algorithm where we use the given IP and the calculated K1, K2 and IP-1.</p>
+<pre><code>IP = 1011 0001 0010 1011
+L0 = 1011 0001
+R0 = 0010 1011
+R1 = L0 (+) F(R0, K1)
+E(R0) = 100101 010110
+K1 = 001101000011
+K1 (+) E(R0) = 101000 010101
+S7(B1) S8(B2) = 1100 0110
+F(R, K’) = 1010 0101
+R1 = L0 (+) F(R0, K1) = 0001 0100
+L1 = R0 = 0010 1011
+R2 = L0 (+) F(R1, K2)
+E(R1) = 000010 101000
+K2 = 1000010 101000
+K2 (+) E(R1) = 100000 000000
+S7(B1) S8(B2) = 0001 1101
+F(R, K’) = 1100 1010
+R2 = L1 (+) F(R1, K2) = 1110 0001
+L2 = R0 = 0001 0100
+R2L2 = 1110 0001 0001 0100
+ 
+IP-1 = 1101 0100 1000 0100
+</code></pre>
+<h2 id="software" tabindex="-1">Software <a class="header-anchor" href="#software">#</a></h2>
+<p>Program is made with Python version 3.2. The program can probably be run if the system has 3.0 or newer version of Python, but only tested with 3.2. The latest version can be downloaded from: <a href="https://www.python.org/download/">http://www.python.org/download/</a>. The program can be used in Linux or Windows as long as there is Python installed into the system.</p>
+<p>Here are some screenshots with the same examples as used in the earlier handwritten DES encryption.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/o3LaTsIXpO-360.avif 360w"><source type="image/webp" srcset="/lennunet/img/o3LaTsIXpO-360.webp 360w"><img alt="Key and Message" loading="lazy" decoding="async" src="/lennunet/img/o3LaTsIXpO-360.png" width="360" height="156"></picture></p>
+<p>After clicking the encrypt button.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/3iNENlYjMb-360.avif 360w"><source type="image/webp" srcset="/lennunet/img/3iNENlYjMb-360.webp 360w"><img alt="Cipher" loading="lazy" decoding="async" src="/lennunet/img/3iNENlYjMb-360.png" width="360" height="156"></picture></p>
+<p>After clicking the decrypt button</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/gXBQSfOa8n-360.avif 360w"><source type="image/webp" srcset="/lennunet/img/gXBQSfOa8n-360.webp 360w"><img alt="Decrypted" loading="lazy" decoding="async" src="/lennunet/img/gXBQSfOa8n-360.png" width="360" height="156"></picture></p>
+<h3 id="usage" tabindex="-1">Usage <a class="header-anchor" href="#usage">#</a></h3>
+<p>This was just an experiment if I could learn DES and some cryptography, this software should not be used in real life situations. The method I used actually made DES weaker against attacks because I did it with less bits than the usual version. I hope maybe someone may find this information useful and maybe learn some cryptography. In my opinion it’s a really complex world and so much different from traditional software development, because of the mathematics that are included.</p>
+<h3 id="source-code" tabindex="-1">Source Code <a class="header-anchor" href="#source-code">#</a></h3>
+<p>Here is the source code for this software. To run the software, just copy/paste the code into .py file and run it.</p>
+<pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment"># GNU GPL</span><br><span class="token comment"># des.py - Python version used: 3.2</span><br> <br><span class="token keyword">from</span> tkinter <span class="token keyword">import</span> <span class="token operator">*</span>	<span class="token comment"># UI tool import</span><br><span class="token keyword">from</span> tkinter<span class="token punctuation">.</span>messagebox <span class="token keyword">import</span> showerror	<span class="token comment"># copies showerror</span><br>fieldnames <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token string">'key'</span><span class="token punctuation">,</span> <span class="token string">'message'</span><span class="token punctuation">,</span> <span class="token string">'cipher'</span><span class="token punctuation">,</span> <span class="token string">'binary'</span><span class="token punctuation">)</span><br> <br>pc1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">12</span><span class="token punctuation">,</span>  <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span>  <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span>  <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span><br>	<span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span>  <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span>  <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><br> <br>leftshifts <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><br> <br>pc2 <span class="token operator">=</span> <span class="token punctuation">[</span>  <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span>  <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span><br>	<span class="token number">12</span><span class="token punctuation">,</span>  <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span>  <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">]</span><br> <br>ip <span class="token operator">=</span> <span class="token punctuation">[</span>   <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span>  <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span><br>	<span class="token number">12</span><span class="token punctuation">,</span>  <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">,</span>  <span class="token number">4</span><span class="token punctuation">,</span><br>	 <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span>  <span class="token number">3</span><span class="token punctuation">,</span>  <span class="token number">9</span><span class="token punctuation">,</span><br>	<span class="token number">11</span><span class="token punctuation">,</span>  <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span>  <span class="token number">7</span><span class="token punctuation">]</span><br> <br>e <span class="token operator">=</span> <span class="token punctuation">[</span>   <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span><br>	<span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><br>s <span class="token operator">=</span> <span class="token punctuation">[</span><br>	<span class="token punctuation">[</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span>  <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span>  <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span>  <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span>  <span class="token number">7</span><span class="token punctuation">,</span>  <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span>  <span class="token number">1</span><span class="token punctuation">,</span><br>	 <span class="token number">13</span><span class="token punctuation">,</span>  <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span>  <span class="token number">7</span><span class="token punctuation">,</span>  <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span>  <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span>  <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span>  <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span>  <span class="token number">6</span><span class="token punctuation">,</span><br>	  <span class="token number">1</span><span class="token punctuation">,</span>  <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span>  <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span>  <span class="token number">8</span><span class="token punctuation">,</span>  <span class="token number">0</span><span class="token punctuation">,</span>  <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span>  <span class="token number">2</span><span class="token punctuation">,</span><br>	  <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span>  <span class="token number">8</span><span class="token punctuation">,</span>  <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span>  <span class="token number">7</span><span class="token punctuation">,</span>  <span class="token number">9</span><span class="token punctuation">,</span>  <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span>  <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">]</span><span class="token punctuation">,</span><br> <br>	<span class="token punctuation">[</span><span class="token number">13</span><span class="token punctuation">,</span>  <span class="token number">2</span><span class="token punctuation">,</span>  <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span>  <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span>  <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span>  <span class="token number">9</span><span class="token punctuation">,</span>  <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span>  <span class="token number">5</span><span class="token punctuation">,</span>  <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span>  <span class="token number">7</span><span class="token punctuation">,</span><br>	  <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span>  <span class="token number">3</span><span class="token punctuation">,</span>  <span class="token number">7</span><span class="token punctuation">,</span>  <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span>  <span class="token number">5</span><span class="token punctuation">,</span>  <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span>  <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span>  <span class="token number">9</span><span class="token punctuation">,</span>  <span class="token number">2</span><span class="token punctuation">,</span><br>	  <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span>  <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span>  <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span>  <span class="token number">2</span><span class="token punctuation">,</span>  <span class="token number">0</span><span class="token punctuation">,</span>  <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span>  <span class="token number">3</span><span class="token punctuation">,</span>  <span class="token number">5</span><span class="token punctuation">,</span>  <span class="token number">8</span><span class="token punctuation">,</span><br>	  <span class="token number">2</span><span class="token punctuation">,</span>  <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span>  <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span>  <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span>  <span class="token number">9</span><span class="token punctuation">,</span>  <span class="token number">0</span><span class="token punctuation">,</span>  <span class="token number">3</span><span class="token punctuation">,</span>  <span class="token number">5</span><span class="token punctuation">,</span>  <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">]</span><br><span class="token punctuation">]</span><br>p <span class="token operator">=</span> <span class="token punctuation">[</span>   <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span><br>	<span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><br> <br>ip1 <span class="token operator">=</span> <span class="token punctuation">[</span> <span class="token number">14</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span><br>	 <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span><br>	<span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span><br>	<span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">]</span><br> <br><span class="token keyword">def</span> <span class="token function">makeWidgets</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>	<span class="token comment"># makeWidgets function</span><br>	<span class="token keyword">global</span> entries<br>	window <span class="token operator">=</span> Tk<span class="token punctuation">(</span><span class="token punctuation">)</span><br>	window<span class="token punctuation">.</span>title<span class="token punctuation">(</span><span class="token string">'DES'</span><span class="token punctuation">)</span><br>	form <span class="token operator">=</span> Frame<span class="token punctuation">(</span>window<span class="token punctuation">)</span><br>	form<span class="token punctuation">.</span>pack<span class="token punctuation">(</span><span class="token punctuation">)</span><br>	entries <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><br>	<span class="token keyword">for</span><span class="token punctuation">(</span>ix<span class="token punctuation">,</span> label<span class="token punctuation">)</span> <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>fieldnames<span class="token punctuation">)</span><span class="token punctuation">:</span>	<span class="token comment"># creation of labels and entries into two columns</span><br>		lab <span class="token operator">=</span> Label<span class="token punctuation">(</span>form<span class="token punctuation">,</span> text<span class="token operator">=</span>label<span class="token punctuation">)</span><br>		ent <span class="token operator">=</span> Entry<span class="token punctuation">(</span>form<span class="token punctuation">,</span> width<span class="token operator">=</span><span class="token number">50</span><span class="token punctuation">)</span><br>		lab<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span>ix<span class="token punctuation">,</span> column<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span><br>		ent<span class="token punctuation">.</span>grid<span class="token punctuation">(</span>row<span class="token operator">=</span>ix<span class="token punctuation">,</span> column<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span><br>		entries<span class="token punctuation">[</span>label<span class="token punctuation">]</span> <span class="token operator">=</span> ent<br>	Button<span class="token punctuation">(</span>window<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">'Encrypt'</span><span class="token punctuation">,</span> command<span class="token operator">=</span>en<span class="token punctuation">)</span><span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side<span class="token operator">=</span>TOP<span class="token punctuation">)</span>	<span class="token comment"># encrypt button, click takes to function en()</span><br>	Button<span class="token punctuation">(</span>window<span class="token punctuation">,</span> text<span class="token operator">=</span><span class="token string">'Decrypt'</span><span class="token punctuation">,</span> command<span class="token operator">=</span>de<span class="token punctuation">)</span><span class="token punctuation">.</span>pack<span class="token punctuation">(</span>side<span class="token operator">=</span>TOP<span class="token punctuation">)</span>	<span class="token comment"># decrypt button, click takes to function de()</span><br>	<span class="token keyword">return</span> window<br> <br><span class="token keyword">def</span> <span class="token function">stringToBits</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>	<span class="token comment"># string to bits function</span><br>	data <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token builtin">ord</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span> <span class="token keyword">for</span> c <span class="token keyword">in</span> data<span class="token punctuation">]</span>	<span class="token comment"># creates unicodes to list</span><br>	result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><br>	<span class="token keyword">for</span> ch <span class="token keyword">in</span> data<span class="token punctuation">:</span><br>		i <span class="token operator">=</span> <span class="token number">7</span><br>		<span class="token keyword">while</span> i <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">:</span>	<span class="token comment"># bit selection</span><br>			<span class="token keyword">if</span> ch <span class="token operator">&amp;</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">&lt;&lt;</span> i<span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span><br>				result<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><br>			<span class="token keyword">else</span><span class="token punctuation">:</span><br>				result<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><br>			i <span class="token operator">-=</span> <span class="token number">1</span><br>	<span class="token keyword">return</span> result	<span class="token comment"># returns a list of created bits</span><br> <br><span class="token keyword">def</span> <span class="token function">bitsToString</span><span class="token punctuation">(</span>bits<span class="token punctuation">)</span><span class="token punctuation">:</span>	<span class="token comment"># bits to string function</span><br>	strinG <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><br>	position <span class="token operator">=</span> <span class="token number">0</span><br>	a <span class="token operator">=</span> <span class="token number">0</span><br>	<span class="token keyword">while</span> position <span class="token operator">&lt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>bits<span class="token punctuation">)</span><span class="token punctuation">:</span><br>		a <span class="token operator">+=</span> bits<span class="token punctuation">[</span>position<span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span><span class="token number">7</span> <span class="token operator">-</span> <span class="token punctuation">(</span>position <span class="token operator">%</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><br>		<span class="token keyword">if</span> <span class="token punctuation">(</span>position <span class="token operator">%</span> <span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">7</span><span class="token punctuation">:</span><br>			strinG<span class="token punctuation">.</span>append<span class="token punctuation">(</span>a<span class="token punctuation">)</span><br>			a <span class="token operator">=</span> <span class="token number">0</span><br>		position <span class="token operator">+=</span> <span class="token number">1</span><br>	<span class="token keyword">return</span> <span class="token string">''</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token builtin">chr</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span> <span class="token keyword">for</span> a <span class="token keyword">in</span> strinG<span class="token punctuation">]</span><span class="token punctuation">)</span>	<span class="token comment"># returns a string of characters made from bytes</span><br> <br><span class="token keyword">def</span> <span class="token function">permutate</span><span class="token punctuation">(</span>table<span class="token punctuation">,</span> block<span class="token punctuation">)</span><span class="token punctuation">:</span>	<span class="token comment"># permutation function</span><br>	<span class="token keyword">return</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">map</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> block<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">,</span> table<span class="token punctuation">)</span><span class="token punctuation">)</span>	<span class="token comment"># returns the permutated list</span><br> <br><span class="token keyword">def</span> <span class="token function">createSubkeys</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> pc1<span class="token punctuation">,</span> pc2<span class="token punctuation">,</span> leftshifts<span class="token punctuation">)</span><span class="token punctuation">:</span>	<span class="token comment"># subkeys creation</span><br>	key <span class="token operator">=</span> permutate<span class="token punctuation">(</span>pc1<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> stringToBits<span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">)</span>	<span class="token comment"># pc1 permutation</span><br>	i <span class="token operator">=</span> <span class="token number">0</span><br>	L <span class="token operator">=</span> key<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">7</span><span class="token punctuation">]</span>	<span class="token comment"># slices the permutation into LEFT and RIGHT</span><br>	R <span class="token operator">=</span> key<span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token punctuation">]</span><br>	subkeys <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><br>	<span class="token keyword">while</span> i <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">:</span><br>		j <span class="token operator">=</span> <span class="token number">0</span><br>		<span class="token keyword">while</span> j <span class="token operator">&lt;</span> leftshifts<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">:</span> <span class="token comment"># leftshifts the bits from beginning to end</span><br>			L<span class="token punctuation">.</span>append<span class="token punctuation">(</span>L<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><br>			<span class="token keyword">del</span> L<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><br>			R<span class="token punctuation">.</span>append<span class="token punctuation">(</span>R<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><br>			<span class="token keyword">del</span> R<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><br>			j <span class="token operator">+=</span> <span class="token number">1</span><br>		subkeys<span class="token punctuation">.</span>append<span class="token punctuation">(</span>permutate<span class="token punctuation">(</span>pc2<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> L <span class="token operator">+</span> R<span class="token punctuation">)</span><span class="token punctuation">)</span>	<span class="token comment"># pc2 permutation</span><br>		i <span class="token operator">+=</span> <span class="token number">1</span><br>	<span class="token keyword">return</span> subkeys<br> <br><span class="token keyword">def</span> <span class="token function">des</span><span class="token punctuation">(</span>message<span class="token punctuation">,</span> ip<span class="token punctuation">,</span> e<span class="token punctuation">,</span> s<span class="token punctuation">,</span> p<span class="token punctuation">,</span> ip1<span class="token punctuation">,</span> subkeys<span class="token punctuation">,</span> crypt<span class="token punctuation">)</span><span class="token punctuation">:</span>	<span class="token comment"># des function</span><br>	<span class="token keyword">if</span> <span class="token keyword">not</span> message<span class="token punctuation">:</span><br>		<span class="token keyword">return</span> <span class="token string">""</span><br>	<span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span><br>		showerror<span class="token punctuation">(</span>title<span class="token operator">=</span><span class="token string">'Error'</span><span class="token punctuation">,</span> message<span class="token operator">=</span><span class="token string">'The message or encrypted data must be a multiple of 16 bits!'</span><span class="token punctuation">)</span><br>		<span class="token keyword">return</span> <span class="token string">""</span><br>	a <span class="token operator">=</span> <span class="token number">0</span><br>	result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><br>	<span class="token keyword">while</span> a <span class="token operator">&lt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">:</span><br>		cryptob <span class="token operator">=</span> stringToBits<span class="token punctuation">(</span>message<span class="token punctuation">[</span>a<span class="token punctuation">:</span>a<span class="token operator">+</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>	<span class="token comment"># gets part of the string and turns it to bits</span><br>		ipresult <span class="token operator">=</span> permutate<span class="token punctuation">(</span>ip<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> cryptob<span class="token punctuation">)</span>	<span class="token comment"># ip permutation</span><br>		L <span class="token operator">=</span> ipresult<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">8</span><span class="token punctuation">]</span>	<span class="token comment"># slices the variable into LEFT and RIGHT</span><br>		R <span class="token operator">=</span> ipresult<span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">:</span><span class="token punctuation">]</span><br>		<span class="token keyword">if</span> crypt <span class="token operator">==</span> <span class="token string">'en'</span><span class="token punctuation">:</span>	<span class="token comment"># sets the variables for the encryption or decryption</span><br>			it <span class="token operator">=</span> <span class="token number">0</span><br>			itadd <span class="token operator">=</span> <span class="token number">1</span><br>		<span class="token keyword">if</span> crypt <span class="token operator">==</span> <span class="token string">'de'</span><span class="token punctuation">:</span><br>			it <span class="token operator">=</span> <span class="token number">1</span><br>			itadd <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><br>		i <span class="token operator">=</span> <span class="token number">0</span><br>		<span class="token keyword">while</span> i <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">:</span>	<span class="token comment"># encryption</span><br>			R2 <span class="token operator">=</span> R<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><br>			R <span class="token operator">=</span> permutate<span class="token punctuation">(</span>e<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> R<span class="token punctuation">)</span>	<span class="token comment"># E permutation</span><br>			R <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">map</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">,</span> y<span class="token punctuation">:</span> x <span class="token operator">^</span> y<span class="token punctuation">,</span> R<span class="token punctuation">,</span> subkeys<span class="token punctuation">[</span>it<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># XOR the permutation</span><br>			B <span class="token operator">=</span> <span class="token punctuation">[</span>R<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span> R<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">]</span>	<span class="token comment"># slices the permutation into list B[0] and B[1]</span><br>			k <span class="token operator">=</span> <span class="token number">0</span><br>			bg <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token number">8</span><br>			position <span class="token operator">=</span> <span class="token number">0</span><br>			<span class="token keyword">while</span> k <span class="token operator">&lt;</span> <span class="token number">2</span><span class="token punctuation">:</span><br>				f <span class="token operator">=</span> <span class="token punctuation">(</span>B<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> B<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span>	<span class="token comment"># for clarification &lt;&lt; means left shifting and >> right shifting</span><br>				g <span class="token operator">=</span> <span class="token punctuation">(</span>B<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>B<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>B<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> B<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><br>				h <span class="token operator">=</span> s<span class="token punctuation">[</span>k<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token punctuation">(</span>f <span class="token operator">&lt;&lt;</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">+</span> g<span class="token punctuation">]</span> 				bg<span class="token punctuation">[</span>position<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>h <span class="token operator">&amp;</span> <span class="token number">8</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">3</span><br>				bg<span class="token punctuation">[</span>position <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>h <span class="token operator">&amp;</span> <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">2</span><br>				bg<span class="token punctuation">[</span>position <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>h <span class="token operator">&amp;</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">>></span> <span class="token number">1</span><br>				bg<span class="token punctuation">[</span>position <span class="token operator">+</span> <span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> h <span class="token operator">&amp;</span> <span class="token number">1</span><br>				position <span class="token operator">+=</span> <span class="token number">4</span><br>				k <span class="token operator">+=</span> <span class="token number">1</span><br>			R <span class="token operator">=</span> permutate<span class="token punctuation">(</span>p<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> bg<span class="token punctuation">)</span>	<span class="token comment"># P permutation</span><br>			R <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">map</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">,</span> y<span class="token punctuation">:</span> x <span class="token operator">^</span> y<span class="token punctuation">,</span> R<span class="token punctuation">,</span> L<span class="token punctuation">)</span><span class="token punctuation">)</span>	<span class="token comment"># XOR the permutation</span><br>			L <span class="token operator">=</span> R2<br>			i <span class="token operator">+=</span> <span class="token number">1</span><br>			it <span class="token operator">+=</span> itadd<br>		ip1result <span class="token operator">=</span> permutate<span class="token punctuation">(</span>ip1<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> R <span class="token operator">+</span> L<span class="token punctuation">)</span>	<span class="token comment"># ip-1 permutation</span><br>		result<span class="token punctuation">.</span>append<span class="token punctuation">(</span>bitsToString<span class="token punctuation">(</span>ip1result<span class="token punctuation">)</span><span class="token punctuation">)</span>	<span class="token comment"># adds the crypted part as string to result</span><br>		a <span class="token operator">+=</span> <span class="token number">2</span><br>	<span class="token keyword">return</span> <span class="token string">''</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span>result<span class="token punctuation">)</span>	<span class="token comment"># returns result list as one joined string</span><br> <br><span class="token keyword">def</span> <span class="token function">en</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>	<span class="token comment">#encrypt click</span><br>	crypt_click<span class="token punctuation">(</span><span class="token string">'en'</span><span class="token punctuation">)</span><br> <br><span class="token keyword">def</span> <span class="token function">de</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span> 	<span class="token comment">#decrypt click</span><br>	crypt_click<span class="token punctuation">(</span><span class="token string">'de'</span><span class="token punctuation">)</span><br> <br><span class="token keyword">def</span> <span class="token function">crypt_click</span><span class="token punctuation">(</span>crypttype<span class="token punctuation">)</span><span class="token punctuation">:</span>	<span class="token comment">#process of encryption or decryption depending of the click</span><br>	key <span class="token operator">=</span> entries<span class="token punctuation">[</span><span class="token string">'key'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>	<span class="token comment"># gets the key from the UI</span><br>	<span class="token keyword">if</span> <span class="token keyword">not</span> key<span class="token punctuation">:</span><br>		showerror<span class="token punctuation">(</span>title<span class="token operator">=</span><span class="token string">'Error'</span><span class="token punctuation">,</span> message<span class="token operator">=</span><span class="token string">'You have to enter a key!'</span><span class="token punctuation">)</span><br>	<span class="token keyword">else</span><span class="token punctuation">:</span><br>		<span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span><br>			showerror<span class="token punctuation">(</span>title<span class="token operator">=</span><span class="token string">'Error'</span><span class="token punctuation">,</span> message<span class="token operator">=</span><span class="token string">'The key must be 16 bits!'</span><span class="token punctuation">)</span><br>		<span class="token keyword">else</span><span class="token punctuation">:</span><br>			subkeys <span class="token operator">=</span> createSubkeys<span class="token punctuation">(</span>key<span class="token punctuation">,</span> pc1<span class="token punctuation">,</span> pc2<span class="token punctuation">,</span> leftshifts<span class="token punctuation">)</span>	<span class="token comment"># creation of subkeys in createSubkeys() functions</span><br>			<span class="token keyword">if</span> crypttype <span class="token operator">==</span> <span class="token string">'en'</span><span class="token punctuation">:</span>	<span class="token comment"># sets the variables to message or to cipher depending on what the user clicked</span><br>				textfrom <span class="token operator">=</span> <span class="token string">'message'</span><br>				textto <span class="token operator">=</span> <span class="token string">'cipher'</span><br>				entries<span class="token punctuation">[</span><span class="token string">'cipher'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> END<span class="token punctuation">)</span><br>			<span class="token keyword">else</span><span class="token punctuation">:</span><br>				textfrom <span class="token operator">=</span> <span class="token string">'cipher'</span><br>				textto <span class="token operator">=</span> <span class="token string">'message'</span>	<br>			messageOrCipher <span class="token operator">=</span> entries<span class="token punctuation">[</span>textfrom<span class="token punctuation">]</span><span class="token punctuation">.</span>get<span class="token punctuation">(</span><span class="token punctuation">)</span>	<span class="token comment"># gets message or cipher</span><br>			result <span class="token operator">=</span> des<span class="token punctuation">(</span>messageOrCipher<span class="token punctuation">,</span> ip<span class="token punctuation">,</span> e<span class="token punctuation">,</span> s<span class="token punctuation">,</span> p<span class="token punctuation">,</span> ip1<span class="token punctuation">,</span> subkeys<span class="token punctuation">,</span> crypttype<span class="token punctuation">)</span>	<span class="token comment"># actual result from the des() function</span><br>			binary <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token builtin">map</span><span class="token punctuation">(</span><span class="token builtin">str</span><span class="token punctuation">,</span> stringToBits<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>	<span class="token comment"># makes the binary of the result</span><br>			entries<span class="token punctuation">[</span>textfrom<span class="token punctuation">]</span><span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> END<span class="token punctuation">)</span>	<span class="token comment"># UI entry delete</span><br>			entries<span class="token punctuation">[</span>textto<span class="token punctuation">]</span><span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span>	<span class="token comment"># UI entry insert</span><br>			entries<span class="token punctuation">[</span><span class="token string">'binary'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>delete<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> END<span class="token punctuation">)</span><br>			entries<span class="token punctuation">[</span><span class="token string">'binary'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>insert<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> binary<span class="token punctuation">)</span><br>			<br> <br>window <span class="token operator">=</span> makeWidgets<span class="token punctuation">(</span><span class="token punctuation">)</span>	<span class="token comment"># creates the UI</span><br>window<span class="token punctuation">.</span>mainloop<span class="token punctuation">(</span><span class="token punctuation">)</span>	<span class="token comment"># mainloop of the UI to get actions</span></code></pre>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/automate-your-transmission-torrent-clients-with-puppet copy/automate-your-transmission-torrent-clients-with-puppet/">Automate Your Transmission Torrent Clients with Puppet</a></li><li>Next: <a href="/lennunet/2015/developing-for-android-phonegap-versus-native/">Developing for Android: PhoneGap versus Native</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2015/data-encryption-standard-made-with-key-sizes-of-14-bits/ -->
+	</body>
+</html>

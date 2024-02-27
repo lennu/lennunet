@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Windows, Mac, Linux</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>Windows, Mac, Linux</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2015-01-22">22 January 2015</time></li>
+</ul>
+
+<p><picture><source type="image/avif" srcset="/lennunet/img/YvMS5LRHgx-640.avif 640w"><source type="image/webp" srcset="/lennunet/img/YvMS5LRHgx-640.webp 640w"><img alt="Windows, Mac, Linux" loading="lazy" decoding="async" src="/lennunet/img/YvMS5LRHgx-640.png" width="640" height="250"></picture></p>
+<p>As long as I have lived we have had Windows, Mac and Linux operating systems. Windows is at it’s version of 8, Mac which operating system goes by the name of OS X is at its’ tenth version and Linux has a lot of different variations but the most used distribution is Ubuntu which is at version 14.10.</p>
+<p>This post based on my personal opinions of these operating systems and should be read that way. I have used Windows, Mac and Linux for considerably good time. I have based my thoughts on these moments and here I will give you a little tour of their strengths and weaknesses as Windows, Mac and Linux are ultimately the choices you have as a operting system. The idea for this post came at me when I was offered a brand new MacBook Pro at my workplace.</p>
+<h2 id="windows-mac-and-linux-comparison" tabindex="-1">Windows, Mac and Linux comparison <a class="header-anchor" href="#windows-mac-and-linux-comparison">#</a></h2>
+<p>As I said I have used Windows, Mac and Linux for a good time to know them well. Most of my time with computers I have spent with Windows. I have always had it home where I use it daily for media and gaming. I started to use Linux while I was at high school and where I got to install a web server for the first time. From that point I have used Linux on a weekly basis for operating my websites and did some cool project where I used Linux as a back end. I have also used its’ desktop utilities for many years on my laptop. Mac I haven’t used as much a the other two. I had a MacBook couple of years ago which worked very well and I used while studying.</p>
+<h3 id="windows" tabindex="-1">Windows <a class="header-anchor" href="#windows">#</a></h3>
+<p>Windows has always been my favourite operating system from the grand group of Windows, Mac and Linux. The easiness of it is the greatest thing, but as far as my knowledge has risen on Windows, you can do also the most advanced things with it.</p>
+<p>It is at its’ best when you just need a operating system which has great web browsing experience, gaming and working with a lot of files. Web browsers on Windows works great and the user interface of them combined to Windows is usually a very smooth experience.</p>
+<p>Windows is the most used and most supported operating system of Windows, Mac and Linux. Everything you need works on it and especially if you like gaming, you don’t have to fear that something wouldn’t work. The great hardware support on Windows is really effective matter, as most of the graphic cards are generally made especially for Windows.</p>
+<p>The user interface of Windows is by far the best of Windows, Mac and Linux. The ease of usage in all areas of Windows are the well cared to make the process as good as it can get. The combination of windows in Windows and your physical mouse can get anything done on fast pace. The file management is the grand jewel of Windows because it is brilliantly simple and you can navigate through them and find anything you need in no time.</p>
+<h3 id="mac" tabindex="-1">Mac <a class="header-anchor" href="#mac">#</a></h3>
+<p>Operating system of Mac is OS X, which is probably most modern system of Windows, Mac and Linux. It is very application based and has some of the best features there can be. The best thing about Mac is the grand ease of usage for people with very little computer skills. OS X guides you through everything and shows you the way if you are lost. So it is a safe choice for new people entering the world of computers.</p>
+<p>OS X is the second most used operating system used in desktop and laptop computer behind Windows. There are some things you can’t do with a Mac but usually those things that you can do are very well catered especially for Mac. The installation process of new applications is very straight forward compared to Windows. The user interface is very beautiful and gives a lot of inspiration to enthusiasts.</p>
+<p>As OS X is very similar to Linux deep down, it has a lot of its’ good sides, for example the command line interface. But if you are very experienced computer user and have been playing around with Windows and Linux for you entire life jumping into Mac can be a bit of a hassle. The file management is a mess and doesn’t feel like a good tool while using it. I can’t really tell what is the matter with it, but compared to Windows the file and window management feels very clumsy and complicated.</p>
+<p>One bad thing that bugs me every time I intend to start using Mac is the pressure of registering yourself an account to Apple services. OS X is the only platform that doesn’t give you the full properties of the operating system, if you are not registered to Apple.</p>
+<h3 id="linux" tabindex="-1">Linux <a class="header-anchor" href="#linux">#</a></h3>
+<p>Linux has been along very long time and mostly today it is used as a base for servers and phones because of its’ great features of customization. You can do anything with Linux. I have been using for many years Ubuntu Linux distribution on a server and on my laptop. Many think that using Linux on a laptop is weird and very hard. Actually <a href="http://www.ubuntu.com/">Ubuntu</a> has been made to be very easy even for the most inexperienced users. The best part of Linux is application installation system which in Ubuntu is called apt-get. It is a command line based application, and I call it the best package manager computer can have.</p>
+<p>If I were to start using one of Windows, Mac and Linux as a beginner I would be happy if someone gave me direction towards Linux systems. The moment you start using command line and get to know it gives you great power and helps you do daily tasks with such ease that cannot be found from other operating systems. For example updating the operating system and its’ application is done by two little commands: update and upgrade.</p>
+<p>The graphical user interface of Linux is usually the worst of Windows, Mac and Linux. There just ain’t such resources in the Linux development community to create as good user interface as commercialized Windows and Mac has. You can do pretty much anything you want as in other operating systems, but most of the functions feel a bit unfinished.</p>
+<p>So why would you choose Linux from the group of Windows, Mac and Linux? Well one thing that amazes me on a regular basis is that people doesn’t care that it is free. But it certainly is. You can download and install Linux to your computer any day. All the updates are free and you will have hard time looking for a Linux software that ain’t free. Linux is also the root system and can be customized to what ever you want. There are all the same things that are in Macs but lacks also the same things as Mac do from Windows. It is the best operating system out of Windows, Mac and Linux for people who want to know how to do tasks and not just do them.</p>
+<h2 id="conclusion" tabindex="-1">Conclusion <a class="header-anchor" href="#conclusion">#</a></h2>
+<p>Windows is the best operating system of the three, if you are looking for solid and very well supported operating system. The vast time spent to make the user interface as good as it is, is very impressive. Everything works and you can do anything you want with it.</p>
+<p>Mac is made to endure the user. If you want a cookie cutter system which does what you tell it to do, OS X does that the best of Windows, Mac and Linux. The experience will surely be the best and the most beautiful and you will become good friends with the operating system. There are some flaws like pressure for registering the system with Apple, and the lack of support for certain areas. The system can be customized but it is not intended. Personally I don’t like it at all because it closes you into its’ borders.</p>
+<p>Linux is the jack of all trades if you get to know it. The major thing about it the customization and how much you can do it. Linux can be the best operating system if you learn it well, but for even the most inexperienced users can found pure joy because nowadays Linux can also be the operating system for the first timers.</p>
+<p>Of Windows, Mac and Linux, Windows and Linux have been the greatest. Windows works always and is a speedy solution. Linux gives me abilities that Windows can’t achieve in a good way, and the great feeling of customization. Mac doesn’t do me anything since, its’ operating system OS X tries to bind me into it and make me forget everything else about computers.</p>
+<p>If you have a view which of the grand three is the best, let me know! Post a comment and share your thoughts.</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/css-shadow/">CSS Shadow</a></li><li>Next: <a href="/lennunet/2015/sleep-function-examples-popular-programming-languages/">Sleep Function Examples of Popular Programming Languages</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2015/window-mac-linux/windows-mac-linux/ -->
+	</body>
+</html>

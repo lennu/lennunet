@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Django deployment installation to Ubuntu 12.04 server</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>Django deployment installation to Ubuntu 12.04 server</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2015-01-15">15 January 2015</time></li>
+</ul>
+
+<p>Django is a web framework written in Python and as you may guess everything in Django is also done in Python. Django was developed to simplify the creation of database driven sites and principle of it is “don’t repeat yourself”. Best feature in Django is the fact that it propably is the fastest website framework to create a fully functioning website.</p>
+<p>When I developed a website with Django I stumbled upon one step, and that step was the deployment and publishing of Django driven website. There are a good tutorial about deploying Django on the official website and I followed it. Anyway there are alot of things in that tutorial that are not explained and you just need to know.</p>
+<p>So here is a full step by step tutorial for deploying Django 1.6 web framework. I have tested this tutorial with Ubuntu 12.04.</p>
+<p>Requirements for this tutorial</p>
+<ul>
+<li>Linux knowledge</li>
+<li>Fresh Ubuntu 12.04 installation on a server</li>
+<li>Root access to that server</li>
+<li>Domain</li>
+</ul>
+<h3 id="environment" tabindex="-1">Environment <a class="header-anchor" href="#environment">#</a></h3>
+<p>In this tutorial the user we are using is <code>root</code> and we will install Django in /srv/ folder. Of course you may use another user and sudo everything, and install in some other directory, but this tutorial does not scale to that. This Django installation is safe and secure and we are going to create a new system user to run mod_WSGI with Apache. Python will be handled by VirtualEnv.</p>
+<h2 id="django-1-6-deployment-on-ubuntu-12-04" tabindex="-1">Django 1.6 deployment on Ubuntu 12.04 <a class="header-anchor" href="#django-1-6-deployment-on-ubuntu-12-04">#</a></h2>
+<p>So we start of with updating the system.</p>
+<pre><code>apt-get update
+apt-get upgrade
+</code></pre>
+<h3 id="hostname" tabindex="-1">Hostname <a class="header-anchor" href="#hostname">#</a></h3>
+<p>Choose here name for your server. Modify SERVERNAME.</p>
+<pre><code>echo &quot;SERVERNAME&quot; \&gt; /etc/hostname
+hostname \-F /etc/hostname
+echo \-e &quot;\\n127.0.0.1 SERVERNAME.local SERVERNAME\\n&quot; \&gt;&gt; /etc/hosts
+</code></pre>
+<h3 id="install-software-and-dependencies" tabindex="-1">Install software and dependencies <a class="header-anchor" href="#install-software-and-dependencies">#</a></h3>
+<p>Type in the next three lines to install Apache2, Python, VirtualEnv and PIP.</p>
+<pre><code>apt\-get \-y install apache2\-mpm\-worker apache2\-dev
+apt\-get \-y install python python\-dev python\-setuptools
+easy\_install virtualenv virtualenvwrapper pip
+</code></pre>
+<h3 id="install-and-enable-mod-wsgi" tabindex="-1">Install and enable mod_WSGI <a class="header-anchor" href="#install-and-enable-mod-wsgi">#</a></h3>
+<p>We will <code>wget</code> the latest mod_wsgi, since the time I checked Ubuntu only offered outdated version. Last commands here will add the mod to Apache2 and disable Apaches default site.</p>
+<pre><code>wget http://modwsgi.googlecode.com/files/mod\_wsgi-3.4.tar.gz
+tar xvfz mod\_wsgi\-3.4.tar.gz
+cd mod\_wsgi\-3.4
+./configure
+make
+make install
+echo &quot;LoadModule wsgi\_module /usr/lib/apache2/modules/mod\_wsgi.so&quot; \&gt; /etc/apache2/mods\-available/wsgi.load
+a2enmod wsgi
+a2dissite default
+</code></pre>
+<h3 id="install-and-configure-mysql" tabindex="-1">Install and configure MySQL <a class="header-anchor" href="#install-and-configure-mysql">#</a></h3>
+<p>Here we will install MySQL and create database, database user and give privileges for that user to the database. Be sure to modify DATABASENAME with the database name of your choice, DATABASEUSER with the database username of your choice and of course PASSWORD with the password for that database user.</p>
+<pre><code>apt\-get \-y install mysql\-server mysql\-client
+echo &quot;CREATE DATABASE DATABASENAME;&quot; | mysql \-u root \-p
+echo &quot;CREATE USER 'DATABASEUSER'@'localhost' IDENTIFIED BY 'PASSWORD';&quot; | mysql \-u root \-p
+echo &quot;GRANT ALL PRIVILEGES ON DATABASENAME.\* TO 'DATABASEUSER'@'localhost';&quot; | mysql \-u root \-p
+echo &quot;FLUSH PRIVILEGES;&quot; | mysql \-u root \-p
+</code></pre>
+<h3 id="install-python-environment-and-django" tabindex="-1">Install Python environment and Django <a class="header-anchor" href="#install-python-environment-and-django">#</a></h3>
+<p>First we create couple of folders for Django and then we will create virtual Python environment with VirtualEnv. Finally we get Django from PIP.</p>
+<pre><code>cd /srv/
+mkdir \-p my\_project/app my\_project/app/conf/apache
+mkdir \-p my\_project/logs my\_project/run/eggs
+virtualenv my\_project/venv
+/srv/my\_project/venv/bin/pip install django
+</code></pre>
+<h3 id="start-django-project" tabindex="-1">Start Django project <a class="header-anchor" href="#start-django-project">#</a></h3>
+<p>Next we’ll start an example Django project. Basically Django is now fully installed but we have to start some project to show all of the complicated steps of deployment. Follow the commands strictly so you will end up in the right directories.</p>
+<pre><code>pushd my\_project/app/
+/srv/my\_project/venv/bin/python /srv/my\_project/venv/bin/django\-admin.py startproject webapp
+popd
+</code></pre>
+<h3 id="mod-wsgi-configuration-file" tabindex="-1">mod_WSGI Configuration File <a class="header-anchor" href="#mod-wsgi-configuration-file">#</a></h3>
+<p>We need to make a configuration file for mod_WSGI which will be used by Apache2. First create some folders for Django and move into configuration folder.</p>
+<pre><code>mkdir \-p my\_project/app/webapp/site\_media
+mkdir \-p my\_project/app/templates
+cd my\_project/app/conf/apache/
+</code></pre>
+<p>Open nano to create a configuration file</p>
+<pre><code>nano django.wsgi
+</code></pre>
+<p>Paste the following code into the editor and save it.</p>
+<pre><code>import os
+import sys
+root\_path \= os.path.abspath(os.path.join(os.path.dirname(\_\_file\_\_), '..', '..', '..'))
+sys.path.insert(0, os.path.abspath(os.path.join(root\_path, 'venv/lib/python2.7/site-packages/')))
+sys.path.insert(0, os.path.abspath(os.path.join(root\_path, 'app')))
+sys.path.insert(0, os.path.abspath(os.path.join(root\_path, 'app', 'webapp')))
+os.environ\['DJANGO\_SETTINGS\_MODULE'\] \= 'webapp.settings'
+import django.core.handlers.wsgi
+application \= django.core.handlers.wsgi.WSGIHandler()
+</code></pre>
+<h3 id="create-system-user" tabindex="-1">Create system user <a class="header-anchor" href="#create-system-user">#</a></h3>
+<p>Now we will create a system to run Apaches’ mod_WSGI process. Make sure to edit USERNAME. Last command will set a shell to that user.</p>
+<pre><code>useradd \--system \--no\-create\-home \--home\-dir /srv/my\_project/ \--user\-group USERNAME
+chsh \-s /bin/bash USERNAME
+</code></pre>
+<h3 id="apache-site-configuration" tabindex="-1">Apache Site Configuration <a class="header-anchor" href="#apache-site-configuration">#</a></h3>
+<p>I have created an example site configuration which works on normal network environments. Open nano to the site file with the following command. Remember to edit DOMAIN with your own domain name.</p>
+<pre><code>nano /etc/apache2/sites\-available/DOMAIN
+</code></pre>
+<p>Paste the following to the editor and edit DOMAIN with your own domain name and USER with the username we just created a while ago.</p>
+<pre><code>ServerAdmin root@DOMAIN
+ServerName DOMAIN
+Alias /site\_media/ /srv/my\_project/app/webapp/site\_media/
+Alias /static/ /srv/my\_project/venv/lib/python2.7/site\-packages/django/contrib/admin/static/
+Alias /robots.txt /srv/my\_project/app/webapp/site\_media/robots.txt
+Alias /favicon.ico /srv/my\_project/app/webapp/site\_media/favicon.ico
+CustomLog &quot;|/usr/sbin/rotatelogs /srv/my\_project/logs/access.log.%Y%m%d-%H%M%S 5M&quot; combined
+ErrorLog &quot;|/usr/sbin/rotatelogs /srv/my\_project/logs/error.log.%Y%m%d-%H%M%S 5M&quot;
+LogLevel warn
+WSGIDaemonProcess DOMAIN user\=USER group\=USER processes\=1 threads\=15 maximum\-requests\=10000 python\-path\=/srv/my\_project/venv/lib/python2.7/site\-packages python\-eggs\=/srv/my\_project/run/eggs
+WSGIProcessGroup DOMAIN
+WSGIScriptAlias / /srv/my\_project/app/conf/apache/django.wsgi
+Order deny,allow
+Allow from all
+Options \-Indexes FollowSymLinks
+Order deny,allow
+Allow from all
+</code></pre>
+<p>Now we just need to activate that configuration to Apache. Edit DOMAIN again to your own.</p>
+<pre><code>a2ensite DOMAIN
+</code></pre>
+<h3 id="mysql-dependency-to-python" tabindex="-1">MySQL dependency to Python <a class="header-anchor" href="#mysql-dependency-to-python">#</a></h3>
+<p>Next we need to install MySQL-module for our Python environment</p>
+<pre><code>apt\-get build\-dep python\-mysqldb
+/srv/my\_project/venv/bin/pip install MySQL\-python
+</code></pre>
+<h3 id="configuration-of-django" tabindex="-1">Configuration of Django <a class="header-anchor" href="#configuration-of-django">#</a></h3>
+<p>Move to project folder and edit settings.py file.</p>
+<pre><code>cd ../../
+cd webapp/webapp/
+nano settings.py
+</code></pre>
+<p>There you need to edit your own specific MySQL details.</p>
+<pre><code>DATABASES \= {
+  'default': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'DATABASENAME',
+    'USER': 'DATABASEUSER',
+    'PASSWORD': 'DATABASEPASSWORD',
+  }
+}
+</code></pre>
+<p>Also add these lines to the settings file <code>MEDIA_ROOT = '/srv/my_project/app/webapp/site_media/'</code> and <code>TEMPLATE_DIRS = '/srv/my_project/app/templates/',</code></p>
+<h3 id="set-permissions-and-restart-apache" tabindex="-1">Set permissions and restart Apache <a class="header-anchor" href="#set-permissions-and-restart-apache">#</a></h3>
+<p>Now we have to set permissions for the user we made while ago. Edit USERNAME to your own.</p>
+<pre><code>chown \-R USERNAME:USERNAME /srv/my\_project/
+</code></pre>
+<p>We have done everything to deploy Django so, all we need to do in order to get Django working is to restart Apache webserver.</p>
+<pre><code>service apache2 restart
+</code></pre>
+<p>You should see something like this on your domain website.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/MKMMmLoIVy-531.avif 531w"><source type="image/webp" srcset="/lennunet/img/MKMMmLoIVy-531.webp 531w"><img alt="Hello World Django" loading="lazy" decoding="async" src="/lennunet/img/MKMMmLoIVy-531.jpeg" width="531" height="198"></picture></p>
+<p>Now you have completely installed Django framework on a working Ubuntu server installation. Deployment is done to the part where we need here an actual website.</p>
+<p>I hope this tutorial has helped and please leave a comment or contact me from the about page, if you have any questions.</p>
+<h2 id="django-apps-and-actual-website" tabindex="-1">Django apps and actual website <a class="header-anchor" href="#django-apps-and-actual-website">#</a></h2>
+<p>If you are new to Django and want to build fully functional website. I suggest you start from the <a href="https://docs.djangoproject.com/en/1.6/intro/tutorial01/">official tutorial</a> which I think is one the best learning tutorials around web frameworks.</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/developing-for-android-phonegap-versus-native/">Developing for Android: PhoneGap versus Native</a></li><li>Next: <a href="/lennunet/2015/eclipse-ide-plugin-installation/">Eclipse IDE Plugin Installation</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2015/django-deployment-installation-to-ubuntu-12-dot-04-server/ -->
+	</body>
+</html>

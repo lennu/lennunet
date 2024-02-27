@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>EGit Configuration &amp; Creating a Git Repository With Eclipse IDE</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>EGit Configuration &amp; Creating a Git Repository With Eclipse IDE</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2015-01-15">15 January 2015</time></li>
+</ul>
+
+<p><picture><source type="image/avif" srcset="/lennunet/img/zN1ImYnpD6-150.avif 150w"><source type="image/webp" srcset="/lennunet/img/zN1ImYnpD6-150.webp 150w"><img alt="EGit" loading="lazy" decoding="async" src="/lennunet/img/zN1ImYnpD6-150.jpeg" width="150" height="150"></picture></p>
+<p>This is the second article of Eclipse IDE Plugins and it is about EGit. It is a plugin which allows to run Git commands inside Eclipse. You can do all the necessary things with this plugin regarding to the use of Git as a software developer.</p>
+<p>There is a very large website of the things around EGit at their <a href="https://www.eclipse.org/egit/">homepage</a>, but I think it’s too much if you just want to use to program.</p>
+<p>To follow this tutorial you have to have Eclipse installed on your operating system and EGit. If you haven’t installed EGit, you can follow my previous <a href="https://www.lennu.net/2015/eclipse-ide-plugin-installation/">tutorial</a> which shows how to install an Eclipse Plugin.</p>
+<h2 id="configuration-of-egit" tabindex="-1">Configuration of EGit <a class="header-anchor" href="#configuration-of-egit">#</a></h2>
+<p>Start Eclipse and go to the Window menu and choose Preferences.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/fIPLqBnoK--220.avif 220w"><source type="image/webp" srcset="/lennunet/img/fIPLqBnoK--220.webp 220w"><img alt="EGit Preferences" loading="lazy" decoding="async" src="/lennunet/img/fIPLqBnoK--220.png" width="220" height="364"></picture></p>
+<h3 id="configuration" tabindex="-1">Configuration <a class="header-anchor" href="#configuration">#</a></h3>
+<p>Surf in the Preferences menu to Team-&gt;Git-&gt;Configuration and click Add Entry</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/ol41ZDkIsZ-778.avif 778w"><source type="image/webp" srcset="/lennunet/img/ol41ZDkIsZ-778.webp 778w"><img alt="EGit Configuration" loading="lazy" decoding="async" src="/lennunet/img/ol41ZDkIsZ-778.png" width="778" height="626"></picture></p>
+<h3 id="add-entry" tabindex="-1">Add Entry <a class="header-anchor" href="#add-entry">#</a></h3>
+<p>Here we add the first entry to the Git configurations. Key: user.email and Value: your own email address. Click OK when finished.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/lsG6ABBzf8-535.avif 535w"><source type="image/webp" srcset="/lennunet/img/lsG6ABBzf8-535.webp 535w"><img alt="EGit Add Entry" loading="lazy" decoding="async" src="/lennunet/img/lsG6ABBzf8-535.png" width="535" height="291"></picture></p>
+<p>Click Add Entry again and this time Key: user.name and Value: your own name. Click OK when finished</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/MaSTFFTN1p-535.avif 535w"><source type="image/webp" srcset="/lennunet/img/MaSTFFTN1p-535.webp 535w"><img alt="EGit Add Entry Second" loading="lazy" decoding="async" src="/lennunet/img/MaSTFFTN1p-535.png" width="535" height="291"></picture></p>
+<h3 id="configurations-done" tabindex="-1">Configurations Done <a class="header-anchor" href="#configurations-done">#</a></h3>
+<p>Now you have succesfully configured EGit to work. CLick OK to save the configurations.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/hhr4xzYVVj-548.avif 548w"><source type="image/webp" srcset="/lennunet/img/hhr4xzYVVj-548.webp 548w"><img alt="EGit Done" loading="lazy" decoding="async" src="/lennunet/img/hhr4xzYVVj-548.png" width="548" height="386"></picture></p>
+<h2 id="creating-a-git-repository" tabindex="-1">Creating a Git repository <a class="header-anchor" href="#creating-a-git-repository">#</a></h2>
+<p>Next we will create our first Git repository straight from Eclipse by using EGit. You have to have one Eclipse Project created already. Click right mouse button on the project and select Team-&gt;Share Project</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/EVInEJvb6S-561.avif 561w"><source type="image/webp" srcset="/lennunet/img/EVInEJvb6S-561.webp 561w"><img alt="EGit Team" loading="lazy" decoding="async" src="/lennunet/img/EVInEJvb6S-561.png" width="561" height="633"></picture></p>
+<h3 id="share-project" tabindex="-1">Share Project <a class="header-anchor" href="#share-project">#</a></h3>
+<p>Here we will select Git.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/2CPRLwFUTw-525.avif 525w"><source type="image/webp" srcset="/lennunet/img/2CPRLwFUTw-525.webp 525w"><img alt="EGit Share Project" loading="lazy" decoding="async" src="/lennunet/img/2CPRLwFUTw-525.png" width="525" height="433"></picture></p>
+<p>If you get this error, you can select “Do not show again” and click OK.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/VYxKLWGhkd-532.avif 532w"><source type="image/webp" srcset="/lennunet/img/VYxKLWGhkd-532.webp 532w"><img alt="EGit Home" loading="lazy" decoding="async" src="/lennunet/img/VYxKLWGhkd-532.png" width="532" height="186"></picture></p>
+<h3 id="configure" tabindex="-1">Configure <a class="header-anchor" href="#configure">#</a></h3>
+<p>Choose your project if not selected and click Create.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/wxqEbWfkBI-735.avif 735w"><source type="image/webp" srcset="/lennunet/img/wxqEbWfkBI-735.webp 735w"><img alt="EGit Configure" loading="lazy" decoding="async" src="/lennunet/img/wxqEbWfkBI-735.png" width="735" height="345"></picture></p>
+<h3 id="new-git-repository" tabindex="-1">New Git Repository <a class="header-anchor" href="#new-git-repository">#</a></h3>
+<p>You can here choose directory for your repository, but I prefer the default location, since all the user data is also in there. Also give your repository a name. Click Finish after giving the name.<br>
+<a href="https://www.lennu.net/wp-content/uploads/2015/01/egit-new-git.png"><img src="https://www.lennu.net/wp-content/uploads/2015/01/egit-new-git.png" alt="EGit New Git"></a></p>
+<h3 id="conclusion" tabindex="-1">Conclusion <a class="header-anchor" href="#conclusion">#</a></h3>
+<p>Here we wee our conclusion what we are going to do. Click Finish to continue.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/3ZneHfrmei-732.avif 732w"><source type="image/webp" srcset="/lennunet/img/3ZneHfrmei-732.webp 732w"><img alt="EGit Conclusion" loading="lazy" decoding="async" src="/lennunet/img/3ZneHfrmei-732.png" width="732" height="445"></picture></p>
+<h3 id="done-installation" tabindex="-1">Done Installation <a class="header-anchor" href="#done-installation">#</a></h3>
+<p>Now you have succesfully created a Git repository. Right click a project and go to Team and you will see all the necessary Git functions available. Click on the Commit.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/IaVZfguGdq-587.avif 587w"><source type="image/webp" srcset="/lennunet/img/IaVZfguGdq-587.webp 587w"><img alt="EGit Done" loading="lazy" decoding="async" src="/lennunet/img/IaVZfguGdq-587.png" width="587" height="558"></picture></p>
+<h3 id="commit" tabindex="-1">Commit <a class="header-anchor" href="#commit">#</a></h3>
+<p>Here you can make your first commit, just select all the files you’d like to commit and click Commit. Now your first saves are done to the version history.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/yhsFMxYNRp-663.avif 663w"><source type="image/webp" srcset="/lennunet/img/yhsFMxYNRp-663.webp 663w"><img alt="EGit Commit" loading="lazy" decoding="async" src="/lennunet/img/yhsFMxYNRp-663.png" width="663" height="630"></picture></p>
+<p>On the next tutorial I will show how to import a Git project into Eclipse and what are the basic commands you need to use Git in other ways than just Commit.</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/eclipse-ide-plugin-installation/">Eclipse IDE Plugin Installation</a></li><li>Next: <a href="/lennunet/2015/finnish-education-system/">Finnish Education System</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2015/egit-configuration-and-creating-a-git-repository-with-eclipse-ide/ -->
+	</body>
+</html>

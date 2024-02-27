@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>How to use PHP and Amazon API to fetch product information</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>How to use PHP and Amazon API to fetch product information</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2017-03-31">31 March 2017</time></li>
+</ul>
+
+<p>So you have a list of ASINs for which you’d like to get more information? That can be easily done with Amazon API. It’s a great tool to use when you already know which ASINs (products) you want to work with. In this post I assume you want to fetch product information for multiple items and have the list of ASINs ready in a text file, separated by a new line.</p>
+<h2 id="the-problem" tabindex="-1">The problem <a class="header-anchor" href="#the-problem">#</a></h2>
+<p>Many people want to fetch Amazon product information for their websites. They have review sites, comparison sites, blogs about certain subject where Amazon products are displayed (with affiliate links, of course). Often basic information like name and image are enough, but sometimes you want more detailed data. Scraping all product data off Amazon website might’ve occurred to you. But web scraping is rather unreliable and not approved by Amazon. In fact, you are risking your Amazon Associates account if you are publishing scraped content. So, how to retrieve that valuable information for Amazon products if not with web scraping?</p>
+<h2 id="the-solution" tabindex="-1">The solution <a class="header-anchor" href="#the-solution">#</a></h2>
+<p>Use Amazon API! After you have a list of ASINs at your disposal the API is a very handy tool. You can retrieve a lot of information with it, including:</p>
+<ul>
+<li>Price</li>
+<li>Discount amount and percentage</li>
+<li>Availability</li>
+<li>Images</li>
+<li>UPC</li>
+</ul>
+<p>Cool, isn’t it? So let’s see what you need…</p>
+<h2 id="requirements" tabindex="-1">Requirements <a class="header-anchor" href="#requirements">#</a></h2>
+<ul>
+<li>Web server with PHP enabled</li>
+<li>ASIN list (text file, one ASIN per line)</li>
+<li>Amazon Associates account (<a href="http://affiliate-program.amazon.com/gp/associates/apply/main.html">get it here</a>)</li>
+<li>Amazon Product Advertising API enabled (<a href="https://affiliate-program.amazon.com/gp/flex/advertising/api/sign-in.html">enable it here</a>)</li>
+<li>Amazon API PHP class (<a href="http://www.codediesel.com/downloads/amazonapi">get it from here</a> thanks to <a href="http://www.codediesel.com/">Sameer Borate</a>)</li>
+</ul>
+<p>Opening up Amazon Associates account should be easy and fast. Just go here and follow the instructions. It could take a few days to get you approved – but in my experience, most people are accepted. Just remember to have some kind of a website ready with original content. And preferably give accurate information because they’re going to send you check / deposit money to your bank account after you start generating money (which is, by the way, not so hard with Amazon Associates program). Anyway, in the process you’ll also make a Tracking ID which is used to track the visitors you send to Amazon. Keep that at hand, you’ll need it later.</p>
+<p>Once you have enabled Amazon API on your account, you must create Access Key ID and Secret Access Key. They are the keys that the Amazon API PHP script will use to authenticate with Amazon API servers. You can get the keys here. Just click on Access Keys -&gt; Create New Access Key. You’ll be presented with a box saying an access key has been successfully created for you. Click Download Key File and save it on your computer. This is important because once you close the pop-up, you can’t retrieve the secret access key again from your Amazon API account settings.</p>
+<p>Next, upload <a href="http://www.codediesel.com/downloads/amazonapi">the two files</a> (amazon_api_class.php and aws_signed_request.php) to your web server’s public_html or its subdirectory. You don’t have to modify the latter, but slight modifications have to be made for the class file itself. So open up amazon_api_class.php and find lines 42, 49 and 57 and do as follows:</p>
+<ul>
+<li>On line 42, put your Access Key ID inside the double quotes. Remember, you downloaded the keys to your computer above.</li>
+<li>On line 49, put your Secret Access Key inside the double quotes.</li>
+<li>On line 57, put your Tracking ID inside the double quotes. You can see it <a href="https://affiliate-program.amazon.com/gp/associates/network/main.html">here</a> on upper right corner (Store) after logging in.</li>
+</ul>
+<p>Great, now you have the PHP class ready. It’s time to look at the actual source code of the file that will fetch detailed product information for every ASIN in your list. Put the following code to the same directory you put the amazon_api_class.php and aws_signed_request.php to and run the code.</p>
+<p>PHP Code:</p>
+<pre><code>&lt;?php
+        
+        // Open the list of ASINs for reading
+        $handle = fopen(&quot;asins.txt&quot;, &quot;r&quot;);
+        
+        // Include the Amazon API PHP class
+        include(&quot;amazon_api_class.php&quot;);
+ 
+        // Create a new Amazon API object
+        $obj = new AmazonProductAPI();
+        
+        // Start looping through the ASIN file, line by line
+        while (($asin = fgets($handle)) !== false) {
+        
+            // Remove the new line from ASIN
+            $asin = str_replace(&quot;\n&quot;,&quot;&quot;,$asin);
+ 
+            // Try to fetch product information with the object
+            try {
+                $result = $obj-&gt;getItemByAsin($asin);
+            }
+            // If unsuccesful, catch the exception...
+            catch(Exception $e)
+            {
+                // And print it to the screen
+                echo $e-&gt;getMessage();
+            }
+            
+            // To see the whole response (with all the information, uncomment
+            // the following three lines
+            // echo &quot;&lt;pre&gt;&quot;;
+            // print_r($result);
+            // echo &quot;&lt;/pre&gt;&quot;; */
+            
+            // Get title, price and image URL from the response
+            $title = $result-&gt;Items-&gt;Item-&gt;ItemAttributes-&gt;Title;
+            $price = $result-&gt;Items-&gt;Item-&gt;OfferSummary-&gt;LowestNewPrice-&gt;FormattedPrice;
+            $image_url = $result-&gt;Items-&gt;Item-&gt;LargeImage-&gt;URL;
+            
+            // Print the title, price, ASIN and image URL to screen
+            echo &quot;$asin Title: $title&lt;br /&gt;$asin Price: $price&lt;br /&gt;$asin Image URL: $image_url&lt;br /&gt;&lt;br /&gt;&quot;;
+            
+            // Wait 1 second because of Amazon API call limit
+            // Adjust it to your liking, more info here:
+            // https://affiliate-program.amazon.com/gp/advertising/api/detail/faq.html
+            sleep(1);
+        
+        // End of ASIN
+        }
+        
+        // Close the ASIN text file
+        fclose($handle);
+        
+?&gt;
+</code></pre>
+<p>So what’s happening there?</p>
+<ul>
+<li>We open the ASIN text file (called asins.txt in this example) with read mode on.</li>
+<li>We include Amazon API PHP class.</li>
+<li>We create a new Amazon API object.</li>
+<li>We start while loop with fgets that returns a new line from ASINs file and puts it to variable $asin.</li>
+<li>We remove new line (\n) from the end of the ASIN.</li>
+<li>We initiate try-catch statement and try to use getItemByAsin function from the Amazon API PHP class. If successful, we continue. If not, we catch the exception and print the message to screen.</li>
+<li>I commented out the full response, but you can uncomment lines 31-33 to see the full response and pick the product information you want.</li>
+<li>Next we fetch the product’s title, price and image URL from the response object. That’s done by retrieving paths from the object with the -&gt; operator.</li>
+<li>We echo the information to screen. You can replace the line 41 with whatever you want (for example, insert the retrieved information to database), but to make it simple in this example we just echo it.</li>
+<li>We sleep (wait) one second. This is because of Amazon API’s call limits. If you’ve generated sales in the past 30 days you can reduce the waiting time. <a href="https://affiliate-program.amazon.com/gp/advertising/api/detail/faq.html">Read more about it here</a>.</li>
+<li>We are at the end of line (ASIN), move on to the next one and start from the beginning of while loop. If this is the last line from the ASIN file, move to next line in the code.</li>
+<li>We finally close the ASIN file.</li>
+</ul>
+<p>Not so hard, isn’t it. This way you can retrieve plenty of information from the Amazon API for your projects. This is 100% Terms of Services compliant way to do it. I’ve also found out that the API is reliable and doesn’t experience lags or other oddities. But there are some things to keep in mind…</p>
+<h2 id="caveats" tabindex="-1">Caveats <a class="header-anchor" href="#caveats">#</a></h2>
+<ul>
+<li>Sometimes the price returned is “price too low to display” rather than actual price. This is not a bug but a feature of the API. <a href="http://docs.aws.amazon.com/AWSECommerceService/latest/DG/minimum-advertised-price.html">Read more about it here</a>. The only way to go around this would be to scrape the price from their website rather than using the API. But web scraping Amazon, especially the price information, is forbidden by their Terms of Services. If you publish scraped information, your Amazon Associates account could get banned.</li>
+<li>You can’t return customer reviews or star ratings with the API. You can, however, return a link to the customer reviews. But that’s not very often the desired option. Again, web scraping Amazon product pages would give you the customer reviews, but publishing them would break copyright laws and the Terms of Services. So don’t do it.</li>
+<li>There’s a call limit for Amazon API. That means you can only do certain amount of API calls in a second. If you haven’t generated any sales in the past 30 days, the default limit is one call per second. But when you generate sales for Amazon (and commission for yourself), the API limit changes. <a href="https://affiliate-program.amazon.com/gp/advertising/api/detail/faq.html">Read more about it here</a>.</li>
+<li>Not every product’s information can be retrieved through the API. I’m not sure exactly why some products are off limits for the API. But that’s how it is. I’ve seen at least some “discontinued by manufacturer” products not working with the API. But rest assured that 99% of the time the product information can be retrieved.</li>
+</ul>
+<p>That’s all I can think for now. Amazon API is a good, reliable tool for programmatically fetching product data. You can use use it to build sites and with some creativity, perhaps even profitable ones!</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2017/doctrine-find-out-if-collection-is-empty-or-not/">Doctrine Find out if Collection is Empty or Not</a></li><li>Next: <a href="/lennunet/2018/disable-locale-passing-on-ssh-connection/">Disable locale passing on ssh connection</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2017/how-to-use-php-and-amazon-api-to-fetch-product-information/ -->
+	</body>
+</html>

@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Step by step access to TOR network with Tails using VirtualBox</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>Step by step access to TOR network with Tails using VirtualBox</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2020-05-10">10 May 2020</time></li>
+</ul>
+
+<p>TOR is a network within the internet created for extreme security which has a lot of features for anonymization. So, it’s a way to browse the internet anonymized, unrecognized and hidden from the authorities. In this post I’m going to access TOR and its onion addresses with Linux Ubuntu.</p>
+<p>So, first install VirtualBox, which makes it possible to start another operating system within your current operating system without actually installing it on your computer. There are plenty of tutorials that you can find on the internet.</p>
+<h2 id="download-tails" tabindex="-1">Download Tails <a class="header-anchor" href="#download-tails">#</a></h2>
+<p>Accessing TOR is easy by starting up Tails. Its an operating system with features that helps the access to TOR network. First go to <a href="https://tails.boum.org/install/vm-download/index.en.html">https://tails.boum.org/install/vm-download/index.en.html</a> and download the ISO-image.</p>
+<p><strong>Note that you should always verify the download!</strong> I used the detailed instructions found from that same link under the subtitle of “See instructions for basic OpenPGP verification”. I used command line to do this.</p>
+<p>Download <a href="https://tails.boum.org/tails-signing.key">Tails signing key</a> and import it to your GnuPGP with <code>gpg --import tails-signing.key</code>. You should see something like this:</p>
+<pre><code>gpg: key xxxx: public key &quot;Tails developers tails@boum.org&quot; imported
+gpg: Total number processed: 1
+gpg: imported: 1 (RSA: 1)
+gpg: no ultimately trusted keys found
+</code></pre>
+<p>Download OpenPGP signature for your Tails version. This should be found from the original download page. Then execute the following command with modified filenames.</p>
+<pre><code>TZ=UTC gpg --no-options --keyid-format long --verify tails-amd64-4.6.iso.sig tails-amd64-4.6.iso
+</code></pre>
+<p>You should see this to verify the authenticity of the image. Also check the date is within five days of the latest version, with this version it should be within five days from 2020-05-05.</p>
+<pre><code>gpg: Signature made ma 4. toukokuuta 2020 20.45.29 UTC
+gpg: using RSA key xxx
+gpg: Good signature from &quot;Tails developers tails@boum.org&quot;
+gpg: aka &quot;Tails developers (offline long-term identity key) tails@boum.org&quot;
+</code></pre>
+<p>The following warning can be ignored.</p>
+<pre><code>gpg: WARNING: This key is not certified with a trusted signature!
+gpg: There is no indication that the signature belongs to the owner.
+</code></pre>
+<p>Great, now we have downloaded and verified the image.</p>
+<h2 id="starting-tails-with-virtualbox" tabindex="-1">Starting Tails with VirtualBox <a class="header-anchor" href="#starting-tails-with-virtualbox">#</a></h2>
+<p>Start VirtualBox and click New. Select Linux and Other Linux (64 bit). Give the VirtualBox 2048 MB of RAM and do not add an hard drive.</p>
+<p>Open Settings of the machine just created. Confirm that Enable I/O APIC is enabled in System/Motherboard. Go to Storage, choose Empty and click on the little CD icon dropdown on the right. From the dropdown select “Choose Virtual Optical Disk Drive”. Browse to the downloaded Tails image and select it. Make sure to toggle Live CD/DVD on. Click OK and click big green Start button. Configure your locale settings when prompted and start using Tails.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/m5097RtQmB-1024.avif 1024w"><source type="image/webp" srcset="/lennunet/img/m5097RtQmB-1024.webp 1024w"><img alt="Tails operating system" loading="lazy" decoding="async" src="/lennunet/img/m5097RtQmB-1024.png" width="1024" height="743"></picture></p>
+<h2 id="using-tails-and-accessing-tor-s-onion-addresses" tabindex="-1">Using Tails and accessing TOR’s onion addresses <a class="header-anchor" href="#using-tails-and-accessing-tor-s-onion-addresses">#</a></h2>
+<p>You should find TOR web browser from the Applications menu.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/qazjXGuKWO-1024.avif 1024w"><source type="image/webp" srcset="/lennunet/img/qazjXGuKWO-1024.webp 1024w"><img alt="Tor web browser" loading="lazy" decoding="async" src="/lennunet/img/qazjXGuKWO-1024.png" width="1024" height="744"></picture></p>
+<p>You can use for example https://duckduckgo.com and search for “tor search engine” to find TOR search engines where you can find the onion addresses. Here is a search query using on of the search engines.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/IgwesEGVhR-1024.avif 1024w"><source type="image/webp" srcset="/lennunet/img/IgwesEGVhR-1024.webp 1024w"><img alt="Tor web browser 2" loading="lazy" decoding="async" src="/lennunet/img/IgwesEGVhR-1024.png" width="1024" height="740"></picture></p>
+<p>There are a lot of drug related sites, forums and marketplaces easily accessible. It seems that most of the websites don’t work and similar images and texts are used around the websites which indicates that there could be same authors on multiple websites. There is even a forum for stock company insiders where you can sell your information. Mostly the websites are about criminal activity. I don’t want to promote their business on this blog but it can be seen from the image that there are a lot of search results in this area.</p>
+<h2 id="you-can-get-caught-even-when-using-tor" tabindex="-1">You can get caught even when using TOR <a class="header-anchor" href="#you-can-get-caught-even-when-using-tor">#</a></h2>
+<p>For example, <a href="https://www.mercurynews.com/2018/05/24/feds-operator-of-bay-area-dark-web-business-busted-for-alleged-drug-trafficking/">https://www.mercurynews.com/2018/05/24/feds-operator-of-bay-area-dark-web-business-busted-for-alleged-drug-trafficking/</a> shows a case where police ordered drugs from the dark web, tracked the post office where it had been sent and inspected the surveillance cameras to bust the drug dealer.</p>
+<p>This is probably the simplest way to catch the drug dealer and yet there are still dealers that take the risk.</p>
+<p>There are some alternatives to TOR which are not so known by the public. For example, i2p and freenet.</p>
+<h2 id="how-tor-works" tabindex="-1">How TOR works <a class="header-anchor" href="#how-tor-works">#</a></h2>
+<p>TOR is created from the principle of entry, exit and the nodes between these. The idea is that as there are many nodes between the client and the server responding to the answer it is hard to track who discusses with who.</p>
+<p>There is a directory available for TOR clients that has the list of nodes available. This directory can be fetched in encrypted connection (public key).</p>
+<p>When connecting to a specific address the client chooses random path made from three relay nodes listed in the directory. The message is encrypted three times then at each relay the message is decrypt once making the message plain when the exit node sends it to the wished location. Response is sent through the relay nodes where they encrypt it once on each step, then relay nodes share the encryption and decryption keys with the client which decrypts the message three times to view the message. Note that exit node transfers information in plain text.</p>
+<p>TOR relays use RSA algorithm with key sizes of 1024-bit to secure connections.</p>
+<p>TOR communications is one of the safest to hide one’s identity however there is a threat model for TOR. If adversary could obtain large amount of relay nodes under its observation there could be a vulnerability. This would be an immense task because there currently (5/2020) about 7000 relay nodes and 1000 exit nodes.</p>
+<p><em>This was the fifth assignment of <a href="http://terokarvinen.com/2020/ict-security-basics-from-trust-to-blockchain-itc4hm003-3001-2020-spring/">ICT Security Basics</a>.</em></p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2020/cia-triad-and-encryption-examples/">CIA Triad and Encryption Examples</a></li><li>Next: <a href="/lennunet/2024/convert-hex-value-to-rgba-with-opacity/">Convert hex value to rgba with opacity</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2020/step-by-step-access-to-tor-network-with-tails-using-virtualbox/ -->
+	</body>
+</html>

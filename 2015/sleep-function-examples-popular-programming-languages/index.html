@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Sleep Function Examples of Popular Programming Languages</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>Sleep Function Examples of Popular Programming Languages</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2015-01-23">23 January 2015</time></li>
+</ul>
+
+<p><picture><source type="image/avif" srcset="/lennunet/img/foCR68eEAv-600.avif 600w"><source type="image/webp" srcset="/lennunet/img/foCR68eEAv-600.webp 600w"><img alt="Sleep function" loading="lazy" decoding="async" src="/lennunet/img/foCR68eEAv-600.png" width="600" height="150"></picture></p>
+<p>One of the most used functions of all time in programming is the sleep function. This widely spread function has come across at some point for us all. Usually at the beginning of learning how to program, we get the need to know how to processing of our finely tuned software. Most of the times this due to programming something in a funny way or just debugging and finding out what is going on.</p>
+<p>Sleep function is part of every modern and not so modern programming language. It is used on many tasks but usually the main task of it is to wait something to happen. It usually works by suspending the execution of currently processing thread, but I think there are some solutions which just causes the program to “wait” until the time specified in the Sleep Function has passed.</p>
+<p>The use cases where you have to use sleep function are quite minimal. I can only figure out one. If you have a job running on multiple web servers and the job updates on a regular basis. You apply a sleep function to the process and update them on a different interval so that at least one server has the information available all the time. Do you have any good examples of the sleep function?</p>
+<h2 id="sleep-function-examples" tabindex="-1">Sleep Function Examples <a class="header-anchor" href="#sleep-function-examples">#</a></h2>
+<p>Here I have gathered example code for the most used programming languages. If you think something is missing from the list, please post a comment and let me know.</p>
+<p>Remember using programming languages sleep function is usually not the best way to do waiting. In my opinion you should always use function callbacks  which occur after something has happened and not sleep the program until it has.</p>
+<h3 id="abap" tabindex="-1">ABAP <a class="header-anchor" href="#abap">#</a></h3>
+<p>Releases the work process to the listener and does an implicit database commit.</p>
+<pre><code>WAIT UP TO 10 SECONDS.
+</code></pre>
+<p>Does not release the process and does not do an implicit database commit.</p>
+<pre><code>CALL FUNCTION 'ENQUE\_SLEEP'
+
+  EXPORTING
+
+  seconds  \= 10.
+</code></pre>
+<h3 id="assembly" tabindex="-1">Assembly <a class="header-anchor" href="#assembly">#</a></h3>
+<p>There ain’t no actual Assembly sleep function. Most of the times the best result is achieved by <a href="http://www.tek-tips.com/viewthread.cfm?qid=701937">using nested loops</a> where every time the inner loop gets down to zero the mother loop decreases. This is a very complicated thing to do and in order to get perfect timing you need to test it out a lot.</p>
+<h3 id="c" tabindex="-1">C <a class="header-anchor" href="#c">#</a></h3>
+<p>C sleep function is a very simple one.</p>
+<pre><code>sleep(10);
+</code></pre>
+<h3 id="c-1" tabindex="-1">C# <a class="header-anchor" href="#c-1">#</a></h3>
+<p>C# sleep function is literally stopping the processing thread from continuing.</p>
+<pre><code>Thread.Sleep(10000);
+</code></pre>
+<h3 id="c-2" tabindex="-1">C++ <a class="header-anchor" href="#c-2">#</a></h3>
+<p>C++ sleep function is the same as C.</p>
+<pre><code>sleep(10);
+</code></pre>
+<h3 id="cobol" tabindex="-1">COBOL <a class="header-anchor" href="#cobol">#</a></h3>
+<p>There is no COBOL sleep function. Sleep state is achieved by <a href="http://stackoverflow.com/questions/11786621/how-to-sleep-in-mainframe-cobol">contacting the running environment</a> and using the sleep function of system.</p>
+<h3 id="delphi-object-pascal" tabindex="-1">Delphi/Object Pascal <a class="header-anchor" href="#delphi-object-pascal">#</a></h3>
+<p>There is no Delphi/Object Pascal sleep function as the language requires you to do this <a href="http://prestwood.com/ASPSuite/eBoard/Thread.asp?MBID=3033">by using a function callback</a>.</p>
+<h3 id="java" tabindex="-1">Java <a class="header-anchor" href="#java">#</a></h3>
+<p>Java sleep function is almost the same as in C#. This stops the thread processing for specified period of time.</p>
+<pre><code>Thread.sleep(1000);
+</code></pre>
+<h3 id="javascript" tabindex="-1">JavaScript <a class="header-anchor" href="#javascript">#</a></h3>
+<p>There is no way to stop execution with JavaScript sleep function, but it certainly has a good way to achieve timing. So remember, this does not stop the processing of JavaScript, but it gets something done after the specified time.</p>
+<pre><code>setTimeout(function(){ alert(&quot;Lennu.net&quot;); }, 10000);
+</code></pre>
+<h3 id="matlab" tabindex="-1">MATLAB <a class="header-anchor" href="#matlab">#</a></h3>
+<p>MATLAB sleep function is called pause, and it can be used in two ways. If you don’t give the time parameter it will pause the processing and wait for a key press. This is based on the system you are running so it shouldn’t be trusted to very accurate.</p>
+<pre><code>pause(10)
+</code></pre>
+<h3 id="objective-c" tabindex="-1">Objective-C <a class="header-anchor" href="#objective-c">#</a></h3>
+<p>With Objective-C sleep function you can pause the great applications of iPhone, but remember once again that this is very bad practice in application development.</p>
+<pre><code>NSThread sleepForTimeInterval:10.0f\];
+</code></pre>
+<h3 id="perl" tabindex="-1">Perl <a class="header-anchor" href="#perl">#</a></h3>
+<p>Perl sleep function follows the same simple command which you can rely to stop the program for a specified amount of time.</p>
+<pre><code>sleep(10);
+</code></pre>
+<h3 id="php" tabindex="-1">PHP <a class="header-anchor" href="#php">#</a></h3>
+<p>As PHP has a lot of functions from Perl and the PHP sleep function is very similar.</p>
+<pre><code>sleep(10);
+</code></pre>
+<h3 id="pl-sql" tabindex="-1">PL/SQL <a class="header-anchor" href="#pl-sql">#</a></h3>
+<p>PL/SQL sleep function is a procedure which suspends active session for the specified time.</p>
+<pre><code>DBMS\_LOCK.Sleep(10);
+</code></pre>
+<h3 id="python" tabindex="-1">Python <a class="header-anchor" href="#python">#</a></h3>
+<p>In Python sleep function is located into time object which contains sleep that stop the execution for the time given to the function.</p>
+<pre><code>time.sleep(10)
+</code></pre>
+<h3 id="r" tabindex="-1">R <a class="header-anchor" href="#r">#</a></h3>
+<p>R sleep function is from the Sys object.</p>
+<pre><code>Sys.sleep(10)
+</code></pre>
+<h3 id="ruby" tabindex="-1">Ruby <a class="header-anchor" href="#ruby">#</a></h3>
+<p>Ruby sleep function follow the same simple syntax on sleep. This suspends the program from continuing.</p>
+<pre><code>sleep(10)
+</code></pre>
+<h3 id="transact-sql" tabindex="-1">Transact-SQL <a class="header-anchor" href="#transact-sql">#</a></h3>
+<p>Transact-SQL is a bit more advanced and can do great stuff if you need specific sleep times. It is not very accurate though.</p>
+<pre><code>WAITFOR DELAY '00:00:10'
+</code></pre>
+<h3 id="visual-basic" tabindex="-1">Visual Basic <a class="header-anchor" href="#visual-basic">#</a></h3>
+<p>Visual Basic sleep function is the shortest and quickest way to write program to suspend computing.</p>
+<pre><code>Sleep 10000
+</code></pre>
+<h3 id="visual-basic-net" tabindex="-1">Visual Basic .NET <a class="header-anchor" href="#visual-basic-net">#</a></h3>
+<p>Visual Basic sleep function is achieved from System which stops the current thread for specified amount of time.</p>
+<pre><code>System.Threading.Thread.CurrentThread.Sleep(10000)
+</code></pre>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/window-mac-linux/windows-mac-linux/">Windows, Mac, Linux</a></li><li>Next: <a href="/lennunet/2015/jquery-lazy-loading-images-simple-example/">jQuery Lazy Loading Images with Simple Example</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2015/sleep-function-examples-popular-programming-languages/ -->
+	</body>
+</html>

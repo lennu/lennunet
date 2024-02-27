@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>jQuery Mobile Slider Example with Swiper</title>
+		<meta name="description" content="Programming Articles Since 2006">
+		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		
+		<style>/* Only include the syntax highlighter CSS on blog posts */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+/*
+ * New diff- syntax
+ */
+
+pre[class*="language-diff-"] {
+	--eleventy-code-padding: 1.25em;
+	padding-left: var(--eleventy-code-padding);
+	padding-right: var(--eleventy-code-padding);
+}
+.token.deleted {
+	background-color: hsl(0, 51%, 37%);
+	color: inherit;
+}
+.token.inserted {
+	background-color: hsl(126, 31%, 39%);
+	color: inherit;
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+	-webkit-user-select: none;
+	user-select: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+.token.prefix.inserted,
+.token.prefix.deleted {
+	width: var(--eleventy-code-padding);
+	background-color: rgba(0,0,0,.2);
+}
+
+/* Optional: full-width background color */
+.token.inserted:not(.prefix),
+.token.deleted:not(.prefix) {
+	display: block;
+	margin-left: calc(-1 * var(--eleventy-code-padding));
+	margin-right: calc(-1 * var(--eleventy-code-padding));
+	text-decoration: none; /* override del, ins, mark defaults */
+	color: inherit; /* override del, ins, mark defaults */
+}
+* { box-sizing: border-box; }
+/* Defaults */
+:root {
+	--font-family: -apple-system, system-ui, sans-serif;
+	--font-family-monospace: Consolas, Menlo, Monaco, Andale Mono WT, Andale Mono, Lucida Console, Lucida Sans Typewriter, DejaVu Sans Mono, Bitstream Vera Sans Mono, Liberation Mono, Nimbus Mono L, Courier New, Courier, monospace;
+}
+
+/* Theme colors */
+:root {
+	--color-gray-20: #e0e0e0;
+	--color-gray-50: #C0C0C0;
+	--color-gray-90: #333;
+
+	--background-color: #fff;
+
+	--text-color: var(--color-gray-90);
+	--text-color-link: #082840;
+	--text-color-link-active: #5f2b48;
+	--text-color-link-visited: #17050F;
+
+	--syntax-tab-size: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-gray-20: #e0e0e0;
+		--color-gray-50: #C0C0C0;
+		--color-gray-90: #dad8d8;
+
+		/* --text-color is assigned to --color-gray-_ above */
+		--text-color-link: #1493fb;
+		--text-color-link-active: #6969f7;
+		--text-color-link-visited: #a6a6f8;
+
+		--background-color: #15202b;
+	}
+}
+
+
+/* Global stylesheet */
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0 auto;
+	font-family: var(--font-family);
+	color: var(--text-color);
+	background-color: var(--background-color);
+}
+html {
+	overflow-y: scroll;
+}
+body {
+	max-width: 40em;
+}
+
+/* https://www.a11yproject.com/posts/how-to-hide-content/ */
+.visually-hidden {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
+p:last-child {
+	margin-bottom: 0;
+}
+p {
+	line-height: 1.5;
+}
+
+li {
+	line-height: 1.5;
+}
+
+a[href] {
+	color: var(--text-color-link);
+}
+a[href]:visited {
+	color: var(--text-color-link-visited);
+}
+a[href]:hover,
+a[href]:active {
+	color: var(--text-color-link-active);
+}
+
+main {
+	padding: 1rem;
+}
+main :first-child {
+	margin-top: 0;
+}
+
+header {
+	border-bottom: 1px dashed var(--color-gray-20);
+}
+header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.links-nextprev {
+	list-style: none;
+	border-top: 1px dashed var(--color-gray-20);
+	padding: 1em 0;
+}
+
+table {
+	margin: 1em 0;
+}
+table td,
+table th {
+	padding-right: 1em;
+}
+
+pre,
+code {
+	font-family: var(--font-family-monospace);
+}
+pre:not([class*="language-"]) {
+	margin: .5em 0;
+	line-height: 1.375; /* 22px /16 */
+	-moz-tab-size: var(--syntax-tab-size);
+	-o-tab-size: var(--syntax-tab-size);
+	tab-size: var(--syntax-tab-size);
+	-webkit-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+}
+code {
+	word-break: break-all;
+}
+
+/* Header */
+header {
+	display: flex;
+	gap: 1em .5em;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 1em;
+}
+.home-link {
+	font-size: 1em; /* 16px /16 */
+	font-weight: 700;
+	margin-right: 2em;
+}
+.home-link:link:not(:hover) {
+	text-decoration: none;
+}
+
+/* Nav */
+.nav {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.nav-item {
+	display: inline-block;
+	margin-right: 1em;
+}
+.nav-item a[href]:not(:hover) {
+	text-decoration: none;
+}
+.nav a[href][aria-current="page"] {
+	text-decoration: underline;
+}
+
+/* Posts list */
+.postlist {
+	list-style: none;
+	padding: 0;
+	padding-left: 1.5rem;
+}
+.postlist-item {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	counter-increment: start-from -1;
+	margin-bottom: 1em;
+}
+.postlist-item:before {
+	display: inline-block;
+	pointer-events: none;
+	content: "" counter(start-from, decimal-leading-zero) ". ";
+	line-height: 100%;
+	text-align: right;
+	margin-left: -1.5rem;
+}
+.postlist-date,
+.postlist-item:before {
+	font-size: 0.8125em; /* 13px /16 */
+	color: var(--color-gray-90);
+}
+.postlist-date {
+	word-spacing: -0.5px;
+}
+.postlist-link {
+	font-size: 1.1875em; /* 19px /16 */
+	font-weight: 700;
+	flex-basis: calc(100% - 1.5rem);
+	padding-left: .25em;
+	padding-right: .5em;
+	text-underline-position: from-font;
+	text-underline-offset: 0;
+	text-decoration-thickness: 1px;
+}
+.postlist-item-active .postlist-link {
+	font-weight: bold;
+}
+
+/* Tags */
+.post-tag {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	font-style: italic;
+}
+.postlist-item > .post-tag {
+	align-self: center;
+}
+
+/* Tags list */
+.post-metadata {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: .5em;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.post-metadata time {
+	margin-right: 1em;
+}
+
+/* Direct Links / Markdown Headers */
+.header-anchor {
+	text-decoration: none;
+	font-style: normal;
+	font-size: 1em;
+	margin-left: .1em;
+}
+a[href].header-anchor,
+a[href].header-anchor:visited {
+	color: transparent;
+}
+a[href].header-anchor:focus,
+a[href].header-anchor:hover {
+	text-decoration: underline;
+}
+a[href].header-anchor:focus,
+:hover > a[href].header-anchor {
+	color: #aaa;
+}
+
+h2 + .header-anchor {
+	font-size: 1.5em;
+}</style>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/lennunet/">Home</a></li>
+					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main id="skip">
+			
+<h1>jQuery Mobile Slider Example with Swiper</h1>
+
+<ul class="post-metadata">
+	<li><time datetime="2015-05-14">14 May 2015</time></li>
+</ul>
+
+<p><picture><source type="image/avif" srcset="/lennunet/img/gxH-Xl9hv8-600.avif 600w"><source type="image/webp" srcset="/lennunet/img/gxH-Xl9hv8-600.webp 600w"><img alt="Swiper used by" loading="lazy" decoding="async" src="/lennunet/img/gxH-Xl9hv8-600.jpeg" width="600" height="300"></picture></p>
+<p>Have you ever wondered how have some websites managed to create so well performing mobile slider? The answer is Swiper.</p>
+<p>jQuery Mobile Slider is something a lot of new mobile sites use these days to create horizontal sliding effects on their web pages. I have went through all of them to find the best one for my purposes. You can actually use even if you don’t have jQuery but you can surely use it as a plugin. This is the second post in my web slider post series and on this post I’m going to show you an very simple example of mobile optimized and well running slider.</p>
+<p>The JavaScript plugin I’m using is called Swiper, and I think a lot of websites use it these days even though they don’t mention it. It is simply great and it is being continuesly developed. It is used by Adobe, BMW, Disney etc. on their mobile websites, so it has quite good customer base. The greatest thing of course is that it’s completely free.</p>
+<p>In a mobile slider, I think, we are looking for some specially touch based logic. Like <strong>continuous sliding</strong> after you release your finger from the screen, or in another words <strong>free rolling slider</strong>. Swiper can manage to do that and it does it amazingly well. It is at its best on iPhones, but don’t choke it too much with events, on that side it has a lot to work on. I have found it to work on every machine and browser, so it is has great coding.</p>
+<p><picture><source type="image/avif" srcset="/lennunet/img/JsfzTlTdGN-1464.avif 1464w"><source type="image/webp" srcset="/lennunet/img/JsfzTlTdGN-1464.webp 1464w"><img alt="Swiper" loading="lazy" decoding="async" src="/lennunet/img/JsfzTlTdGN-1464.jpeg" width="1464" height="327"></picture></p>
+<p>Swiper is especially made for mobile browsers and has free rolling option.</p>
+<h2 id="swiper-example" tabindex="-1">Swiper Example <a class="header-anchor" href="#swiper-example">#</a></h2>
+<p>I have gathered here all the materials you need to create your own Swiper. First there is the HTML. The library includes are already in the template so you just need to download the plugin and place the dist folder to the same folder as you have your HTML file. You can download Swiper at <a href="https://github.com/nolimits4web/Swiper/archive/v3.0.7.zip">https://github.com/nolimits4web/Swiper/archive/v3.0.7.zip</a>.</p>
+<p>Remember you don’t actually have to use jQuery but there is jQuery and native plugins on the zip file. In this example we wont be using jQuery because we don’t need it.</p>
+<pre><code>&lt;!doctype html&gt;
+
+&lt;html lang\=&quot;en&quot;\&gt;
+
+&lt;head&gt;
+
+&lt;title&gt;Demo: jQuery Mobile Slider Example with Swiper&lt;/title&gt;
+
+&lt;link rel\=&quot;stylesheet&quot; href\=&quot;dist/css/swiper.min.css&quot;\&gt;
+
+&lt;meta name\=&quot;viewport&quot; content\=&quot;width=device-width, initial-scale=1&quot;\&gt;
+
+&lt;style&gt;
+
+.swiper-container { width: 95%; height: 300px; }
+
+.swiper-slide { width: 32%; background: red; text-align: center; padding-top: 50%; font-size: 24px; }
+
+&lt;/style&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;!-- Add Swiper slides here! --&gt;
+
+&lt;script src\=&quot;dist/js/swiper.min.js&quot; type\=&quot;text/javascript&quot;\&gt;&lt;/script&gt;
+
+&lt;!-- Add the initialization JavaScript code here! --&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>There are two places we need to fill in. There first one is the Swiper slides. Add these silder, or any slides you want into the HTML. Just follow the syntax.</p>
+<pre><code>&lt;div class\=&quot;swiper-container&quot;\&gt;
+
+  &lt;div class\=&quot;swiper-wrapper&quot;\&gt;
+
+    &lt;div class\=&quot;swiper-slide&quot;\&gt;Hello&lt;/div&gt;
+
+    &lt;div class\=&quot;swiper-slide&quot;\&gt;To&lt;/div&gt;
+
+    &lt;div class\=&quot;swiper-slide&quot;\&gt;All&lt;/div&gt;
+
+    &lt;div class\=&quot;swiper-slide&quot;\&gt;The&lt;/div&gt;
+
+    &lt;div class\=&quot;swiper-slide&quot;\&gt;Readers&lt;/div&gt;
+
+    &lt;div class\=&quot;swiper-slide&quot;\&gt;!!&lt;/div&gt;
+
+    &lt;div class\=&quot;swiper-slide&quot;\&gt;Lennu.net&lt;/div&gt;
+
+    &lt;div class\=&quot;swiper-slide&quot;\&gt;Swiper&lt;/div&gt;
+
+  &lt;/div&gt;
+
+&lt;/div&gt;
+</code></pre>
+<p>At the end we only need to initialize Swiper with our favourite options. I like to use free rolling and looping on my example, but you can find a ton of options from <a href="http://www.idangero.us/swiper/api/">Swiper API</a>. Add this JavaScript to your HTML page.</p>
+<pre><code>&lt;script&gt;
+
+  var swiper \= new Swiper('.swiper-container', { // HTML element selector
+
+    slidesPerView: 'auto', // How many slides do we want per view? You can specify a number
+
+    spaceBetween: 10, // Space between the slides
+
+    freeMode: true, // Free rolling slider
+
+    loop: true, // Swiper loops your slides, and there is no ending point
+
+    loopedSlides: 8 // Safe option which needs to be set if you use slidesPerView: 'auto'
+
+  });
+
+&lt;/script&gt;
+</code></pre>
+<p>We have now created ourselves a multi device and multi browser working mobile optimized jQuery Slider! This tutorial has been about how create a very basic slider. There are a lot of work after this to place this to real application or website and style it very well. But with this template you have a very good starting point.</p>
+<p>Swiper is truly the best choice at the moment when building a new mobile website or mobile app with HTML5, if you need a well working slider. Please try it, use it, debug it and check out its website at <a href="http://www.idangero.us/swiper/">http://www.idangero.us/swiper/</a>.</p>
+
+<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/responsive-jquery-slider-example-with-owl-carousel/">Responsive jQuery Slider Example with Owl Carousel</a></li><li>Next: <a href="/lennunet/2015/simple-php-template-engine/">Simple PHP Template Engine</a></li>
+</ul>
+
+		</main>
+
+		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<!-- Lennu.net -->
+		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+
+		<footer></footer>
+
+		<!-- Current page: /lennunet/2015/jquery-mobile-slider-example-with-swiper/ -->
+	</body>
+</html>
