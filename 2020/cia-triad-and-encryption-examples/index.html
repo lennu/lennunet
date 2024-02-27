@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>CIA Triad and Encryption Examples</title>
 		<meta name="description" content="Programming Articles Since 2006">
-		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
-		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Lennu.net">
 		
 		<style>/* Only include the syntax highlighter CSS on blog posts */
 /**
@@ -454,13 +454,13 @@ h2 + .header-anchor {
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
-			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<a href="/" class="home-link">Lennu.net</a>
 			<nav>
 				<h2 class="visually-hidden">Top level navigation menu</h2>
 				<ul class="nav">
-					<li class="nav-item"><a href="/lennunet/">Home</a></li>
-					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
-					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -482,7 +482,7 @@ h2 + .header-anchor {
 <p>Pre-shared key, which should have same length or be longer than the message, is shared between sender and receiver. Each character in the message gets a modulo-addition from the shared key. For example with key BC and message AB the cipher is BD. Character A moves one letter to B, and character B moves two letters to D. Now when the secret key is only known by these two an adversary has no way of decoding the cipher.</p>
 <h2 id="symmetric-encryption-example" tabindex="-1">Symmetric encryption example <a class="header-anchor" href="#symmetric-encryption-example">#</a></h2>
 <p>Symmetric encryption is the straightforward give a key and the door will open. You can for example encrypt a zip file with WinRAR where it is using AES 256 encryption. In the user interface give a password and WinRAR will do the encryption.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/7g-wkgxVAP-480.avif 480w"><source type="image/webp" srcset="/lennunet/img/7g-wkgxVAP-480.webp 480w"><img alt="Archive" loading="lazy" decoding="async" src="/lennunet/img/7g-wkgxVAP-480.png" width="480" height="478"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/7g-wkgxVAP-480.avif 480w"><source type="image/webp" srcset="/img/7g-wkgxVAP-480.webp 480w"><img alt="Archive" loading="lazy" decoding="async" src="/img/7g-wkgxVAP-480.png" width="480" height="478"></picture></p>
 <h2 id="asymmetric-encryption-example" tabindex="-1">Asymmetric encryption example <a class="header-anchor" href="#asymmetric-encryption-example">#</a></h2>
 <p>Asymmetric encryption is something where both parties have a public and a secret key. The public key is used for encrypting the message and the secret key is used for opening that message.</p>
 <p>I made a little example with NodeJS and <a href="https://www.npmjs.com/package/node-rsa">https://www.npmjs.com/package/node-rsa</a>. It uses by default public key cryptography scheme pkcs1-sha256.</p>
@@ -516,20 +516,26 @@ decrypted: Hello world!
 <p>There should be suspicion when choosing any encryption tools. The company behind it should be reputable and the product should have users. This kind of software could control vital information and if the product is somehow compromised the information could be lost or it could used for blackmailing. For example I made a couple of years ago a software that encrypts messages using applied Data Encryption Standard <a href="https://www.lennu.net/data-encryption-standard-made-with-key-sizes-of-14-bits/">https://www.lennu.net/data-encryption-standard-made-with-key-sizes-of-14-bits/</a>. I published the code but still I wouldn’t recommend it to be used since it is quite suspicious and the author hasn’t kept it up to date.</p>
 <p><em>This was the fourth assignment of <a href="http://terokarvinen.com/2020/ict-security-basics-from-trust-to-blockchain-itc4hm003-3001-2020-spring/">ICT Security Basics</a>.</em></p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2020/webgoat-access-control-flaws-and-dangers-of-eval/">WebGoat Access Control Flaws and Dangers of Eval</a></li><li>Next: <a href="/lennunet/2020/step-by-step-access-to-tor-network-with-tails-using-virtualbox/">Step by step access to TOR network with Tails using VirtualBox</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/2020/webgoat-access-control-flaws-and-dangers-of-eval/">WebGoat Access Control Flaws and Dangers of Eval</a></li><li>Next: <a href="/2020/step-by-step-access-to-tor-network-with-tails-using-virtualbox/">Step by step access to TOR network with Tails using VirtualBox</a></li>
 </ul>
 
 		</main>
 
-		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216"
+     crossorigin="anonymous"></script>
 		<!-- Lennu.net -->
-		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7304499576176216"
+     data-ad-slot="8208814281"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
 		<script>
 				(adsbygoogle = window.adsbygoogle || []).push({});
 		</script>
 
 		<footer></footer>
 
-		<!-- Current page: /lennunet/2020/cia-triad-and-encryption-examples/ -->
+		<!-- Current page: /2020/cia-triad-and-encryption-examples/ -->
 	</body>
 </html>

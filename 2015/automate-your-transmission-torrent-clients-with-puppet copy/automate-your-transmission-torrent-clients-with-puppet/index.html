@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Automate Your Transmission Torrent Clients with Puppet</title>
 		<meta name="description" content="Programming Articles Since 2006">
-		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
-		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Lennu.net">
 		
 		<style>/* Only include the syntax highlighter CSS on blog posts */
 /**
@@ -454,13 +454,13 @@ h2 + .header-anchor {
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
-			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<a href="/" class="home-link">Lennu.net</a>
 			<nav>
 				<h2 class="visually-hidden">Top level navigation menu</h2>
 				<ul class="nav">
-					<li class="nav-item"><a href="/lennunet/">Home</a></li>
-					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
-					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -473,7 +473,7 @@ h2 + .header-anchor {
 	<li><time datetime="2015-01-15">15 January 2015</time></li>
 </ul>
 
-<p><picture><source type="image/avif" srcset="/lennunet/img/2Ubq826ViN-300.avif 300w"><source type="image/webp" srcset="/lennunet/img/2Ubq826ViN-300.webp 300w"><img alt="Puppet Logo" loading="lazy" decoding="async" src="/lennunet/img/2Ubq826ViN-300.png" width="300" height="269"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/2Ubq826ViN-300.avif 300w"><source type="image/webp" srcset="/img/2Ubq826ViN-300.webp 300w"><img alt="Puppet Logo" loading="lazy" decoding="async" src="/img/2Ubq826ViN-300.png" width="300" height="269"></picture></p>
 <p>Last week I reviewed command-line torrent clients and found that Transmission was the most suitable for my needs.</p>
 <p>This week I have made Puppet module for automating the distribution of <code>.torrent</code> files with the usage of Transmission-Daemon.</p>
 <p>If you have multiple Torrent Clients running the same Torrents then here is an example how you could control all of them.</p>
@@ -507,7 +507,7 @@ notice: /Stage[main]/Torrent/Torrent::Add_torrents[ubuntu-12.04.1-desktop-i386.i
 notice: Finished catalog run in 7.39 seconds
 </code></pre>
 <p>And transmission-remote at <code>http://127.0.0.1:9091/transmission/web/</code> after running the module.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/25f8WtWOIx-664.avif 664w"><source type="image/webp" srcset="/lennunet/img/25f8WtWOIx-664.webp 664w"><img alt="Transmission Remote" loading="lazy" decoding="async" src="/lennunet/img/25f8WtWOIx-664.png" width="664" height="636"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/25f8WtWOIx-664.avif 664w"><source type="image/webp" srcset="/img/25f8WtWOIx-664.webp 664w"><img alt="Transmission Remote" loading="lazy" decoding="async" src="/img/25f8WtWOIx-664.png" width="664" height="636"></picture></p>
 <h2 id="source" tabindex="-1">Source <a class="header-anchor" href="#source">#</a></h2>
 <p>Directory tree</p>
 <pre><code>puppet/modules/torrent/
@@ -680,20 +680,26 @@ notice: Finished catalog run in 7.39 seconds
 <p>This is my last post for now in this series of Puppet. I have found that it is really a great tool to do automating which I had only a little experience before. If I ever have a chance to automate something important, I will surely use Puppet for it.</p>
 <p>Thanks goes to <a href="http://terokarvinen.com/">Tero Karvinen</a> who gave a course about Puppet at HAAGA-HELIA University of Applied Sciences.</p>
 
-<ul class="links-nextprev"><li>Next: <a href="/lennunet/2015/data-encryption-standard-made-with-key-sizes-of-14-bits/">Data Encryption Standard Made With Key Sizes of 14 Bits</a></li>
+<ul class="links-nextprev"><li>Next: <a href="/2015/data-encryption-standard-made-with-key-sizes-of-14-bits/">Data Encryption Standard Made With Key Sizes of 14 Bits</a></li>
 </ul>
 
 		</main>
 
-		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216"
+     crossorigin="anonymous"></script>
 		<!-- Lennu.net -->
-		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7304499576176216"
+     data-ad-slot="8208814281"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
 		<script>
 				(adsbygoogle = window.adsbygoogle || []).push({});
 		</script>
 
 		<footer></footer>
 
-		<!-- Current page: /lennunet/2015/automate-your-transmission-torrent-clients-with-puppet copy/automate-your-transmission-torrent-clients-with-puppet/ -->
+		<!-- Current page: /2015/automate-your-transmission-torrent-clients-with-puppet copy/automate-your-transmission-torrent-clients-with-puppet/ -->
 	</body>
 </html>

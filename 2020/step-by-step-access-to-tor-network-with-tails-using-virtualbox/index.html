@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Step by step access to TOR network with Tails using VirtualBox</title>
 		<meta name="description" content="Programming Articles Since 2006">
-		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
-		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Lennu.net">
 		
 		<style>/* Only include the syntax highlighter CSS on blog posts */
 /**
@@ -454,13 +454,13 @@ h2 + .header-anchor {
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
-			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<a href="/" class="home-link">Lennu.net</a>
 			<nav>
 				<h2 class="visually-hidden">Top level navigation menu</h2>
 				<ul class="nav">
-					<li class="nav-item"><a href="/lennunet/">Home</a></li>
-					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
-					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -501,12 +501,12 @@ gpg: There is no indication that the signature belongs to the owner.
 <h2 id="starting-tails-with-virtualbox" tabindex="-1">Starting Tails with VirtualBox <a class="header-anchor" href="#starting-tails-with-virtualbox">#</a></h2>
 <p>Start VirtualBox and click New. Select Linux and Other Linux (64 bit). Give the VirtualBox 2048 MB of RAM and do not add an hard drive.</p>
 <p>Open Settings of the machine just created. Confirm that Enable I/O APIC is enabled in System/Motherboard. Go to Storage, choose Empty and click on the little CD icon dropdown on the right. From the dropdown select “Choose Virtual Optical Disk Drive”. Browse to the downloaded Tails image and select it. Make sure to toggle Live CD/DVD on. Click OK and click big green Start button. Configure your locale settings when prompted and start using Tails.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/m5097RtQmB-1024.avif 1024w"><source type="image/webp" srcset="/lennunet/img/m5097RtQmB-1024.webp 1024w"><img alt="Tails operating system" loading="lazy" decoding="async" src="/lennunet/img/m5097RtQmB-1024.png" width="1024" height="743"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/m5097RtQmB-1024.avif 1024w"><source type="image/webp" srcset="/img/m5097RtQmB-1024.webp 1024w"><img alt="Tails operating system" loading="lazy" decoding="async" src="/img/m5097RtQmB-1024.png" width="1024" height="743"></picture></p>
 <h2 id="using-tails-and-accessing-tor-s-onion-addresses" tabindex="-1">Using Tails and accessing TOR’s onion addresses <a class="header-anchor" href="#using-tails-and-accessing-tor-s-onion-addresses">#</a></h2>
 <p>You should find TOR web browser from the Applications menu.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/qazjXGuKWO-1024.avif 1024w"><source type="image/webp" srcset="/lennunet/img/qazjXGuKWO-1024.webp 1024w"><img alt="Tor web browser" loading="lazy" decoding="async" src="/lennunet/img/qazjXGuKWO-1024.png" width="1024" height="744"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/qazjXGuKWO-1024.avif 1024w"><source type="image/webp" srcset="/img/qazjXGuKWO-1024.webp 1024w"><img alt="Tor web browser" loading="lazy" decoding="async" src="/img/qazjXGuKWO-1024.png" width="1024" height="744"></picture></p>
 <p>You can use for example https://duckduckgo.com and search for “tor search engine” to find TOR search engines where you can find the onion addresses. Here is a search query using on of the search engines.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/IgwesEGVhR-1024.avif 1024w"><source type="image/webp" srcset="/lennunet/img/IgwesEGVhR-1024.webp 1024w"><img alt="Tor web browser 2" loading="lazy" decoding="async" src="/lennunet/img/IgwesEGVhR-1024.png" width="1024" height="740"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/IgwesEGVhR-1024.avif 1024w"><source type="image/webp" srcset="/img/IgwesEGVhR-1024.webp 1024w"><img alt="Tor web browser 2" loading="lazy" decoding="async" src="/img/IgwesEGVhR-1024.png" width="1024" height="740"></picture></p>
 <p>There are a lot of drug related sites, forums and marketplaces easily accessible. It seems that most of the websites don’t work and similar images and texts are used around the websites which indicates that there could be same authors on multiple websites. There is even a forum for stock company insiders where you can sell your information. Mostly the websites are about criminal activity. I don’t want to promote their business on this blog but it can be seen from the image that there are a lot of search results in this area.</p>
 <h2 id="you-can-get-caught-even-when-using-tor" tabindex="-1">You can get caught even when using TOR <a class="header-anchor" href="#you-can-get-caught-even-when-using-tor">#</a></h2>
 <p>For example, <a href="https://www.mercurynews.com/2018/05/24/feds-operator-of-bay-area-dark-web-business-busted-for-alleged-drug-trafficking/">https://www.mercurynews.com/2018/05/24/feds-operator-of-bay-area-dark-web-business-busted-for-alleged-drug-trafficking/</a> shows a case where police ordered drugs from the dark web, tracked the post office where it had been sent and inspected the surveillance cameras to bust the drug dealer.</p>
@@ -520,20 +520,26 @@ gpg: There is no indication that the signature belongs to the owner.
 <p>TOR communications is one of the safest to hide one’s identity however there is a threat model for TOR. If adversary could obtain large amount of relay nodes under its observation there could be a vulnerability. This would be an immense task because there currently (5/2020) about 7000 relay nodes and 1000 exit nodes.</p>
 <p><em>This was the fifth assignment of <a href="http://terokarvinen.com/2020/ict-security-basics-from-trust-to-blockchain-itc4hm003-3001-2020-spring/">ICT Security Basics</a>.</em></p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2020/cia-triad-and-encryption-examples/">CIA Triad and Encryption Examples</a></li><li>Next: <a href="/lennunet/2024/convert-hex-value-to-rgba-with-opacity/">Convert hex value to rgba with opacity</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/2020/cia-triad-and-encryption-examples/">CIA Triad and Encryption Examples</a></li><li>Next: <a href="/2024/convert-hex-value-to-rgba-with-opacity/">Convert hex value to rgba with opacity</a></li>
 </ul>
 
 		</main>
 
-		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216"
+     crossorigin="anonymous"></script>
 		<!-- Lennu.net -->
-		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7304499576176216"
+     data-ad-slot="8208814281"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
 		<script>
 				(adsbygoogle = window.adsbygoogle || []).push({});
 		</script>
 
 		<footer></footer>
 
-		<!-- Current page: /lennunet/2020/step-by-step-access-to-tor-network-with-tails-using-virtualbox/ -->
+		<!-- Current page: /2020/step-by-step-access-to-tor-network-with-tails-using-virtualbox/ -->
 	</body>
 </html>

@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>HTML5 Responsive Design Guide and Skeleton</title>
 		<meta name="description" content="Programming Articles Since 2006">
-		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
-		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Lennu.net">
 		
 		<style>/* Only include the syntax highlighter CSS on blog posts */
 /**
@@ -454,13 +454,13 @@ h2 + .header-anchor {
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
-			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<a href="/" class="home-link">Lennu.net</a>
 			<nav>
 				<h2 class="visually-hidden">Top level navigation menu</h2>
 				<ul class="nav">
-					<li class="nav-item"><a href="/lennunet/">Home</a></li>
-					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
-					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -473,17 +473,17 @@ h2 + .header-anchor {
 	<li><time datetime="2015-01-15">15 January 2015</time></li>
 </ul>
 
-<p><picture><source type="image/avif" srcset="/lennunet/img/TjGJQoyS2U-290.avif 290w"><source type="image/webp" srcset="/lennunet/img/TjGJQoyS2U-290.webp 290w"><img alt="Responsive Design" loading="lazy" decoding="async" src="/lennunet/img/TjGJQoyS2U-290.png" width="290" height="191"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/TjGJQoyS2U-290.avif 290w"><source type="image/webp" srcset="/img/TjGJQoyS2U-290.webp 290w"><img alt="Responsive Design" loading="lazy" decoding="async" src="/img/TjGJQoyS2U-290.png" width="290" height="191"></picture></p>
 <p>Have you ever wondered how to do these websites which work on desktop computer, tablet and even on mobile phone.</p>
 <p>This guide is all about Responsive Web Design in HTML5 which allows this extremely powerful design since you only do one website instead of three platform specific ones.</p>
 <h3 id="responsive-design" tabindex="-1">Responsive Design <a class="header-anchor" href="#responsive-design">#</a></h3>
 <p>Have a look at this web page. If you use your mouse to resize the window you’ll notice that the page changes according to the size of your window.</p>
 <p>Maximum resize.<br>
-<picture><source type="image/avif" srcset="/lennunet/img/Ztt82UYywI-623.avif 623w"><source type="image/webp" srcset="/lennunet/img/Ztt82UYywI-623.webp 623w"><img alt="Responsive Design Desktop" loading="lazy" decoding="async" src="/lennunet/img/Ztt82UYywI-623.png" width="623" height="595"></picture></p>
+<picture><source type="image/avif" srcset="/img/Ztt82UYywI-623.avif 623w"><source type="image/webp" srcset="/img/Ztt82UYywI-623.webp 623w"><img alt="Responsive Design Desktop" loading="lazy" decoding="async" src="/img/Ztt82UYywI-623.png" width="623" height="595"></picture></p>
 <p>Average resize.<br>
-<picture><source type="image/avif" srcset="/lennunet/img/Ztt82UYywI-623.avif 623w"><source type="image/webp" srcset="/lennunet/img/Ztt82UYywI-623.webp 623w"><img alt="Responsive Design Desktop" loading="lazy" decoding="async" src="/lennunet/img/Ztt82UYywI-623.png" width="623" height="595"></picture></p>
+<picture><source type="image/avif" srcset="/img/Ztt82UYywI-623.avif 623w"><source type="image/webp" srcset="/img/Ztt82UYywI-623.webp 623w"><img alt="Responsive Design Desktop" loading="lazy" decoding="async" src="/img/Ztt82UYywI-623.png" width="623" height="595"></picture></p>
 <p>Minimum resize.<br>
-<picture><source type="image/avif" srcset="/lennunet/img/MMBa9nXLbW-319.avif 319w"><source type="image/webp" srcset="/lennunet/img/MMBa9nXLbW-319.webp 319w"><img alt="Responsive Design Mobile" loading="lazy" decoding="async" src="/lennunet/img/MMBa9nXLbW-319.png" width="319" height="595"></picture></p>
+<picture><source type="image/avif" srcset="/img/MMBa9nXLbW-319.avif 319w"><source type="image/webp" srcset="/img/MMBa9nXLbW-319.webp 319w"><img alt="Responsive Design Mobile" loading="lazy" decoding="async" src="/img/MMBa9nXLbW-319.png" width="319" height="595"></picture></p>
 <h3 id="magic-in-the-css" tabindex="-1">Magic in the CSS <a class="header-anchor" href="#magic-in-the-css">#</a></h3>
 <p>The answer how to do this is in the CSS code of the web page. If you dig to the code you’ll find these statements:</p>
 <p><code>@media handheld and (max-width: 480px), screen and (max-device-width: 480px), screen and (max-width: 767px) { }</code><br>
@@ -604,20 +604,26 @@ and<br>
 </code></pre>
 <p>On this example we do alot of stuff to the optimization for the mobile phone. Largest change is the navigation which we give a whole new life with with completely new CSS codes. We also change alot of the heights and widths to go with phones screens.</p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/finnish-education-system/">Finnish Education System</a></li><li>Next: <a href="/lennunet/2015/import-git-project-into-eclipse/">Import Git Project into Eclipse</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/2015/finnish-education-system/">Finnish Education System</a></li><li>Next: <a href="/2015/import-git-project-into-eclipse/">Import Git Project into Eclipse</a></li>
 </ul>
 
 		</main>
 
-		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216"
+     crossorigin="anonymous"></script>
 		<!-- Lennu.net -->
-		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7304499576176216"
+     data-ad-slot="8208814281"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
 		<script>
 				(adsbygoogle = window.adsbygoogle || []).push({});
 		</script>
 
 		<footer></footer>
 
-		<!-- Current page: /lennunet/2015/html5-responsive-design-guide-and-skeleton/ -->
+		<!-- Current page: /2015/html5-responsive-design-guide-and-skeleton/ -->
 	</body>
 </html>

@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Ubuntu Command-Line Torrent Clients</title>
 		<meta name="description" content="Programming Articles Since 2006">
-		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
-		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Lennu.net">
 		
 		<style>/* Only include the syntax highlighter CSS on blog posts */
 /**
@@ -454,13 +454,13 @@ h2 + .header-anchor {
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
-			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<a href="/" class="home-link">Lennu.net</a>
 			<nav>
 				<h2 class="visually-hidden">Top level navigation menu</h2>
 				<ul class="nav">
-					<li class="nav-item"><a href="/lennunet/">Home</a></li>
-					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
-					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -475,35 +475,41 @@ h2 + .header-anchor {
 
 <p>There are not so many good torrent clients made for command-line usage in Ubuntu 12.04. Here are small review of some of them.</p>
 <h3 id="rtorrent" tabindex="-1">rtorrent <a class="header-anchor" href="#rtorrent">#</a></h3>
-<p><picture><source type="image/avif" srcset="/lennunet/img/nSNhv-luEp-1119.avif 1119w"><source type="image/webp" srcset="/lennunet/img/nSNhv-luEp-1119.webp 1119w"><img alt="rTorrent Screenshot" loading="lazy" decoding="async" src="/lennunet/img/nSNhv-luEp-1119.png" width="1119" height="801"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/nSNhv-luEp-1119.avif 1119w"><source type="image/webp" srcset="/img/nSNhv-luEp-1119.webp 1119w"><img alt="rTorrent Screenshot" loading="lazy" decoding="async" src="/img/nSNhv-luEp-1119.png" width="1119" height="801"></picture></p>
 <p>rtorrent is a very good and very configurable software. But because it is so configurable it can also be quite messy and overkill for normal user since it also uses alot of quick keys. You can only use it from the client and not as a service.</p>
 <p>You can install it using <code>sudo apt-get install rtorrent</code></p>
 <p>More information: <a href="http://libtorrent.rakshasa.no/">libTorrent and rTorrent Project</a></p>
 <h3 id="deluge-console" tabindex="-1">Deluge-console <a class="header-anchor" href="#deluge-console">#</a></h3>
-<p><picture><source type="image/avif" srcset="/lennunet/img/fuBBaWTMQL-660.avif 660w"><source type="image/webp" srcset="/lennunet/img/fuBBaWTMQL-660.webp 660w"><img alt="Deluge Screenshot" loading="lazy" decoding="async" src="/lennunet/img/fuBBaWTMQL-660.png" width="660" height="469"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/fuBBaWTMQL-660.avif 660w"><source type="image/webp" srcset="/img/fuBBaWTMQL-660.webp 660w"><img alt="Deluge Screenshot" loading="lazy" decoding="async" src="/img/fuBBaWTMQL-660.png" width="660" height="469"></picture></p>
 <p>Deluge is propably the easiest to use of all command-line torrent softwares. It has good manuals and easy command syntaxes which helps you to get going fast on the torrenting. It also supports working as a service but offers limited possibilites for controlling torrents then it is running as a service.</p>
 <p>You can install it using <code>sudo apt-get install deluge-console</code> and service <code>sudo apt-get install deluged</code></p>
 <p>More information: <a href="http://deluge-torrent.org/">Deluge</a></p>
 <h3 id="transmission" tabindex="-1">Transmission <a class="header-anchor" href="#transmission">#</a></h3>
-<p><picture><source type="image/avif" srcset="/lennunet/img/p2BD31lebK-1032.avif 1032w"><source type="image/webp" srcset="/lennunet/img/p2BD31lebK-1032.webp 1032w"><img alt="Transmission Screenshot" loading="lazy" decoding="async" src="/lennunet/img/p2BD31lebK-1032.png" width="1032" height="452"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/p2BD31lebK-1032.avif 1032w"><source type="image/webp" srcset="/img/p2BD31lebK-1032.webp 1032w"><img alt="Transmission Screenshot" loading="lazy" decoding="async" src="/img/p2BD31lebK-1032.png" width="1032" height="452"></picture></p>
 <p>For my needs Transmission is all I need. It offers simple usage syntax and has all the options I need. It’s not so great as Deluge when it comes to console UI. Transmission is the only command-line torrent client for Ubuntu which I have found that has very large option list for working as a service. For example you can set it to follow some directory where you just drop .torrent-files and it automaticly loads them from there. My choice is Transmission.</p>
 <p>You can install it using <code>sudo apt-get install transmission</code> and service <code>sudo apt-get install transmission-daemon</code></p>
 <p>More information: <a href="http://www.transmissionbt.com/">Transmission</a></p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/swifty-on-mobile-with-phonegap/">Swifty on Mobile with PhoneGap</a></li><li>Next: <a href="/lennunet/2015/web-testing-tutorial-using-dalekjs/">Web Testing Tutorial Using DalekJS</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/2015/swifty-on-mobile-with-phonegap/">Swifty on Mobile with PhoneGap</a></li><li>Next: <a href="/2015/web-testing-tutorial-using-dalekjs/">Web Testing Tutorial Using DalekJS</a></li>
 </ul>
 
 		</main>
 
-		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216"
+     crossorigin="anonymous"></script>
 		<!-- Lennu.net -->
-		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7304499576176216"
+     data-ad-slot="8208814281"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
 		<script>
 				(adsbygoogle = window.adsbygoogle || []).push({});
 		</script>
 
 		<footer></footer>
 
-		<!-- Current page: /lennunet/2015/ubuntu-command-line-torrent-clients/ -->
+		<!-- Current page: /2015/ubuntu-command-line-torrent-clients/ -->
 	</body>
 </html>

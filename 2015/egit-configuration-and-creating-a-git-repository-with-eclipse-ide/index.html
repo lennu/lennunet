@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>EGit Configuration &amp; Creating a Git Repository With Eclipse IDE</title>
 		<meta name="description" content="Programming Articles Since 2006">
-		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
-		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Lennu.net">
 		
 		<style>/* Only include the syntax highlighter CSS on blog posts */
 /**
@@ -454,13 +454,13 @@ h2 + .header-anchor {
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
-			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<a href="/" class="home-link">Lennu.net</a>
 			<nav>
 				<h2 class="visually-hidden">Top level navigation menu</h2>
 				<ul class="nav">
-					<li class="nav-item"><a href="/lennunet/">Home</a></li>
-					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
-					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -473,63 +473,69 @@ h2 + .header-anchor {
 	<li><time datetime="2015-01-15">15 January 2015</time></li>
 </ul>
 
-<p><picture><source type="image/avif" srcset="/lennunet/img/zN1ImYnpD6-150.avif 150w"><source type="image/webp" srcset="/lennunet/img/zN1ImYnpD6-150.webp 150w"><img alt="EGit" loading="lazy" decoding="async" src="/lennunet/img/zN1ImYnpD6-150.jpeg" width="150" height="150"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/zN1ImYnpD6-150.avif 150w"><source type="image/webp" srcset="/img/zN1ImYnpD6-150.webp 150w"><img alt="EGit" loading="lazy" decoding="async" src="/img/zN1ImYnpD6-150.jpeg" width="150" height="150"></picture></p>
 <p>This is the second article of Eclipse IDE Plugins and it is about EGit. It is a plugin which allows to run Git commands inside Eclipse. You can do all the necessary things with this plugin regarding to the use of Git as a software developer.</p>
 <p>There is a very large website of the things around EGit at their <a href="https://www.eclipse.org/egit/">homepage</a>, but I think it’s too much if you just want to use to program.</p>
 <p>To follow this tutorial you have to have Eclipse installed on your operating system and EGit. If you haven’t installed EGit, you can follow my previous <a href="https://www.lennu.net/2015/eclipse-ide-plugin-installation/">tutorial</a> which shows how to install an Eclipse Plugin.</p>
 <h2 id="configuration-of-egit" tabindex="-1">Configuration of EGit <a class="header-anchor" href="#configuration-of-egit">#</a></h2>
 <p>Start Eclipse and go to the Window menu and choose Preferences.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/fIPLqBnoK--220.avif 220w"><source type="image/webp" srcset="/lennunet/img/fIPLqBnoK--220.webp 220w"><img alt="EGit Preferences" loading="lazy" decoding="async" src="/lennunet/img/fIPLqBnoK--220.png" width="220" height="364"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/fIPLqBnoK--220.avif 220w"><source type="image/webp" srcset="/img/fIPLqBnoK--220.webp 220w"><img alt="EGit Preferences" loading="lazy" decoding="async" src="/img/fIPLqBnoK--220.png" width="220" height="364"></picture></p>
 <h3 id="configuration" tabindex="-1">Configuration <a class="header-anchor" href="#configuration">#</a></h3>
 <p>Surf in the Preferences menu to Team-&gt;Git-&gt;Configuration and click Add Entry</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/ol41ZDkIsZ-778.avif 778w"><source type="image/webp" srcset="/lennunet/img/ol41ZDkIsZ-778.webp 778w"><img alt="EGit Configuration" loading="lazy" decoding="async" src="/lennunet/img/ol41ZDkIsZ-778.png" width="778" height="626"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/ol41ZDkIsZ-778.avif 778w"><source type="image/webp" srcset="/img/ol41ZDkIsZ-778.webp 778w"><img alt="EGit Configuration" loading="lazy" decoding="async" src="/img/ol41ZDkIsZ-778.png" width="778" height="626"></picture></p>
 <h3 id="add-entry" tabindex="-1">Add Entry <a class="header-anchor" href="#add-entry">#</a></h3>
 <p>Here we add the first entry to the Git configurations. Key: user.email and Value: your own email address. Click OK when finished.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/lsG6ABBzf8-535.avif 535w"><source type="image/webp" srcset="/lennunet/img/lsG6ABBzf8-535.webp 535w"><img alt="EGit Add Entry" loading="lazy" decoding="async" src="/lennunet/img/lsG6ABBzf8-535.png" width="535" height="291"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/lsG6ABBzf8-535.avif 535w"><source type="image/webp" srcset="/img/lsG6ABBzf8-535.webp 535w"><img alt="EGit Add Entry" loading="lazy" decoding="async" src="/img/lsG6ABBzf8-535.png" width="535" height="291"></picture></p>
 <p>Click Add Entry again and this time Key: user.name and Value: your own name. Click OK when finished</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/MaSTFFTN1p-535.avif 535w"><source type="image/webp" srcset="/lennunet/img/MaSTFFTN1p-535.webp 535w"><img alt="EGit Add Entry Second" loading="lazy" decoding="async" src="/lennunet/img/MaSTFFTN1p-535.png" width="535" height="291"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/MaSTFFTN1p-535.avif 535w"><source type="image/webp" srcset="/img/MaSTFFTN1p-535.webp 535w"><img alt="EGit Add Entry Second" loading="lazy" decoding="async" src="/img/MaSTFFTN1p-535.png" width="535" height="291"></picture></p>
 <h3 id="configurations-done" tabindex="-1">Configurations Done <a class="header-anchor" href="#configurations-done">#</a></h3>
 <p>Now you have succesfully configured EGit to work. CLick OK to save the configurations.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/hhr4xzYVVj-548.avif 548w"><source type="image/webp" srcset="/lennunet/img/hhr4xzYVVj-548.webp 548w"><img alt="EGit Done" loading="lazy" decoding="async" src="/lennunet/img/hhr4xzYVVj-548.png" width="548" height="386"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/hhr4xzYVVj-548.avif 548w"><source type="image/webp" srcset="/img/hhr4xzYVVj-548.webp 548w"><img alt="EGit Done" loading="lazy" decoding="async" src="/img/hhr4xzYVVj-548.png" width="548" height="386"></picture></p>
 <h2 id="creating-a-git-repository" tabindex="-1">Creating a Git repository <a class="header-anchor" href="#creating-a-git-repository">#</a></h2>
 <p>Next we will create our first Git repository straight from Eclipse by using EGit. You have to have one Eclipse Project created already. Click right mouse button on the project and select Team-&gt;Share Project</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/EVInEJvb6S-561.avif 561w"><source type="image/webp" srcset="/lennunet/img/EVInEJvb6S-561.webp 561w"><img alt="EGit Team" loading="lazy" decoding="async" src="/lennunet/img/EVInEJvb6S-561.png" width="561" height="633"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/EVInEJvb6S-561.avif 561w"><source type="image/webp" srcset="/img/EVInEJvb6S-561.webp 561w"><img alt="EGit Team" loading="lazy" decoding="async" src="/img/EVInEJvb6S-561.png" width="561" height="633"></picture></p>
 <h3 id="share-project" tabindex="-1">Share Project <a class="header-anchor" href="#share-project">#</a></h3>
 <p>Here we will select Git.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/2CPRLwFUTw-525.avif 525w"><source type="image/webp" srcset="/lennunet/img/2CPRLwFUTw-525.webp 525w"><img alt="EGit Share Project" loading="lazy" decoding="async" src="/lennunet/img/2CPRLwFUTw-525.png" width="525" height="433"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/2CPRLwFUTw-525.avif 525w"><source type="image/webp" srcset="/img/2CPRLwFUTw-525.webp 525w"><img alt="EGit Share Project" loading="lazy" decoding="async" src="/img/2CPRLwFUTw-525.png" width="525" height="433"></picture></p>
 <p>If you get this error, you can select “Do not show again” and click OK.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/VYxKLWGhkd-532.avif 532w"><source type="image/webp" srcset="/lennunet/img/VYxKLWGhkd-532.webp 532w"><img alt="EGit Home" loading="lazy" decoding="async" src="/lennunet/img/VYxKLWGhkd-532.png" width="532" height="186"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/VYxKLWGhkd-532.avif 532w"><source type="image/webp" srcset="/img/VYxKLWGhkd-532.webp 532w"><img alt="EGit Home" loading="lazy" decoding="async" src="/img/VYxKLWGhkd-532.png" width="532" height="186"></picture></p>
 <h3 id="configure" tabindex="-1">Configure <a class="header-anchor" href="#configure">#</a></h3>
 <p>Choose your project if not selected and click Create.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/wxqEbWfkBI-735.avif 735w"><source type="image/webp" srcset="/lennunet/img/wxqEbWfkBI-735.webp 735w"><img alt="EGit Configure" loading="lazy" decoding="async" src="/lennunet/img/wxqEbWfkBI-735.png" width="735" height="345"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/wxqEbWfkBI-735.avif 735w"><source type="image/webp" srcset="/img/wxqEbWfkBI-735.webp 735w"><img alt="EGit Configure" loading="lazy" decoding="async" src="/img/wxqEbWfkBI-735.png" width="735" height="345"></picture></p>
 <h3 id="new-git-repository" tabindex="-1">New Git Repository <a class="header-anchor" href="#new-git-repository">#</a></h3>
 <p>You can here choose directory for your repository, but I prefer the default location, since all the user data is also in there. Also give your repository a name. Click Finish after giving the name.<br>
 <a href="https://www.lennu.net/wp-content/uploads/2015/01/egit-new-git.png"><img src="https://www.lennu.net/wp-content/uploads/2015/01/egit-new-git.png" alt="EGit New Git"></a></p>
 <h3 id="conclusion" tabindex="-1">Conclusion <a class="header-anchor" href="#conclusion">#</a></h3>
 <p>Here we wee our conclusion what we are going to do. Click Finish to continue.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/3ZneHfrmei-732.avif 732w"><source type="image/webp" srcset="/lennunet/img/3ZneHfrmei-732.webp 732w"><img alt="EGit Conclusion" loading="lazy" decoding="async" src="/lennunet/img/3ZneHfrmei-732.png" width="732" height="445"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/3ZneHfrmei-732.avif 732w"><source type="image/webp" srcset="/img/3ZneHfrmei-732.webp 732w"><img alt="EGit Conclusion" loading="lazy" decoding="async" src="/img/3ZneHfrmei-732.png" width="732" height="445"></picture></p>
 <h3 id="done-installation" tabindex="-1">Done Installation <a class="header-anchor" href="#done-installation">#</a></h3>
 <p>Now you have succesfully created a Git repository. Right click a project and go to Team and you will see all the necessary Git functions available. Click on the Commit.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/IaVZfguGdq-587.avif 587w"><source type="image/webp" srcset="/lennunet/img/IaVZfguGdq-587.webp 587w"><img alt="EGit Done" loading="lazy" decoding="async" src="/lennunet/img/IaVZfguGdq-587.png" width="587" height="558"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/IaVZfguGdq-587.avif 587w"><source type="image/webp" srcset="/img/IaVZfguGdq-587.webp 587w"><img alt="EGit Done" loading="lazy" decoding="async" src="/img/IaVZfguGdq-587.png" width="587" height="558"></picture></p>
 <h3 id="commit" tabindex="-1">Commit <a class="header-anchor" href="#commit">#</a></h3>
 <p>Here you can make your first commit, just select all the files you’d like to commit and click Commit. Now your first saves are done to the version history.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/yhsFMxYNRp-663.avif 663w"><source type="image/webp" srcset="/lennunet/img/yhsFMxYNRp-663.webp 663w"><img alt="EGit Commit" loading="lazy" decoding="async" src="/lennunet/img/yhsFMxYNRp-663.png" width="663" height="630"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/yhsFMxYNRp-663.avif 663w"><source type="image/webp" srcset="/img/yhsFMxYNRp-663.webp 663w"><img alt="EGit Commit" loading="lazy" decoding="async" src="/img/yhsFMxYNRp-663.png" width="663" height="630"></picture></p>
 <p>On the next tutorial I will show how to import a Git project into Eclipse and what are the basic commands you need to use Git in other ways than just Commit.</p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/eclipse-ide-plugin-installation/">Eclipse IDE Plugin Installation</a></li><li>Next: <a href="/lennunet/2015/finnish-education-system/">Finnish Education System</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/2015/eclipse-ide-plugin-installation/">Eclipse IDE Plugin Installation</a></li><li>Next: <a href="/2015/finnish-education-system/">Finnish Education System</a></li>
 </ul>
 
 		</main>
 
-		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216"
+     crossorigin="anonymous"></script>
 		<!-- Lennu.net -->
-		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7304499576176216"
+     data-ad-slot="8208814281"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
 		<script>
 				(adsbygoogle = window.adsbygoogle || []).push({});
 		</script>
 
 		<footer></footer>
 
-		<!-- Current page: /lennunet/2015/egit-configuration-and-creating-a-git-repository-with-eclipse-ide/ -->
+		<!-- Current page: /2015/egit-configuration-and-creating-a-git-repository-with-eclipse-ide/ -->
 	</body>
 </html>

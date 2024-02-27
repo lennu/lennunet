@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Simple PHP Template Engine</title>
 		<meta name="description" content="Programming Articles Since 2006">
-		<link rel="alternate" href="/lennunet/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
-		<link rel="alternate" href="/lennunet/feed/feed.json" type="application/json" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Lennu.net">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Lennu.net">
 		
 		<style>/* Only include the syntax highlighter CSS on blog posts */
 /**
@@ -454,13 +454,13 @@ h2 + .header-anchor {
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
-			<a href="/lennunet/" class="home-link">Lennu.net</a>
+			<a href="/" class="home-link">Lennu.net</a>
 			<nav>
 				<h2 class="visually-hidden">Top level navigation menu</h2>
 				<ul class="nav">
-					<li class="nav-item"><a href="/lennunet/">Home</a></li>
-					<li class="nav-item"><a href="/lennunet/archive/">Archive</a></li>
-					<li class="nav-item"><a href="/lennunet/about/">About Me</a></li>
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/archive/">Archive</a></li>
+					<li class="nav-item"><a href="/about/">About Me</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -478,7 +478,7 @@ h2 + .header-anchor {
 <p>If you look around for PHP template engine or something to do with templates you will end up with massive enterprise libraries which really has a lot of unimportant and not needed function in them. I have used Drupal for a while now on my work and it has the best function to format template. I stripped it down and made SPTE also known as Simple PHP Template Engine, and believe me when I say it is simple.</p>
 <h3 id="php-html-code" tabindex="-1">PHP HTML Code <a class="header-anchor" href="#php-html-code">#</a></h3>
 <p>PHP Code is usually written inside HTML and these types of files are usually very unreadable because HTML and PHP are inlined within each other. With Simple PHP Template Engine we are going to wrap HTML inside a PHP variable and set variable spaces in it. It is a very smooth process and makes HTML code clean and separated from the PHP code.</p>
-<p><picture><source type="image/avif" srcset="/lennunet/img/9wLXHbXL4k-917.avif 917w"><source type="image/webp" srcset="/lennunet/img/9wLXHbXL4k-917.webp 917w"><img alt="PHP HTML code" loading="lazy" decoding="async" src="/lennunet/img/9wLXHbXL4k-917.jpeg" width="917" height="136"></picture></p>
+<p><picture><source type="image/avif" srcset="/img/9wLXHbXL4k-917.avif 917w"><source type="image/webp" srcset="/img/9wLXHbXL4k-917.webp 917w"><img alt="PHP HTML code" loading="lazy" decoding="async" src="/img/9wLXHbXL4k-917.jpeg" width="917" height="136"></picture></p>
 <p>Does this ring any bells? This kind of HTML within PHP is usually very unreadable.</p>
 <h2 id="spte" tabindex="-1">SPTE <a class="header-anchor" href="#spte">#</a></h2>
 <p>The next block reseprents the source code of SPTE. If we look into the code we can see that the class has one function called <strong>format($template, $args),</strong> which converts HTML special chars on arguments that start with @. At the end we return <strong>strtr()</strong> which really is all we need.</p>
@@ -592,20 +592,26 @@ print $spte\-&gt;format($template, array(
 </code></pre>
 <p>You can freely use SPTE for anything you want. I primarily made it for quick projects where I need PHP because I can get far better and more readable code with it.</p>
 
-<ul class="links-nextprev"><li>Previous: <a href="/lennunet/2015/jquery-mobile-slider-example-with-swiper/">jQuery Mobile Slider Example with Swiper</a></li><li>Next: <a href="/lennunet/2015/less-mixins-example/">Less Mixins Example</a></li>
+<ul class="links-nextprev"><li>Previous: <a href="/2015/jquery-mobile-slider-example-with-swiper/">jQuery Mobile Slider Example with Swiper</a></li><li>Next: <a href="/2015/less-mixins-example/">Less Mixins Example</a></li>
 </ul>
 
 		</main>
 
-		<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216" crossorigin="anonymous"></script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7304499576176216"
+     crossorigin="anonymous"></script>
 		<!-- Lennu.net -->
-		<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7304499576176216" data-ad-slot="8208814281" data-ad-format="auto" data-full-width-responsive="true"></ins>
+		<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7304499576176216"
+     data-ad-slot="8208814281"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
 		<script>
 				(adsbygoogle = window.adsbygoogle || []).push({});
 		</script>
 
 		<footer></footer>
 
-		<!-- Current page: /lennunet/2015/simple-php-template-engine/ -->
+		<!-- Current page: /2015/simple-php-template-engine/ -->
 	</body>
 </html>
